@@ -61,12 +61,10 @@ $('.img_shack, a[href^=http\\:\\/\\/www\\.noelshack\\.com]').click(function(e){
                 }
 
                 JVCMaster.LightBox.show();
-        
-                $('#JVCMaster_LightBox_popup').click(function(e){
-                    window.open(imgTrueUrl, '_newtab');
-                });
             }
-        }).appendTo('#JVCMaster_LightBox_popup');
+        }).appendTo($('<a>', {
+           href : imgTrueUrl 
+        })).appendTo('#JVCMaster_LightBox_popup');
 
     }
     e.preventDefault();
