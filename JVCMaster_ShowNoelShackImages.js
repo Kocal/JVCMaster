@@ -62,7 +62,7 @@ $('.img_shack, a[href^=http\\:\\/\\/www\\.noelshack\\.com]').click(function(e){
 
                 JVCMaster.LightBox.show();
             }
-        }).appendTo($('<a>', {
+        }).appendTo($('</a>', {
            href : imgTrueUrl 
         })).appendTo('#JVCMaster_LightBox_popup');
 
