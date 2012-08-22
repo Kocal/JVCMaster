@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title>JVCMaster - Extension multi-navigateurs</title>
+        <meta charset='utf-8' />
+        <meta name="description" content="JVCMaster est une extension multi-navigateurs ajoutant des fonctionnalités aux forums de Jeuxvideo.com." />
+        <meta name="keywords" content="jvcmaster, extension, jeuxvideo.com, forum" />
+        <meta http-equiv="content-language" content="fr" />
+        <link href='http://fonts.googleapis.com/css?family=Rammetto+One|Open+Sans' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/reset.css" />
+        <link rel="stylesheet" href="css/main.css" />
+        <link rel="stylesheet" href="js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+    </head>
+    <body>
+        <header>
+            <nav id="topbar">
+                <ul>
+                    <li><a href="#nav_jvcmaster" class="current">JVCMaster</a></li><!--
+                    --><li><a href="#nav_installation">Installation</a></li><!--
+                    --><li><a href="#nav_extensions">Extensions</a></li><!--
+                    --><li><a href="#nav_contact">Me contacter</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section id="wrap">
+            <section id="nav_jvcmaster">
+                <h1>JVCMaster</h1>
+                <h3>
+                    JVCMaster est une extension navigateur compatible avec Google Chrome 21+, Chromium 18+, Mozilla Firefox 14+, Opera 12+, ajoutant des fonctionnalités aux <a href="http://www.jeuxvideo.com/forums.htm">forums de Jeuxvideo.com</a>.
+                </h3>
+                <p>
+                    Via un panneau de gestion d'extensions, activez ou non des fonctionnalités d'un simple clic. <br /><br />
+                    <a class="fancybox" rel="fancybox_panneau_config" href="img/panneau_config1.png"><img src="img/thumb_panneau_config1.png" alt=""/></a>
+
+                    <a class="fancybox" rel="fancybox_panneau_config" href="img/panneau_config2.png"><img src="img/thumb_panneau_config2.png" alt=""/></a><br /><br />
+
+                    <b>Maintenant, vous pouvez : </b>
+                </p>
+                    <ul>
+                        <li>Afficher des informations d'un pseudo à côté de celui-ci (sexe, rang)</li>
+                        <!-- <li>Afficher la CDV du pseudo dans une lightbox, lors du clic sur celui-ci</li> -->
+                        <li>Afficher les images de NoelShack dans une lightbox</li>
+                        <li>Cacher les posts des bots (flood)</li>
+                        <li>Citer un ou des post(s)</li>
+                        <li>Cacher un ou des posts, et les posts d'un pseudo</li>
+                    </ul>
+                <p> 
+                    <a href="https://github.com/Kocal/JVCMaster/raw/master/JVCMaster.user.js" class="btn blue">Télécharger</a>
+                    <a href="https://github.com/Kocal/JVCMaster" class="btn green">Voir sur GitHub</a>
+                </p>
+            </section>
+            <section id="nav_installation">
+                <h2>Installer JVCMaster</h2>
+                <p>
+                    <fieldset>
+                        <legend>Google Chrome</legend>
+                        <ul>
+                            <li>Cliquez sur le bouton <i>Télécharger</i></li>
+                            <li>Ouvrez la page d'extensions</li>
+                            <li>Ouvrez votre dossier de téléchargements</li>
+                            <li>Glissez <i>JVCMaster.user.js</i> sur la page d'extensions de Google Chrome</li>
+                        </ul>
+                    </fieldset>
+                </p>
+                <p>
+                    <fieldset>
+                        <legend>Chromium</legend>
+                        <ul>
+                            <li>Cliquez sur le bouton <i>Télécharger</i></li>
+                        </ul>
+                    </fieldset>
+                </p>
+                <p>
+                    <fieldset>
+                        <legend>Mozilla Firefox</legend>
+                        <ul>
+                            <li>Téléchargez <a href="https://addons.mozilla.org/fr/firefox/addon/greasemonkey/">GreaseMonkey</a></li>
+                            <li>Cliquez sur le bouton <i>Télécharger</i></li>
+                        </ul>
+                    </fieldset>
+                </p>
+                <p>
+                    <fieldset>
+                        <legend>Opera</legend>
+                        <ul>
+                            <li>Cliquez sur le bouton <i>Télécharger</i></li>
+                            <li>Si votre dossier JavaScript n'est pas configuré</li>
+                                <ul>
+                                    <li>Créez un dossier qui contiendra les scripts JavaScript pour Opera</li>
+                                    <li>Déplacez <i>JVCMaster.user.js</i> dans ce dossier </li>
+                                    <li>Cliquez sur le <i>O (menu) > Réglages > Préférences > Avancé > Contenu > Options JavaScript</i></li>
+                                    <li>Cliquez sur le bouton "Choisir...", et choisissez le dossier que vous venez de créer</li>
+                                </ul>
+                            <li>Si votre dossier JavaScript est déjà configuré</li>
+                            <ul>
+                                <li>Déplacez <i>JVCMaster.user.js</i> dans ce dossier </li>
+                            </ul>
+                        </ul>
+                    </fieldset>
+                </p>
+            </section>
+            <section id="nav_extensions">
+                <h2>Extensions disponibles</h2>
+                <section class="row">
+                    <section class="column left">
+                        <h3>Des infos sur un pseudo?</h3>
+                        <p>
+                            Soyez informé du sexe et du rang d'un pseudo par un simple coup d'oeil
+                        </p>
+                        <a class="fancybox" href="img/extension_getcdvinformations.png"><img src="img/thumb_extension_getcdvinformations.png" /></a>
+                    </section>
+                    <section class="column">
+                        <h3>Vous voulez citer un post?</h3>
+                        <p>
+                            Un bouton vous facilite la tâche! Enfin une manière propre pour citer un post!
+                        </p>
+                        <a class="fancybox" rel="fancybox_extension_citation" href="img/extension_citation1.png"><img src="img/thumb_extension_citation1.png" /></a>
+                        <a class="fancybox" rel="fancybox_extension_citation" href="img/extension_citation2.png"><img src="img/thumb_extension_citation2.png" /></a>
+                    </section>
+                    <section class="column left right">
+                        <h3>Marre des bots?</h3>
+                        <p>
+                            L'extension <i>Antibot</i> détecte et cache automatiquement le spam/les posts des bots (août 2012)
+                        </p>
+                        <a class="fancybox" href="img/extension_antibot.png">
+                            <img src="img/thumb_extension_antibot.png" />
+                        </a>
+                    </section>
+                </section>
+                <section class="row">
+                    <section class="column left">
+                        <h3>Marre du nouveau NoelShack? Vous ne le verrez plus!</h3>
+                        <p>
+                            Cliquer sur un lien ou une miniature NoelShack, et l'image s'ouvre dans une lightbox
+                        </p>
+                        <a class="fancybox" rel="fancybox_extension_shownoelshackimages" href="img/extension_shownoelshackimages1.png"><img src="img/thumb_extension_shownoelshackimages1.png" /></a>
+                        <a class="fancybox" rel="fancybox_extension_shownoelshackimages" href="img/extension_shownoelshackimages2.png"><img src="img/thumb_extension_shownoelshackimages2.png" /></a>
+                    </section>
+                    <section class="column">
+                        <h3>Un post, ou un pseudo que vous n'aimez pas?</h3>
+                        <p>
+                            Avec 2 boutons, cachez simplement un post, ou tout les posts d'un pseudo
+                        </p>
+                        <a class="fancybox" rel="fancybox_extension_hideposts" href="img/extension_hideposts1.png" title="Vous voulez cacher un post?"><img src="img/thumb_extension_hideposts1.png" /></a>
+                        <a class="fancybox" rel="fancybox_extension_hideposts" href="img/extension_hideposts2.png"><img src="img/thumb_extension_hideposts2.png" /></a>
+                        <a class="fancybox" rel="fancybox_extension_hideposts" href="img/extension_hideposts3.png" title="Vous voulez cachez tous les posts de ce"><img src="img/thumb_extension_hideposts3.png" /></a>
+                        <a class="fancybox" rel="fancybox_extension_hideposts" href="img/extension_hideposts4.png"><img src="img/thumb_extension_hideposts4.png" /></a>
+                        
+                    </section>
+                </section>
+                
+            </section>
+            <section id="nav_contact">
+                <h2>Me contacter</h2>
+                <p>
+                    Vous pouvez poster sur le <a href="">topic</a> de JVCMaster, ou m'envoyer un <a href="">mp</a>.
+                </p>
+            </section>
+        </section>
+        <footer>
+            <p>HerveGhesquiere - 2012</p>
+        </footer>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/fancybox/jquery.fancybox.pack.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+    </body>
+</html>
