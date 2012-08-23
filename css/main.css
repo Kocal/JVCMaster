@@ -55,8 +55,8 @@ section#wrap ul ul{ list-style: circle  }
 section#wrap b{ font-size : 20px; font-weight: bolder }
 
 section#wrap i{ font-weight: bolder }
-section#wrap i:before{ content : '«'; font-style: normal; font-weight: normal; }
-section#wrap i:after{ content : '»'; font-style: normal; font-weight: normal;}
+section#wrap i:before{ content : '« '; font-style: normal; font-weight: normal; }
+section#wrap i:after{ content : ' »'; font-style: normal; font-weight: normal;}
 
 section#wrap h1, section#wrap h2{
     font-family: "Rammetto One";
