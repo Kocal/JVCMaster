@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "name": "JVCMaster for Google Chrome",
+  "version": "0.1",
+  "description": "Ajoute des fonctionnalités aux forums de Jeuxvideo.com",
+  "permissions": [
+    "http://www.jeuxvideo.com/forums/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["http://www.jeuxvideo.com/forums/*"],
+      "js": ["jquery.min.js", "JVCMaster_Core.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    "JVCMaster_AntiBot.js",
+    "JVCMaster_Citation.js", 
+    "JVCMaster_Core.js", 
+    "JVCMaster_GetCDVInformations.js", 
+    "JVCMaster_HidePosts.js", 
+    "JVCMaster_ShowCDV.js", 
+    "JVCMaster_ShowNoelShackImages.js" 
+  ]
+}
