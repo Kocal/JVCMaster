@@ -9,7 +9,7 @@ $('<img />', {
     click : function(e){
         var postContainer = $(this).parent().parent();
         var pseudo = $.trim(postContainer.find('li.pseudo strong').text());
-        var post = $.trim(postContainer.find('li.post').html().replace(/( +<br(?:\/)?>)/, '\n').replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, '$1 $2')).replace(/&gt;/g, '>').replace(/&lt/g, '<').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').split('\n').join('\n| ');
+        var post = $.trim(postContainer.find('li.post').html().replace(/( +<br(?: \/)?>)/gi, '').replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, '$1 $2')).replace(/&gt;/g, '>').replace(/&lt/g, '<').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').split('\n').join('\n| ');
         var date = $.trim(postContainer.find('li.date').text().replace('Posté ', '').replace('\n', ''));
         var permalink = $.trim(postContainer.find('li.ancre a').attr('href'));
 
