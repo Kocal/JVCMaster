@@ -1,8 +1,13 @@
 {
   "manifest_version": 2,
   "name": "JVCMaster for Google Chrome",
-  "version": "0.1",
+  "version": "1.0",
   "description": "Ajoute des fonctionnalités aux forums de Jeuxvideo.com",
+  "icons": { 
+    "16": "img/16.ico",
+    "32": "img/32.png",
+    "48": "img/48.png",
+    "128": "img/128.png" },
   "permissions": [
     "http://www.jeuxvideo.com/forums/*"
   ],
