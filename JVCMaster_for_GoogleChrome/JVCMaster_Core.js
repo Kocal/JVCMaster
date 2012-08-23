@@ -68,11 +68,6 @@ jQuery(function($){
                             var isActivated = $(this).children('input[type=checkbox]').is(':checked');
 
                             activaded[extensionName] = isActivated;
-                            if(isActivated){
-                                $('<script>', {
-                                    src : chrome.extension.getURL(JVCMaster.extensions[extensionName].file)
-                                }).appendTo('body');
-                            }
                         });
                         localStorage.setItem('JVCMaster_extensionsActivated', JSON.stringify(activaded));
                     });

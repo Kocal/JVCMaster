@@ -7,7 +7,7 @@
 // @include     https://www.jeuxvideo.com/forums/*
 // @exclude     http://www.jeuxvideo.com
 // @exclude     https://www.jeuxvideo.com
-// @version     1.0
+// @version     1.1
 // ==/UserScript==
 var url = 'https://raw.github.com/Kocal/JVCMaster/master/userscript/';
 // var url = 'http://localhost/';
