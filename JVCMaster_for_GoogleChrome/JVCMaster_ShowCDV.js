@@ -17,7 +17,7 @@ pseudos.click(function(e){
                 if(window.innerHeight < 600){
                     $(this).css('height', window.innerHeight - 50);
                 }
-                JVCMaster.LightBox.show();
+                JVCMaster_LightBox.show();
                 alreadyLoading = false;
             }
         }).appendTo('#JVCMaster_LightBox_popup');

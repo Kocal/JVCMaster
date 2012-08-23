@@ -60,7 +60,7 @@ $('.img_shack, a[href^=http\\:\\/\\/www\\.noelshack\\.com]').click(function(e){
                     }
                 }
 
-                JVCMaster.LightBox.show();
+                JVCMaster_LightBox.show();
             }
         }).appendTo($('<a/>', {
             href : imgTrueUrl

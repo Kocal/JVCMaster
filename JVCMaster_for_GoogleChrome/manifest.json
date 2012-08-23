@@ -14,10 +14,11 @@
   "content_scripts": [
     {
       "matches": ["http://www.jeuxvideo.com/forums/*"],
-      "js": ["jquery.min.js", "JVCMaster_Core.js"]
+      "js": ["jquery.min.js", "lightbox.js", "JVCMaster_Core.js"]
     }
   ],
   "web_accessible_resources": [
+    "lightbox.js",
     "JVCMaster_AntiBot.js",
     "JVCMaster_Citation.js", 
     "JVCMaster_Core.js", 
