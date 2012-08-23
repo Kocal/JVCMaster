@@ -1,4 +1,3 @@
-// (?:(?:<br \/> ){10,}){5,}
 $('div[id^=message]').each(function(){
     var t    = $(this);
     var html = t.html();
@@ -10,7 +9,7 @@ $('div[id^=message]').each(function(){
         
         tPost.after($('<li>', {
             'class' : 'JVCMaster_AntiBot_informPost post',
-            html    : '<b>JVCMaster</b> : <i>Spam, ce message a Ã©tÃ© cachÃ©, cliquer pour faire apparaitre le post</i>',
+            html    : '<b>JVCMaster</b> : <i>Spam, ce message a été caché, cliquer pour faire apparaitre le post</i>',
             css : {cursor : 'pointer', display : 'none'},
             click : function(e){
                 $(this).slideUp(300);
