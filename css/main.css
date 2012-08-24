@@ -65,11 +65,15 @@ section#wrap h1, section#wrap h2{
     text-shadow: -1px -1px 1px #fff, -2px -2px 1px #333;
 }
 section#wrap h1{ font-size : 70px; padding: 100px 0; 
-    background : url(../img/jvc_logo.png) no-repeat 550px 10px;
+    background : url(../img/jvc_logo.png) no-repeat;
+    background-position: 75% 0%;
     -webkit-transition : background-position 0.1s linear;
+    -moz-transition : background-position 0.1s linear;
+    -o-transition : background-position 0.1s linear;
+    transition : background-position 0.1s linear;
 }
 section#wrap h1:hover{
-    background-position: 580px -15px
+    background-position: 78% -15%
 }
 section#wrap h2{ font-size: 40px; margin:55px 0 30px }
 section#wrap h3{ font-size: 20px }
