@@ -64,9 +64,13 @@ section#wrap h1, section#wrap h2{
     text-align: center;
     text-shadow: -1px -1px 1px #fff, -2px -2px 1px #333;
 }
-section#wrap h1{ font-size : 70px; padding: 100px 0; 
+section#wrap h1{ 
     background : url(../img/jvc_logo.png) no-repeat;
     background-position: 75% 0%;
+    font-size : 70px;
+    margin: 0 auto;
+    padding: 100px 0; 
+    width: 480px;
     -webkit-transition : background-position 0.1s linear;
     -moz-transition : background-position 0.1s linear;
     -o-transition : background-position 0.1s linear;
