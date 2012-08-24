@@ -66,7 +66,7 @@ section#wrap h1, section#wrap h2{
 }
 section#wrap h1{ 
     background : url(../img/jvc_logo.png) no-repeat;
-    background-position: 75% 0%;
+    background-position: 90% 0%;
     font-size : 70px;
     margin: 0 auto;
     padding: 100px 0; 
@@ -77,7 +77,7 @@ section#wrap h1{
     transition : background-position 0.1s linear;
 }
 section#wrap h1:hover{
-    background-position: 78% -15%
+    background-position: 100% -25%
 }
 section#wrap h2{ font-size: 40px; margin:55px 0 30px }
 section#wrap h3{ font-size: 20px }
