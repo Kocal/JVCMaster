@@ -9,9 +9,10 @@
 // @version     2.0
 // ==/UserScript==
 
+window.JVCMaster_version = '2.0'
 
 function JVCMaster(){
-    this.version = '2.0';
+    this.version = window.JVCMaster_version;
     this.scripts = {};
     this.activatedScripts = JSON.parse(localStorage.getItem('JVCMaster_activatedScripts') || "{}");
 
@@ -135,16 +136,16 @@ function JVCMaster(){
             }).appendTo(vars.posts.find(".pseudo")));
 
             // // Si on est sur la page d'un topic
-            // if($('.nouveau').is('*') && textarea.is('*')){
-            //     var citation = localStorage.getItem('JVCMaster_citation');
-            //     if(citation){
-            //         textarea.val(citation);
-            //         localStorage.removeItem('JVCMaster_citation');
-            //     }
+            if($('.nouveau').is('*') && textarea.is('*')){
+                var citation = localStorage.getItem('JVCMaster_citation');
+                if(citation){
+                    textarea.val(citation);
+                    localStorage.removeItem('JVCMaster_citation');
+                }
                 
-            //     textarea.get(0).setSelectionRange(textarea.val().length, textarea.val().length);
-            //     textarea.focus();
-            // }
+                textarea.get(0).setSelectionRange(textarea.val().length, textarea.val().length);
+                textarea.focus();
+            }
         },
 
         uninstall : function(){
@@ -178,7 +179,8 @@ function JVCMaster(){
                             t.css({
                                 backgroundColor : (sexe == 'sexe_m') ? '#B3E0FF' : '#FFC2E0',
                                 borderRadius : '5px',
-                                padding : '3px'
+                                padding : '3px',
+                                display : 'inline-block'
                             });
 
                             // Quand on passe et enlève la souris sur le pseudo 
@@ -260,8 +262,8 @@ function JVCMaster(){
 
                                 case 'diamant':
                                     tParent.find('.JVCMaster_cdvinformations_rank').css({
-                                        width : '12px',
-                                        backgroundPosition : '-24px -2px'
+                                        width : '11px',
+                                        backgroundPosition : '-25px -27px'
                                     });
                                     break;
                             }
@@ -581,7 +583,7 @@ function JVCMaster(){
             });
         }
     };
-    var lb = new LightBox();
+    window.JVCMaster_Lightbox = lb = new LightBox();
 
     // Fonction principale
     (function(){
@@ -639,9 +641,54 @@ function JVCMaster(){
             localStorage.setItem('JVCMaster_firstUse', '0');
         }
 
+        // Permet de comparer 2 versions
+        
     })();
 }
 
 var script = document.createElement('script');
-script.appendChild(document.createTextNode('('+ JVCMaster +')();'));
+script.appendChild(document.createTextNode('(JVCMaster = ' + JVCMaster +')(JVCMaster_version = "' + window.JVCMaster_version + '");'));
 (document.body || document.head || document.documentElement).appendChild(script)
+
+versionCompare = function(left, right) {
+    if (typeof left + typeof right != 'stringstring')
+        return false;
+    
+    var a = left.split('.')
+    ,   b = right.split('.')
+    ,   i = 0, len = Math.max(a.length, b.length);
+        
+    for (; i < len; i++) {
+        if ((a[i] && !b[i] && parseInt(a[i]) > 0) || (parseInt(a[i]) > parseInt(b[i]))) {
+            return 1;
+        } else if ((b[i] && !a[i] && parseInt(b[i]) > 0) || (parseInt(a[i]) < parseInt(b[i]))) {
+            return -1;
+        }
+    }
+    
+    return 0;
+}
+
+var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+            var newVersion = xhr.responseText;
+            if(versionCompare(JVCMaster_version, newVersion )){
+                if(localStorage.getItem('JVCMaster_dontUpdateVersion') == newVersion)
+                    return;
+                
+                function JVCMaster_updateNotification(newVersion){
+                    var lb_popup = document.querySelector('#JVCMaster_LightBox_popup');
+                    lb_popup.style.padding = "5px 5px 0";
+                    lb_popup.innerHTML = '<div class="bloc_forum"><h3><span class="txt">JVCMaster : Mise à jour</span></h3><div class="bloc_inner">'+ "<p>La version « <b>" + newVersion + "</b> » est sortie, voulez-vous la télécharger?</p><p style='margin-top:20px; text-align:center'><input type='button' value='Oui' onclick='javascript:window.open(\"http://kocal.github.com/JVCMaster/\", \"_newtab\");' /> <input type='button' value=\"J'en ai rien à battre des MàJ\" onclick=\"localStorage.setItem('JVCMaster_dontUpdateVersion', '" + newVersion + "'); JVCMaster_Lightbox.hide(); \"/></p></div></div>"
+                    JVCMaster_Lightbox.show()
+                }
+
+                var script = document.createElement('script');
+                script.appendChild(document.createTextNode('(' + JVCMaster_updateNotification + ')(newVersion = "' + newVersion + '");'));
+                (document.body || document.head || document.documentElement).appendChild(script)
+            }
+        }
+    };
+    xhr.open("GET", "https://raw.github.com/Kocal/JVCMaster/master/userscript_v2/version", true);
+    xhr.send(null);
