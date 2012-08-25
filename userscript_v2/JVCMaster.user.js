@@ -594,7 +594,7 @@ function JVCMaster(){
         scripts = this.scripts;
 
         // Bug sous Firefox
-        $('#connexion').css('display', '');
+        $('#connexion').css('display', 'block');
 
         $.each(activatedScripts, function(key, value){
             if(value)
