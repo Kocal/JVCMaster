@@ -678,10 +678,8 @@ var xhr = new XMLHttpRequest();
         if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
             var newVersion = xhr.responseText;
             if(versionCompare(JVCMaster_version, newVersion )){
-                if(localStorage.getItem('JVCMaster_dontUpdateVersion') == newVersion)
-                    return;
-                
-                function JVCMaster_updateNotification(newVersion){
+                if(localStorage.getItem('JVCMaster_dontUpdateVersion') != newVersion){
+                    function JVCMaster_updateNotification(newVersion){
                     var lb_popup = document.querySelector('#JVCMaster_LightBox_popup');
                     lb_popup.style.padding = "5px 5px 0";
                     lb_popup.innerHTML = '<div class="bloc_forum"><h3><span class="txt">JVCMaster : Mise à jour</span></h3><div class="bloc_inner">'+ "<p>La version « <b>" + newVersion + "</b> » est sortie, voulez-vous la télécharger?</p><p style='margin-top:20px; text-align:center'><input type='button' value='Oui' onclick='javascript:window.open(\"http://kocal.github.com/JVCMaster/\", \"_newtab\");' /> <input type='button' value=\"J'en ai rien à battre des MàJ\" onclick=\"localStorage.setItem('JVCMaster_dontUpdateVersion', '" + newVersion + "'); JVCMaster_Lightbox.hide(); \"/></p></div></div>"
@@ -691,6 +689,7 @@ var xhr = new XMLHttpRequest();
                 var script = document.createElement('script');
                 script.appendChild(document.createTextNode('(' + JVCMaster_updateNotification + ')(newVersion = "' + newVersion + '");'));
                 (document.body || document.head || document.documentElement).appendChild(script)
+                }
             }
         }
     };
