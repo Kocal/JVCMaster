@@ -593,6 +593,9 @@ function JVCMaster(){
     (function(){
         scripts = this.scripts;
 
+        // Bug sous Firefox
+        $('#connexion').css('display', '');
+
         $.each(activatedScripts, function(key, value){
             if(value)
                 scripts[key].main();
@@ -637,7 +640,7 @@ function JVCMaster(){
                 lb.show();
                 e.preventDefault();
             }
-        }).appendTo($('<td id="JVCMaster_buttonOptions">').prependTo('table#connexion tbody tr'))
+        }).appendTo($('<td id="JVCMaster_buttonOptions">').prependTo($('table#connexion tbody tr')));
         
         // Si l'utilisateur viens d'installer JVCMaster
         if(typeof localStorage.getItem('JVCMaster_firstUse') === 'object'){
