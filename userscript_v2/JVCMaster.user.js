@@ -49,7 +49,10 @@ function JVCMaster(){
                 var t    = $(this);
                 var html = t.html();
 
-                if(/(?:(?:<br> ){9,}){5,}/.test(html) || /^[0-9]+|http:\/\/concours-apple\.fr\.cr|[0-9]+$/.test(html)){ // Si le post est un spam (flood)
+                if(/(?:(?:<br> ){9,}){5,}/.test(html) 
+                || /^[0-9]+|http:\/\/concours-apple\.fr\.cr|[0-9]+$/.test(html)
+                || /[WV]{30,}/.test(html)
+                ){ // Si le post est un spam (flood)
                     var tPost = t.find('li.post:first').addClass('JVCMaster_hideByAntibot');
                     
                     tPost.after($('<li>', {
@@ -441,7 +444,7 @@ function JVCMaster(){
             // Evite que la cdv se duplique si l'utilisateur bourine le bouton
             var alreadyLoading = false;
 
-            $('.img_shack, a[href^=http\\:\\/\\/www\\.noelshack\\.com]').click(function(e){
+            $('.img_shack, a[href^=http\\:\\/\\/www\\.noelshack\\.com], a[href^=http\\:\\/image\\.noelshack\\.com]').click(function(e){
                 if(!alreadyLoading){
                     alreadyLoading = true;
 
