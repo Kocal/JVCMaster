@@ -565,8 +565,9 @@ function JVCMaster(){
                 top : (window.innerHeight / 2 - popup.css('height').replace('px', '')  / 2) + 'px',
                 left : (window.innerWidth / 2 - popup.css('width').replace('px', '') / 2) + 'px'
             });
+            
+            // popup.html(html || '');
 
-            popup.html(html)
             $('#JVCMaster_LightBox_layer').fadeIn(300, function(){
                 popup.fadeIn(300);
             });
