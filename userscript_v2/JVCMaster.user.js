@@ -5,10 +5,10 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.0.1
+// @version     2.0.2
 // ==/UserScript==
 
-window.JVCMaster_version = '2.0.1'
+window.JVCMaster_version = '2.0.2'
 
 function JVCMaster(){
     this.version = window.JVCMaster_version;
@@ -48,9 +48,9 @@ function JVCMaster(){
                 var t    = $(this);
                 var html = t.html();
 
-                if(/(?:(?:<br> ){9,}){5,}/.test(html) 
-                || /^[0-9]+|http:\/\/concours-apple\.fr\.cr|[0-9]+$/.test(html)
-                || /[WV]{30,}/.test(html)
+                if(/(?:(?:<br> ){9,}){5,}/gi.test(html) 
+                || /^[0-9]+|http:\/\/concours-apple\.fr\.cr|[0-9]+$/gi.test(html)
+                || /(?:W?V?){30,}/gi.test(html)
                 ){ // Si le post est un spam (flood)
                     var tPost = t.find('li.post:first').addClass('JVCMaster_hideByAntibot');
                     
