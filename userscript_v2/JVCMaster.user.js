@@ -56,7 +56,7 @@ function JVCMaster(){
                     
                     tPost.after($('<li>', {
                         'class' : 'JVCMaster_AntiBot_informPost post',
-                        html    : '<b>JVCMaster</b> : <i>Spam, ce message a été caché, cliquer pour faire apparaitre le post</i>',
+                        html    : '<b>JVCMaster</b> : <i>Spam, ce message a &eacute;t&eacute; cach&eacute;, cliquer pour faire apparaitre le post</i>',
                         css : {cursor : 'pointer', display : 'none'},
                         click : function(e){
                             $(this).slideUp(300);
@@ -100,12 +100,12 @@ function JVCMaster(){
                     // Si on est sur un mp
                     if($('#reception').is('*') && $("#bouton_post").is('*')){
                         var post = $.trim(postContainer.find('.msg_body').html().replace(/( +<br(?: \/)?>)/g, '').replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, '$1 $2')).replace(/&gt;/g, '>').replace(/&lt/g, '<').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').split('\n').join('\n| ');
-                        var date = $.trim(postContainer.find('.msg_infos').text().replace('Posté ', '').replace('\n', ''));
+                        var date = $.trim(postContainer.find('.msg_infos').text().replace('Post&eacute; ', '').replace('\n', ''));
                     } 
                     // Si on est sur un topic
                     else{
                         var post = $.trim(postContainer.find('li.post').html().replace(/( +<br(?: \/)?>)/g, '').replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, '$1 $2')).replace(/&gt;/g, '>').replace(/&lt/g, '<').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').split('\n').join('\n| ');
-                        var date = $.trim(postContainer.find('li.date').text().replace('Posté ', '').replace('\n', ''));
+                        var date = $.trim(postContainer.find('li.date').text().replace('Post&eacute; ', '').replace('\n', ''));
                     }
 
                     var pseudo = $.trim(postContainer.find('.pseudo strong').text());
@@ -113,10 +113,10 @@ function JVCMaster(){
 
                     var citation = '';
                     
-                    // Si on a déjà cité quelque chose
+                    // Si on a d&eacute;jà cit&eacute; quelque chose
                     if(textarea.is('*') && textarea.val() !== '') citation += '\n\n';
                     
-                    // Si un lien permanent est présent
+                    // Si un lien permanent est pr&eacute;sent
                     if(permalink) citation += '| ' + permalink + '\n';
 
                     citation += "| Ecrit par « " + pseudo + " » , " + date + "\n| « "+ post + " »\n\n\n> ";
@@ -126,9 +126,9 @@ function JVCMaster(){
                         localStorage.setItem('JVCMaster_citation', citation);
                         window.location.href = $('.bt_repondre').attr('href');
                     } 
-                    // Si on est sur la page de réponse d'un topic
+                    // Si on est sur la page de r&eacute;ponse d'un topic
                     else if(!alertemail.is('*') && textarea.is('*')){
-                        if(textarea.val().match("Ne postez pas d'insultes, évitez les majuscules, faites une recherche avant de poster pour voir si la question n'a pas déjà été posée..."))
+                        if(textarea.val().match("Ne postez pas d'insultes, &eacute;vitez les majuscules, faites une recherche avant de poster pour voir si la question n'a pas d&eacute;jà &eacute;t&eacute; pos&eacute;e..."))
                             textarea.val('');
                         textarea.val(textarea.val() + citation);
                     }
@@ -160,7 +160,7 @@ function JVCMaster(){
     this.scripts.cdvinformations = {
         id : 'cdvinformations',
         name : 'CDV informations',
-        description : 'Permet d\'afficher des informations d\'un pseudo à ses côtés',
+        description : 'Permet d\'afficher des informations d\'un pseudo à ses côt&eacute;s',
         main : function(){
             $('.pseudo strong').each(function(t){
                 var t = $(this);
@@ -295,10 +295,10 @@ function JVCMaster(){
                 var hiddenPosts = JSON.parse(localStorage.getItem('JVCMaster_HiddenPosts') || "[]");
                 var hiddenPostsViaPseudos = JSON.parse(localStorage.getItem('JVCMaster_HiddenPostsViaPseudos') || "[]");
 
-                // Le message d'information comme quoi le post a été caché
+                // Le message d'information comme quoi le post a été caché;
                 vars.posts.find('li.post').after($('<li/>', {
                     'class' : 'JVCMaster_HiddenPosts_informPost post',
-                    html : '<b>JVCMaster</b> : <i>Ce message a été caché</i>',
+                    html : '<b>JVCMaster</b> : <i>Ce message a &eacute;t&eacute; cach&eacute;</i>',
                     css : {
                         display : 'none'
                     }
@@ -329,7 +329,7 @@ function JVCMaster(){
                         if(postContainer.attr('id')){
                             var postContainerId = postContainer.attr('id').replace('message_', '');
 
-                             // Si le post n'est pas déjà caché
+                             // Si le post n'est pas déjà été caché
                             if(hiddenPosts.indexOf(postContainerId) === -1){
                                 hiddenPosts.push(postContainerId);         
                                 postContainer.find('li.post:first').slideUp(300);
@@ -457,7 +457,7 @@ function JVCMaster(){
                     
                     var imgTrueUrl = '';
                     
-                    // Si une miniature est activé
+                    // Si une miniature est activ&eacute;
                     if(/^http:\/\/image.noelshack.com\/minis/.test(imgFalseUrl)){
                         imgTrueUrl = imgFalseUrl.replace('http://image.noelshack.com/minis/', 'http://image.noelshack.com/fichiers/');
                     }
@@ -563,13 +563,11 @@ function JVCMaster(){
                 width : width + 'px',
                 height : height + 'px'
             });
-            popup.css({ // obligé d'appeler 2 fois '.css()', sinon la popup n'est bien placé qu'à son 2ème déclenchement
+            popup.css({ // obligé d'appeler 2 fois '.css()', sinon la popup n'est bien plac&eacute; qu'à son 2ème d&eacute;clenchement
                 top : (window.innerHeight / 2 - popup.css('height').replace('px', '')  / 2) + 'px',
                 left : (window.innerWidth / 2 - popup.css('width').replace('px', '') / 2) + 'px'
             });
             
-            // popup.html(html || '');
-
             $('#JVCMaster_LightBox_layer').fadeIn(300, function(){
                 popup.fadeIn(300);
             });
@@ -592,9 +590,6 @@ function JVCMaster(){
     (function(){
         scripts = this.scripts;
 
-        // Bug sous Firefox
-        // $('#connexion').css('display', 'table');
-        
         $.each(activatedScripts, function(key, value){
             if(value)
                 scripts[key].main();
@@ -645,10 +640,7 @@ function JVCMaster(){
         if(typeof localStorage.getItem('JVCMaster_firstUse') === 'object'){
             buttonOptions.click();
             localStorage.setItem('JVCMaster_firstUse', '0');
-        }
-
-        // Permet de comparer 2 versions
-        
+        }        
     })();
 }
 
