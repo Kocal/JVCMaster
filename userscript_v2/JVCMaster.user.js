@@ -645,5 +645,5 @@ function JVCMaster(){
 }
 
 var script = document.createElement('script');
-script.appendChild(document.createTextNode('(JVCMaster = ' + JVCMaster +')(window);'));
+script.appendChild(document.createTextNode('(JVCMaster = ' + JVCMaster +')(window.JVCMaster_version = "'+window.JVCMaster_version+'");'));
 (document.body || document.head || document.documentElement).appendChild(script)
