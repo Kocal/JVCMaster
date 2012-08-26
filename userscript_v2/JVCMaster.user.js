@@ -6,10 +6,10 @@
 // @include     https://www.jeuxvideo.com/*
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js
 // @run-at      document-end
-// @version     2.0
+// @version     2.0.1
 // ==/UserScript==
 
-window.JVCMaster_version = '2.0'
+window.JVCMaster_version = '2.0.1'
 
 function JVCMaster(){
     this.version = window.JVCMaster_version;
