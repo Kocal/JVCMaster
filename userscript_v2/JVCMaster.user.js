@@ -655,11 +655,3 @@ function JVCMaster(){
 var script = document.createElement('script');
 script.appendChild(document.createTextNode('(JVCMaster = ' + JVCMaster +')(window);'));
 (document.body || document.head || document.documentElement).appendChild(script)
-        
-// script = document.createElement('script');
-// script.src = "/oi/js/modal.js";
-// (document.body || document.head || document.documentElement).appendChild(script)
-
-// script = document.createElement('script');
-// script.src = "http://www.jeuxvideo.com/js/base.js";
-// (document.body || document.head || document.documentElement).appendChild(script)
