@@ -697,5 +697,5 @@ var xhr = new XMLHttpRequest();
             }
         }
     };
-    xhr.open("GET", "https://raw.github.com/Kocal/JVCMaster/master/userscript_v2/version", true);
+    xhr.open("GET", "http://raw.github.com/Kocal/JVCMaster/master/userscript_v2/version", true);
     xhr.send(null);
