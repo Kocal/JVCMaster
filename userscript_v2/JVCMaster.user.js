@@ -4,7 +4,6 @@
 // @description Ajoute des fonctionnalités aux forums de Jeuxvideo.com
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
-// @require     http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js
 // @run-at      document-end
 // @version     2.0.1
 // ==/UserScript==
@@ -594,8 +593,8 @@ function JVCMaster(){
         scripts = this.scripts;
 
         // Bug sous Firefox
-        $('#connexion').css('display', 'block');
-
+        // $('#connexion').css('display', 'table');
+        
         $.each(activatedScripts, function(key, value){
             if(value)
                 scripts[key].main();
@@ -603,7 +602,7 @@ function JVCMaster(){
         
         var buttonOptions = $("<a/>", {
             href : '#',
-            text : "JVCMaster " + this.version,
+            text : "JVCMaster " + window.JVCMaster_version,
             click : function(e){
                 $('<div class="bloc_forum"><h3><span class="txt">JVCMaster : Extensions</span></h3><div class="bloc_inner"><ul id="JVCMaster_Scripts" class="liste_liens">').appendTo('#JVCMaster_LightBox_popup');
 
@@ -654,48 +653,13 @@ function JVCMaster(){
 }
 
 var script = document.createElement('script');
-script.appendChild(document.createTextNode('(JVCMaster = ' + JVCMaster +')(JVCMaster_version = "' + window.JVCMaster_version + '");'));
+script.appendChild(document.createTextNode('(JVCMaster = ' + JVCMaster +')(window);'));
 (document.body || document.head || document.documentElement).appendChild(script)
-
-versionCompare = function(left, right) {
-    if (typeof left + typeof right != 'stringstring')
-        return false;
-    
-    var a = left.split('.')
-    ,   b = right.split('.')
-    ,   i = 0, len = Math.max(a.length, b.length);
         
-    for (; i < len; i++) {
-        if ((a[i] && !b[i] && parseInt(a[i]) > 0) || (parseInt(a[i]) > parseInt(b[i]))) {
-            return 1;
-        } else if ((b[i] && !a[i] && parseInt(b[i]) > 0) || (parseInt(a[i]) < parseInt(b[i]))) {
-            return -1;
-        }
-    }
-    
-    return 0;
-}
+// script = document.createElement('script');
+// script.src = "/oi/js/modal.js";
+// (document.body || document.head || document.documentElement).appendChild(script)
 
-var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-            var newVersion = xhr.responseText;
-            if(versionCompare(JVCMaster_version, newVersion )){
-                if(typeof localStorage.getItem('JVCMaster_dontUpdateVersion') === 'string'
-                    || localStorage.getItem('JVCMaster_dontUpdateVersion') != newVersion){
-                    function JVCMaster_updateNotification(newVersion){
-                    var lb_popup = document.querySelector('#JVCMaster_LightBox_popup');
-                    lb_popup.style.padding = "5px 5px 0";
-                    lb_popup.innerHTML = '<div class="bloc_forum"><h3><span class="txt">JVCMaster : Mise à jour</span></h3><div class="bloc_inner">'+ "<p>La version « <b>" + newVersion + "</b> » est sortie, voulez-vous la télécharger?</p><p style='margin-top:20px; text-align:center'><input type='button' value='Oui' onclick='javascript:window.open(\"http://kocal.github.com/JVCMaster/\", \"_newtab\");' /> <input type='button' value=\"J'en ai rien à battre des MàJ\" onclick=\"localStorage.setItem('JVCMaster_dontUpdateVersion', '" + newVersion + "'); JVCMaster_Lightbox.hide(); \"/></p></div></div>"
-                    JVCMaster_Lightbox.show()
-                }
-
-                var script = document.createElement('script');
-                script.appendChild(document.createTextNode('(' + JVCMaster_updateNotification + ')(newVersion = "' + newVersion + '");'));
-                (document.body || document.head || document.documentElement).appendChild(script)
-                }
-            }
-        }
-    };
-    xhr.open("GET", "http://raw.github.com/Kocal/JVCMaster/master/userscript_v2/version", true);
-    xhr.send(null);
+// script = document.createElement('script');
+// script.src = "http://www.jeuxvideo.com/js/base.js";
+// (document.body || document.head || document.documentElement).appendChild(script)
