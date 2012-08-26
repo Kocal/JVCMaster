@@ -681,7 +681,7 @@ var xhr = new XMLHttpRequest();
         if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
             var newVersion = xhr.responseText;
             if(versionCompare(JVCMaster_version, newVersion )){
-                if(typeof localStorage.getItem('JVCMaster_dontUpdateVersion') === 'object'
+                if(typeof localStorage.getItem('JVCMaster_dontUpdateVersion') === 'string'
                     || localStorage.getItem('JVCMaster_dontUpdateVersion') != newVersion){
                     function JVCMaster_updateNotification(newVersion){
                     var lb_popup = document.querySelector('#JVCMaster_LightBox_popup');
