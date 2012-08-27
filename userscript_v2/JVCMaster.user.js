@@ -5,10 +5,10 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.0.2
+// @version     2.0.3
 // ==/UserScript==
 
-window.JVCMaster_version = '2.0.2'
+window.JVCMaster_version = '2.0.3'
 
 function JVCMaster(){
     this.version = window.JVCMaster_version;
@@ -17,7 +17,8 @@ function JVCMaster(){
 
     // Variables globales
     this.vars = {
-        posts : $('.msg')
+        postContainer : $('.msg'),
+        posts : $('li.post')
     };
 
     ///////////////////////////////////////////////////////////////////////
@@ -48,26 +49,29 @@ function JVCMaster(){
                 var t    = $(this);
                 var html = t.html();
 
-                if(/(?:(?:<br> ){9,}){5,}/gi.test(html) 
-                || /^[0-9]+|http:\/\/concours-apple\.fr\.cr|[0-9]+$/gi.test(html)
-                || /(?:W?V?){30,}/gi.test(html)
-                ){ // Si le post est un spam (flood)
-                    var tPost = t.find('li.post:first').addClass('JVCMaster_hideByAntibot');
+                // if(/(?:(?:<br> ){9,}){5,}/gi.test(html) 
+                // || /^[0-9]+|http:\/\/concours-apple\.fr\.cr|[0-9]+$/gi.test(html)
+                // || /(?:W?V?){30,}/gi.test(html)
+                // ){ // Si le post est un spam (flood)
                     
-                    tPost.after($('<li>', {
+                if(/(?:(?:<br (\/)?> ){9,}){5,}/gi.test(html)
+                || /^[0-9]+|http:\/\/concours-apple\.fr\.cr|[0-9]+$/gi.test(html)
+                || /[@]{15,}|([W]+[V]+(<br (\/)?>+)){20,}/gi.test(html)){
+                    t.slideUp(300);
+
+                    t.after($('<li>', {
                         'class' : 'JVCMaster_AntiBot_informPost post',
                         html    : '<b>JVCMaster</b> : <i>Spam, ce message a &eacute;t&eacute; cach&eacute;, cliquer pour faire apparaitre le post</i>',
                         css : {cursor : 'pointer', display : 'none'},
                         click : function(e){
                             $(this).slideUp(300);
-                            tPost.slideDown(300);
+                            t.slideDown(300);
                         }
                     }));
                     
-                    tPost.slideUp(300);
-                    t.find('li.post.JVCMaster_AntiBot_informPost').slideDown(300);
+                    t.parent().find('li.post.JVCMaster_AntiBot_informPost').slideDown(300);
                 }
-            });
+             });
         },
         uninstall : function(){
             $('.JVCMaster_AntiBot_informPost').slideUp(300).remove();
@@ -135,7 +139,7 @@ function JVCMaster(){
                     
                     e.preventDefault();
                 }
-            }).appendTo(vars.posts.find(".pseudo")));
+            }).appendTo(vars.postContainer.find(".pseudo")));
 
             // // Si on est sur la page d'un topic
             if($('.nouveau').is('*') && textarea.is('*')){
@@ -291,12 +295,12 @@ function JVCMaster(){
         description : "Permet de cacher un post",
         main : function(){
             // S'il y a des posts, et qu'ils on un id
-            if(vars.posts && vars.posts[0].id !== ''){
+            if(vars.postContainer && vars.postContainer[0].id !== ''){
                 var hiddenPosts = JSON.parse(localStorage.getItem('JVCMaster_HiddenPosts') || "[]");
                 var hiddenPostsViaPseudos = JSON.parse(localStorage.getItem('JVCMaster_HiddenPostsViaPseudos') || "[]");
 
                 // Le message d'information comme quoi le post a été caché;
-                vars.posts.find('li.post').after($('<li/>', {
+                vars.postContainer.find('li.post').after($('<li/>', {
                     'class' : 'JVCMaster_HiddenPosts_informPost post',
                     html : '<b>JVCMaster</b> : <i>Ce message a &eacute;t&eacute; cach&eacute;</i>',
                     css : {
@@ -304,7 +308,7 @@ function JVCMaster(){
                     }
                 }));
 
-                vars.posts.each(function(){
+                vars.postContainer.each(function(){
                     var t = $(this);
 
                     // Si un id ou un pseudo est à cacher
@@ -345,7 +349,7 @@ function JVCMaster(){
                             e.preventDefault();   
                         } 
                     }
-                }).appendTo(vars.posts.find(".pseudo")));
+                }).appendTo(vars.postContainer.find(".pseudo")));
 
                 $('<img />', {
                     'class' : 'JVCMaster_hidepseudo',
@@ -358,7 +362,7 @@ function JVCMaster(){
                         var pseudoToHide = $.trim(postContainer.find('.pseudo').text().toLowerCase());
                         var toHide = (hiddenPostsViaPseudos.indexOf(pseudoToHide) === -1) ? true : false;
 
-                        vars.posts.each(function(){
+                        vars.postContainer.each(function(){
                             var t = $(this);
                             var pseudo = $.trim(t.find('.pseudo').text().toLowerCase());
 
@@ -380,15 +384,15 @@ function JVCMaster(){
 
                         e.preventDefault();
                     }
-                }).appendTo(vars.posts.find('.pseudo')));
+                }).appendTo(vars.postContainer.find('.pseudo')));
             }
         },
 
         uninstall : function(){
             $('.JVCMaster_hidepost').remove();
             $('.JVCMaster_hidepseudo').remove();
-            vars.posts.find('li.post:first').slideDown(300);
-            vars.posts.find('li.post:last').slideUp(300).remove();
+            vars.postContainer.find('li.post:first').slideDown(300);
+            vars.postContainer.find('li.post:last').slideUp(300).remove();
         }
     };
 
