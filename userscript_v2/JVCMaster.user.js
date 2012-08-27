@@ -5,10 +5,10 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.0.3
+// @version     2.0.4
 // ==/UserScript==
 
-window.JVCMaster_version = '2.0.3'
+window.JVCMaster_version = '2.0.4'
 
 function JVCMaster(){
     this.version = window.JVCMaster_version;
@@ -295,7 +295,7 @@ function JVCMaster(){
         description : "Permet de cacher un post",
         main : function(){
             // S'il y a des posts, et qu'ils on un id
-            if(vars.postContainer && vars.postContainer[0].id !== ''){
+            if(vars.postContainer.is('*') && vars.postContainer[0].id !== ''){
                 var hiddenPosts = JSON.parse(localStorage.getItem('JVCMaster_HiddenPosts') || "[]");
                 var hiddenPostsViaPseudos = JSON.parse(localStorage.getItem('JVCMaster_HiddenPostsViaPseudos') || "[]");
 
