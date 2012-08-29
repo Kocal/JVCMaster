@@ -5,10 +5,10 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.0.4
+// @version     2.1
 // ==/UserScript==
 
-window.JVCMaster_version = '2.0.4'
+window.JVCMaster_version = '2.1'
 
 function JVCMaster(){
     this.version = window.JVCMaster_version;
@@ -17,10 +17,15 @@ function JVCMaster(){
 
     // Variables globales
     this.vars = {
+        // Ce qui contient le pseudo, la date, le post et le permalink 
         postContainer : $('.msg'),
+        // Les posts
         posts : $('li.post')
     };
 
+    this.funcs = {
+        sortObject : function(o) {     var sorted = {},     key, a = [];      for (key in o) {         if (o.hasOwnProperty(key)) {                 a.push(key);         }     }      a.sort();      for (key = 0; key < a.length; key++) {         sorted[a[key]] = o[a[key]];     }     return sorted; }
+    }
     ///////////////////////////////////////////////////////////////////////
     // Model pour les scripts //
     ////////////////////////////
@@ -57,8 +62,11 @@ function JVCMaster(){
                 if(/(?:(?:<br (\/)?> ){9,}){5,}/gi.test(html)
                 || /^[0-9]+|http:\/\/concours-apple\.fr\.cr|[0-9]+$/gi.test(html)
                 || /[@]{15,}|([W]+[V]+(<br (\/)?>+)){20,}/gi.test(html)){
+                    
+                    // On cache le post
                     t.slideUp(300);
 
+                    // On insère après celui-ci, un post d'information
                     t.after($('<li>', {
                         'class' : 'JVCMaster_AntiBot_informPost post',
                         html    : '<b>JVCMaster</b> : <i>Spam, ce message a &eacute;t&eacute; cach&eacute;, cliquer pour faire apparaitre le post</i>',
@@ -69,6 +77,7 @@ function JVCMaster(){
                         }
                     }));
                     
+                    // On montre le message d'information pour chaque posts caché
                     t.parent().find('li.post.JVCMaster_AntiBot_informPost').slideDown(300);
                 }
              });
@@ -85,9 +94,12 @@ function JVCMaster(){
         name : "Citation",
         description : "Permet de citer un post",
         main : function(){
+            // Présent sur la page de réponse d'un topic
             var textarea = $('#newmessage');
+            // Présent sur les pages d'un topic
             var alertemail = $('.alertemail');
 
+            // Bouton de citation
             $('<img />', {
                 "class" : "JVCMaster_citation",
                 css : { marginRight : '3px'},
@@ -97,7 +109,7 @@ function JVCMaster(){
                 click : function(e){
                     var postContainer = $(this).parent().parent().parent();
                     
-                    // Si on est sur un topic, ou un mp
+                    // Si on est pas sur un topic, ou un mp
                     if(!postContainer)
                         return;
 
@@ -117,10 +129,10 @@ function JVCMaster(){
 
                     var citation = '';
                     
-                    // Si on a d&eacute;jà cit&eacute; quelque chose
+                    // Sur la page de réponse d'un topic, s'il y a déjà du texte
                     if(textarea.is('*') && textarea.val() !== '') citation += '\n\n';
                     
-                    // Si un lien permanent est pr&eacute;sent
+                    // Si un lien permanent est présent
                     if(permalink) citation += '| ' + permalink + '\n';
 
                     citation += "| Ecrit par « " + pseudo + " » , " + date + "\n| « "+ post + " »\n\n\n> ";
@@ -130,7 +142,7 @@ function JVCMaster(){
                         localStorage.setItem('JVCMaster_citation', citation);
                         window.location.href = $('.bt_repondre').attr('href');
                     } 
-                    // Si on est sur la page de r&eacute;ponse d'un topic
+                    // Si on est sur la page de réponse d'un topic
                     else if(!alertemail.is('*') && textarea.is('*')){
                         if(textarea.val().match("Ne postez pas d'insultes, &eacute;vitez les majuscules, faites une recherche avant de poster pour voir si la question n'a pas d&eacute;jà &eacute;t&eacute; pos&eacute;e..."))
                             textarea.val('');
@@ -178,7 +190,9 @@ function JVCMaster(){
                             tParent.find('a[href^=http\\:\\/\\/www\\.jeuxvideo\\.com\\/profil] img').attr('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wICggWDgPWFDkAAAD2SURBVCjPhdEtroNAEMDxP4VtsqYkxXALDAoBohfgCIg9wJpaLoDZA+BxXAgEsmkIigSxJDzR0Pa9NK/jJvnNZD4crfXGlzDGOAAeQBzH/2Kt9WaMcTwAay0ARVH8QlVVcTqdiKIIrfV22PFfCHC9XhmGgXmeATi8dwZIkoTL5fLMu65jmiaeM1trKcuSrusIw5C2bQHIsowgCFjX9YX7vsday/F4pGkaANI0BcB1Xe73O1LKBwYQQiCEQCnF7XZDCMH5fCYIAoQQr87vUdc1AHme4/v+E37ESinGcfx4b2c/+r6EtZZlWQCQUr5G8LwH3gu+vf0HNF5XpCC6I0sAAAAASUVORK5CYII=');
                         }
                         else{
+                                // Rang
                             var rank = data.match('<body.*class="(.*)">')[1],
+                                // Sexe
                                 sexe = data.match('<h1.*class="(sexe_[f|m])">')[1];
 
                             // On ajoute des styles au pseudo en fonction de son sexe
@@ -288,6 +302,114 @@ function JVCMaster(){
         }
     };
 
+    this.scripts.favoritestopic = {
+        id : 'favoritestopic',
+        name : 'Topic favoris',
+        description : 'Permet d\'épingler ces topics favoris dans une box',
+        main : function(){
+                var FavoritesTopic = funcs.sortObject(JSON.parse(localStorage.getItem('JVCMaster_favoritesTopic') || "{}"));
+            
+            // Ce qui sera affiché dans la box juste en dessous des forums préférés 
+            var html = '<h3 class="titre_bloc"><span>Mes topics préférés</span></h3>';
+                html += '<div class="bloc_inner">';
+                html += '<ul class="liste_liens">';
+                html += '</ul>';
+                html += '</div>';
+
+            // Box en dessous des forums préférés
+            $('div.bloc3').after(
+                $('<div>', {
+                    id : 'JVCMaster_favoritesTopic',
+                    'class' : 'bloc3',
+                    html : html
+                })
+            );
+            
+            (listFavoritesTopic = function(){
+                var FavoritesTopic = funcs.sortObject(JSON.parse(localStorage.getItem('JVCMaster_favoritesTopic') || "{}"));
+                for(topic in FavoritesTopic){
+                    $('<a/>', {
+                        href : FavoritesTopic[topic]['topicUrl'],
+                        html : '<b>' + FavoritesTopic[topic]['forumName'] + '</b> : ' + FavoritesTopic[topic]['topicName'] 
+                    }).appendTo($('<li>',{ 'class' : 'JVCMaster_favoritesTopic'}).appendTo('#JVCMaster_favoritesTopic ul'));
+                }
+            })();
+
+            // Pour insérer le bouton juste à côté
+            $('div.bloc_forum div.bloc_inner').css('textAlign', 'center');
+            // On règle les quelques bugs d'alignement
+            $('div.bloc_forum form').css('textAlign', 'left');
+            $('div.bloc_forum td.nouveau, div.bloc_forum td.navig_prec').css('textAlign', 'left');
+            // On insère le petit bouton à côté des titres du topic
+
+            $('div.bloc_forum h1.sujet, div.bloc_forum h4.sujet').css('display', 'inline-block').after(
+                $('<img>', {
+                    id : 'JVCMaster_addToFavoritesTopic',
+                    src : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAIAQMAAAARA0f2AAAABlBMVEX///+ZzADAT8hDAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfcCBsMAieAZsMmAAAAGklEQVQI12MoZ2D43wBF9QwMdgwMMgwMHAwAXZcF1pKKg9EAAAAASUVORK5CYII=',
+                    css : {
+                        cursor : 'pointer',
+                        marginLeft : '5px',
+                        verticalAlign : '1px'
+                    },
+                    title : 'JVCMaster : ajouter ce topic à vos topics favoris',
+                    click : function(e){
+                        // On cherche l'url de la première page du topic
+                        var topicUrl = $('.pagination:first a:first').attr('href');
+                        // S'il n'y a pas de pagination
+                        if(topicUrl === undefined){
+                            tmp = $('.revenir a:first').attr('href');
+                            if(tmp !== undefined){
+                                tmp = tmp.split('-');
+                                tmp[3] = '1'; // Première page
+                                topicUrl = tmp.join('-');
+                            }
+                        }
+                        if(topicUrl === undefined){
+                            topicUrl = window.location.href;
+                        }
+
+                        // On cherche le nom du forum 
+                        var forumName = $.trim($('.bloc_forum h3').text().replace('Forum : ', ''));
+                        // On cherche le nom du topic
+                        var topicName = $('.bloc_forum .sujet:first').text();
+                            topicName = $.trim(topicName.substr(10).substr(0, topicName.length - 12)); 
+                        
+                        // La clé est sous forme <forumName>_<topicName> pour trier par le nom du forum, et ensuite du topic
+                        FavoritesTopic[forumName + '_' + topicName] = {
+                            forumName : forumName,
+                            topicUrl  : topicUrl,
+                            topicName : topicName
+                        } 
+                        
+                        // On stock
+                        localStorage.setItem('JVCMaster_favoritesTopic', JSON.stringify(FavoritesTopic));
+
+                        // On actualise les topics favoris
+                        $('.JVCMaster_favoritesTopic').remove();
+                        listFavoritesTopic();
+                           
+                        e.preventDefault();
+                    }
+                })
+            );
+
+
+        },
+        // <div class="bloc3">
+        // <h3 class="titre_bloc"><span>Mes forums préférés</span></h3>
+        // <div class="bloc_inner">
+        // <ul class="liste_liens">
+        // <li id="coeur_suppr_68"><a href="http://www.jeuxvideo.com/forums/0-68-0-1-0-1-0-philosophie.htm">Philosophie</a> <a title="Supprimer le forum Philosophie" alt="Supprimer le forum Philosophie" href="#" forum="68" class="sup_pref"><span>[Supprimer]</span></a></li>
+        // </ul>
+        // <p class="lien_base"><a href="http://www.jeuxvideo.com/forums.htm">Tous les forums</a></p>
+        // </div>
+        // </div>
+        uninstall : function(){
+            $('#JVCMaster_addToFavoritesTopic').remove();
+            $('#JVCMaster_favoritesTopic').remove();
+        }
+    }
+
     // Script "HidePost"
     this.scripts.hidepost = {
         id   : "hidepost",
@@ -316,7 +438,7 @@ function JVCMaster(){
                         || hiddenPostsViaPseudos.indexOf($.trim(t.find('.pseudo strong').text().toLowerCase())) !== -1){
                             
                         t.find('li.post:first').slideUp(300);
-                        t.find('li.post:last').slideDown(300);
+                        t.find('li.post.JVCMaster_HiddenPosts_informPost').slideDown(300);
                     }
                 });
 
@@ -337,17 +459,17 @@ function JVCMaster(){
                             if(hiddenPosts.indexOf(postContainerId) === -1){
                                 hiddenPosts.push(postContainerId);         
                                 postContainer.find('li.post:first').slideUp(300);
-                                postContainer.find('li.post:last').slideDown(300);
+                                postContainer.find('li.post.JVCMaster_HiddenPosts_informPost').slideDown(300);
                             }
                             else{
                                 hiddenPosts.splice(hiddenPosts.indexOf(postContainerId), 1);
-                                postContainer.find('li.post:last').slideUp(300);
+                                postContainer.find('li.post.JVCMaster_HiddenPosts_informPost').slideUp(300);
                                 postContainer.find('li.post:first').slideDown(300);
                             }
 
                             localStorage.setItem('JVCMaster_HiddenPosts', JSON.stringify(hiddenPosts));
                             e.preventDefault();   
-                        } 
+                        }
                     }
                 }).appendTo(vars.postContainer.find(".pseudo")));
 
