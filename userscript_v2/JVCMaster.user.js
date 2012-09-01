@@ -5,10 +5,10 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.1
+// @version     2.1.1
 // ==/UserScript==
 
-window.JVCMaster_version = '2.1'
+window.JVCMaster_version = '2.1.1'
 
 function JVCMaster(){
     this.version = window.JVCMaster_version;
