@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.1.4
+// @version     2.1.5
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.1.4"
+window.JVCMaster_sVersion = "2.1.5"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -63,11 +63,6 @@ function JVCMaster(){
             vars.oPosts.each(function(){
                 var t    = $(this);
                 var sHtml = t.html();
-
-                // if(/(?:(?:<br> ){9,}){5,}/gi.test(html) 
-                // || /^[0-9]+|http:\/\/concours-apple\.fr\.cr|[0-9]+$/gi.test(html)
-                // || /(?:W?V?){30,}/gi.test(html)
-                // ){ // Si le post est un spam (flood)
                     
                 if(/(?:(?:<br(\/ )?> *){9,}){5,}/gi.test(sHtml)
                 || /^[0-9]+|http:\/\/concours-apple\.fr\.cr|[0-9]+$/gi.test(sHtml)
@@ -432,6 +427,9 @@ function JVCMaster(){
                                 tmp = tmp.attr('href').split("-");
                                 tmp[3] = "1"; // Première page
                                 sTopicUrl = tmp.join("-");
+                            }
+                            else{
+                                sTopicUrl = window.location.href;
                             }
                         }
 
