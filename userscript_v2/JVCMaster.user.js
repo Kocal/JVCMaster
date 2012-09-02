@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.1.1
+// @version     2.1.2
 // ==/UserScript==
 
 /*
@@ -15,7 +15,7 @@ Dans une variable :
     "s" : String
 */
 
-window.JVCMaster_sVersion = "2.1.1"
+window.JVCMaster_sVersion = "2.1.2"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -236,7 +236,7 @@ function JVCMaster(){
                             // On cherche le rang
                             switch(sRank){
                                 case "carton":
-                                    otParent.find(".JVCMaster_cdvinformations_sRank").css({
+                                    otParent.find(".JVCMaster_cdvinformations_rank").css({
                                         width : "13px",
                                         height : "13px",
                                         backgroundPosition : "0 0"
@@ -244,7 +244,7 @@ function JVCMaster(){
                                     break;
 
                                 case "bronze":
-                                    otParent.find(".JVCMaster_cdvinformations_sRank").css({
+                                    otParent.find(".JVCMaster_cdvinformations_rank").css({
                                         width : "8px",
                                         height : "14px",
                                         backgroundPosition : "-14px 0"
@@ -252,14 +252,14 @@ function JVCMaster(){
                                     break;
 
                                 case "argent":
-                                    otParent.find(".JVCMaster_cdvinformations_sRank").css({
+                                    otParent.find(".JVCMaster_cdvinformations_rank").css({
                                         height : "13px",
                                         backgroundPosition : "-22px 0"
                                     });
                                     break;
 
                                 case "or":
-                                    otParent.find(".JVCMaster_cdvinformations_sRank").css({
+                                    otParent.find(".JVCMaster_cdvinformations_rank").css({
                                         width : "13px",
                                         height : "13px",
                                         backgroundPosition : "0 -14px"
@@ -267,28 +267,28 @@ function JVCMaster(){
                                     break;
 
                                 case "rubis":
-                                    otParent.find(".JVCMaster_cdvinformations_sRank").css({
+                                    otParent.find(".JVCMaster_cdvinformations_rank").css({
                                         width : "11px",
                                         backgroundPosition : "-14px -15px"
                                     });
                                     break;
 
                                 case "saphir":
-                                    otParent.find(".JVCMaster_cdvinformations_sRank").css({
+                                    otParent.find(".JVCMaster_cdvinformations_rank").css({
                                         width : "12px",
                                         backgroundPosition : "0 -28px"
                                     });
                                     break;
 
                                 case "emeraude":
-                                    otParent.find(".JVCMaster_cdvinformations_sRank").css({
+                                    otParent.find(".JVCMaster_cdvinformations_rank").css({
                                         width : "12px",
                                         backgroundPosition : "-12px -28px"
                                     });
                                     break;
 
                                 case "diamant":
-                                    otParent.find(".JVCMaster_cdvinformations_sRank").css({
+                                    otParent.find(".JVCMaster_cdvinformations_rank").css({
                                         width : "11px",
                                         backgroundPosition : "-25px -27px"
                                     });
@@ -305,7 +305,7 @@ function JVCMaster(){
                 borderRadius : "",
                 padding : ""
             });
-            $(".JVCMaster_cdvinformations_sRank").remove();
+            $(".JVCMaster_cdvinformations_rank").remove();
         }
     };
 
