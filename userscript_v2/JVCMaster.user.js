@@ -69,7 +69,7 @@ function JVCMaster(){
                 // || /(?:W?V?){30,}/gi.test(html)
                 // ){ // Si le post est un spam (flood)
                     
-                if(/(?:(?:<br(\/ )?> ){9,}){5,}/gi.test(sHtml)
+                if(/(?:(?:<br(\/ )?> *){9,}){5,}/gi.test(sHtml)
                 || /^[0-9]+|http:\/\/concours-apple\.fr\.cr|[0-9]+$/gi.test(sHtml)
                 || /[@]{15,}|([W]+[V]+(<br (\/)?>+)){20,}/gi.test(sHtml)){
                     
