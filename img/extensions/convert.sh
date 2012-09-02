@@ -1,4 +1,4 @@
 for file in *.png
 do
-  convert -thumbnail 150x80 "$file" thumb_"$file"
+  convert -thumbnail 100x46 "$file" thumb_"$file"
 done
