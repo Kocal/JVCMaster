@@ -5,17 +5,20 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.1.2
+// @version     2.1.3
 // ==/UserScript==
 
 /*
 Dans une variable :
     "JVCMaster_" : indique que celle-ci appartient à JVCMaster
+
+Au début d'une variable    
     "o" : Object
     "s" : String
+    "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.1.2"
+window.JVCMaster_sVersion = "2.1.3"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -174,7 +177,7 @@ function JVCMaster(){
         },
 
         uninstall : function(){
-            $(".JVCMaster_citation").remove();
+            $(".JVCMaster_btn_citation").remove();
             localStorage.removeItem("JVCMaster_citation");
         }
     };
@@ -409,21 +412,31 @@ function JVCMaster(){
                     },
                     title : "JVCMaster : ajouter ce topic à vos topics favoris",
                     click : function(e){
+                        // L'url du topic (première page)
+                        var sTopicUrl = '';
                         // On cherche l"url de la première page du topic
-                        var sTopicUrl = $(".pagination:first a:first").attr("href");
+                        var oPagination = $(".pagination:first a");
+
                         // S"il n"y a pas de pagination
-                        if(sTopicUrl === undefined){
-                            tmp = $(".revenir a:first").attr("href");
-                            if(tmp !== undefined){
-                                tmp = tmp.split("-");
+                        if(oPagination.is('*')){
+                            oPagination.each(function(){
+                                var t = $(this);
+                                if(t.text() == 1){
+                                    sTopicUrl = t.attr('href');
+                                }
+                            })
+                        }
+                        else{
+                            tmp = $(".revenir a:first");
+                            if(tmp.is('*')){
+                                tmp = tmp.attr('href').split("-");
                                 tmp[3] = "1"; // Première page
                                 sTopicUrl = tmp.join("-");
                             }
                         }
-                        if(sTopicUrl === undefined){
-                            sTopicUrl = window.location.href;
-                        }
 
+                        console.log(sTopicUrl);
+                        // console.log(sTopicUrl.text());
                         // On cherche le nom du forum 
                         var sForumName = $.trim($(".bloc_forum h3").text().replace("Forum : ", ""));
                         // On cherche le nom du topic
@@ -436,7 +449,7 @@ function JVCMaster(){
                             sTopicUrl  : sTopicUrl,
                             sTopicName : sTopicName
                         } 
-                        
+
                         // On stock
                         localStorage.setItem("JVCMaster_TopicFavorites", JSON.stringify(oTopicFavorites));
 
