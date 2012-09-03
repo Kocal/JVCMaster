@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.1.5
+// @version     2.1.7
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.1.5"
+window.JVCMaster_sVersion = "2.1.7"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -115,7 +115,7 @@ function JVCMaster(){
                     var oPostContainer = $(this).parent().parent().parent();
                     
                     // Si on est pas sur un topic, ou un mp
-                    if(!oPostContainer)
+                    if(!oPostContainer.is('*'))
                         return;
 
                     // Si on est sur un mp
@@ -433,8 +433,6 @@ function JVCMaster(){
                             }
                         }
 
-                        console.log(sTopicUrl);
-                        // console.log(sTopicUrl.text());
                         // On cherche le nom du forum 
                         var sForumName = $.trim($(".bloc_forum h3").text().replace("Forum : ", ""));
                         // On cherche le nom du topic
@@ -783,7 +781,7 @@ function JVCMaster(){
             href : '#',
             text : "JVCMaster " + window.JVCMaster_sVersion,
             click : function(e){
-                $('<div class="bloc_forum"><h3><span class="txt">JVCMaster : Extensions</span></h3><div class="bloc_inner"><ul id="JVCMaster_Scripts" class="liste_liens">').appendTo('#JVCMaster_LightBox_popup');
+                $('<div style="position: relative;padding-bottom: 8px;background: url(http://image.jeuxvideo.com/css_img/defaut/bloc_forum_bas.png) left bottom no-repeat;"><h3 style="position: static;height: 20px;line-height: 22px;font-size: 116.67%;width: auto;padding: 1px 20px 1px 0;background: #9C0 url(http://image.jeuxvideo.com/css_img/defaut/bloc_forum_h3.png) right top no-repeat!important;"><span class="txt">JVCMaster : Extensions</span></h3><div style="padding: 5px;border: solid 1px #9C0;border-bottom: 0;height: 1%;position: relative;"><ul id="JVCMaster_Scripts" class="liste_liens">').appendTo('#JVCMaster_LightBox_popup');
 
                 // On boucle sur les oScripts
                 $.each(oScripts, function(key, value){
@@ -824,7 +822,28 @@ function JVCMaster(){
         if(typeof localStorage.getItem("JVCMaster_firstUse") === "object"){
             buttonOptions.click();
             localStorage.setItem("JVCMaster_firstUse", "0");
-        }        
+        }
+
+        // Si on est sur un mp, et que l'utilisateur clique sur "Voir les messages précédents"
+        var voir_debut = $("#voir_debut");
+        if(voir_debut.is('*')){
+            voir_debut.click(function(){
+
+                setTimeout(function(){
+                    // On raffraichit les variables
+                    vars.oPostContainer = $('.msg'),
+                    vars.oPosts = $('li.post'),
+                    
+                    $.each(sActivatedScripts, function(key, value){
+                        if(value){
+                            console.log(key);
+                            oScripts[key].uninstall();
+                            oScripts[key].main();
+                        }
+                    });                    
+                }, 400);
+            })
+        }
     })();
 }
 
