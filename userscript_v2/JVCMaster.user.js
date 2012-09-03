@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.1.7
+// @version     2.1.8
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.1.7"
+window.JVCMaster_sVersion = "2.1.8"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -762,6 +762,7 @@ function JVCMaster(){
                 $("#JVCMaster_LightBox_layer").fadeOut(300, function(){
                     popup.html("");
                     popup.css("padding", "0");
+                    popup.attr("class", "");
                 });
             });
         }
@@ -781,8 +782,8 @@ function JVCMaster(){
             href : '#',
             text : "JVCMaster " + window.JVCMaster_sVersion,
             click : function(e){
-                $('<div style="position: relative;padding-bottom: 8px;background: url(http://image.jeuxvideo.com/css_img/defaut/bloc_forum_bas.png) left bottom no-repeat;"><h3 style="position: static;height: 20px;line-height: 22px;font-size: 116.67%;width: auto;padding: 1px 20px 1px 0;background: #9C0 url(http://image.jeuxvideo.com/css_img/defaut/bloc_forum_h3.png) right top no-repeat!important;"><span class="txt">JVCMaster : Extensions</span></h3><div style="padding: 5px;border: solid 1px #9C0;border-bottom: 0;height: 1%;position: relative;"><ul id="JVCMaster_Scripts" class="liste_liens">').appendTo('#JVCMaster_LightBox_popup');
-
+                // $('<div style="position: relative;padding-bottom: 8px;background: url(http://image.jeuxvideo.com/css_img/defaut/bloc_forum_bas.png) left bottom no-repeat;"><h3 style="position: static;height: 20px;line-height: 22px;font-size: 116.67%;width: auto;background: url(http://image.jeuxvideo.com/css_img/defaut/bloc_h3_forums.png) right top no-repeat!important;"><span class="txt">JVCMaster : Extensions</span></h3><div style="padding: 5px;border: solid 1px #9C0;border-bottom: 0;height: 1%;position: relative;"><ul id="JVCMaster_Scripts" class="liste_liens">').appendTo('#JVCMaster_LightBox_popup');
+                    $('<div class="bloc1"><h3 class="titre_bloc"><span>JVCMaster : Extensions</span></h3><div class="bloc_inner"><ul id="JVCMaster_Scripts" class="liste_liens">').appendTo('#JVCMaster_LightBox_popup');
                 // On boucle sur les oScripts
                 $.each(oScripts, function(key, value){
                     $("<li>", {
@@ -791,9 +792,9 @@ function JVCMaster(){
                             textAlign : "left",
                             fontSize : "95%",
                             borderBottom : "1px solid rgb(237, 237, 237)",
-                            verticalAlign : "top"
+                            fontWeight : "normal"
                         },
-                        html : '<input type="checkbox" style="margin-right: 3px" ' + (sActivatedScripts[value.id] ? 'checked="checked"' : '') + '/><b style="vertical-align:top">' + value.name + "</b> : " + value.description
+                        html : '<input type="checkbox" style="vertical-align : bottom; margin-right: 3px" ' + (sActivatedScripts[value.id] ? 'checked="checked"' : '') + '/><b>' + value.name + "</b> : " + value.description
                     }).appendTo('#JVCMaster_Scripts');
                     
                     $("#JVCMaster_extension_" + value.id + " input[type=checkbox]").click(function(){
@@ -812,6 +813,7 @@ function JVCMaster(){
                 
                 var lb_popup = $("#JVCMaster_LightBox_popup");
                 
+                lb_popup.attr("class", "forums hp_forums")
                 lb_popup.css("padding", "5px 5px 0");
                 lb.show();
                 e.preventDefault();
