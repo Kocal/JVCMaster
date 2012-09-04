@@ -91,10 +91,10 @@ section#wrap a.fancybox img{
 }
 section#wrap p{ margin: 20px 0; }
 
-section#wrap .row{ margin: 10px 0 }
+section#wrap .row{ margin:20px 0; padding: 10px 0 }
 section#wrap .row .column{
     display: inline-block;
-    padding: 10px 5px;
+    padding: 10px;
     vertical-align: top;
     width: 31%;
 }
