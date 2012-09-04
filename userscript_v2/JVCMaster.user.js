@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.1.9
+// @version     2.1.10
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.1.9"
+window.JVCMaster_sVersion = "2.1.10"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -65,7 +65,7 @@ function JVCMaster(){
                 var sHtml = t.html();
                     
                 if(/(?:(?:<br(\/ )?> *){9,}){5,}/gi.test(sHtml)
-                || /^[0-9]+|http:\/\/concours-apple\.fr\.cr|[0-9]+jQuery/gi.test(sHtml)
+                || /^[0-9]+|http:\/\/concours-apple\.fr\.cr|[0-9]+$/gi.test(sHtml)
                 || /[@]{15,}|([W]+[V]+(<br (\/)?>+)){20,}/gi.test(sHtml)){
                     
                     // On cache le post
@@ -120,12 +120,12 @@ function JVCMaster(){
 
                     // Si on est sur un mp
                     if(jQuery("#reception").is("*") && jQuery("#bouton_post").is("*")){
-                        var sPost = jQuery.trim(oPostContainer.find(".msg_body").html().replace(/( +<br(?: \/)?>)/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "jQuery1 jQuery2")).replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
+                        var sPost = jQuery.trim(oPostContainer.find(".msg_body").html().replace(/( +<br(?: \/)?>)/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2")).replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
                         var sDate = jQuery.trim(oPostContainer.find(".msg_infos").text().replace("Post&eacute; ", "").replace("\n", ""));
                     } 
                     // Si on est sur un topic
                     else{
-                        var sPost = jQuery.trim(oPostContainer.find("li.post").html().replace(/( +<br(?: \/)?>)/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "jQuery1 jQuery2")).replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
+                        var sPost = jQuery.trim(oPostContainer.find("li.post").html().replace(/( +<br(?: \/)?>)/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2")).replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
                         var sDate = jQuery.trim(oPostContainer.find("li.date").text().replace("Post&eacute; ", "").replace("\n", ""));
                     }
 
