@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.1.10
+// @version     2.1.11
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.1.10"
+window.JVCMaster_sVersion = "2.1.11"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -108,7 +108,7 @@ function JVCMaster(){
             jQuery('<img />', {
                 "class" : "JVCMaster_btn_citation",
                 css : { marginRight : "3px"},
-                src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wIAwsCFkFaqukAAAEnSURBVCjPhdA/a1NxFMbxz/ndX25a/yaplDpZXB0c9C1UsEvnToKjQ/tSpO6ODq4ZBPFVCN0kNeCggxSKqbTc5v4ckjTp5IGzHL7nOc9zwuG4+F8dbQdk2H9+/3pe2lYps4YQPh6cFO8eR4bzEnNwavhqcEN05+2x3Sc9nw5OSl5VXIDP3ryXqqxzqyev35FyTclW4KtrtcnPb3rbT30d1f5OE/UftgYrcFnm/D461Zy39Dfp1ESFmMHDz7+YXvJ6c3FGRFKiImUEEdIySjgen4EH/bu0jUd9tA2lpRThcFz8vqBtxOSHdvjyxjdi7wvdPg83lp5FpXQH4sUHzkZUXdY26Nwmr82swVL9imbCxSllSupQ1dT32BrM4cXCPJyVNxKkikj+Af4IbKaIyj5/AAAAAElFTkSuQmCC"
+                src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMEAYAAADkOZvdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAIcbAACL/wAA/6wAAIMCAACETAAA7XIAADqFAAAdxCRWn50AAAMoSURBVHjadJJvSJx1AMc/v98993h3HnLq6Q41lVKwGiGHmAwZQ4bEBW1sEENMgkSWuGMVDDlijIi4F3XY8EWMKBUnIccacdhYMlbYUasX4zj7I1K3FHGXXDc778/zPPf8elUNap/XXz58XnxFa9e8WvtWKZ6TXRwGcV40yMdBHFGn1IfYKsUlQuSYYYRJFuWbXKeHqHZRzspZO6EGZYR01dI2pJTS2yTCjInbxoQmUrJPRKGu6Nl1A9UJe8wOYjBFnDH2RYIx+tmWAyInblHnOCtSooteR0YWxaSwnC5N1/KO68actVwdK4xKnxwWDe6boiN01Z18XymX7ex1NoM8JbNyFEM0kyBGcf3E6Z5gGB+P4OlXP8gnxom6+/23moPMFTRrRV3mrsZRggwCm4ziAlHmJDPo6ydOB4JT6H8LWj+e6J7eAnGNNjEADt017vkD9JX6bxqTTDtna5719DEt3vF0essgVU5NiWkQWRETKRAf4aHrf9LiO/HfF0HLeIa8P4P7wmMHT8RB/+HQepsEdacmqr8I5h161QZofG8H1EmQy2JHngU2xKBKAJB62Fsqljr/jIEn7Tva9B7o4y3fde6D+ZTjosxC6RerUI1AOWcNWjmQak7GSIOdrAatAMgRe8Q+8t/gao8YNq/BwbY1XlmAB22l48URKCTLb1fuQnHXzFp7gIEHQKqgnbGHwPis3FKOQGXIiBgZSKczmQf5h8wL9iV9EqywmpEFMK8oH2FQtr1kS1CIT4Tx71y0Dsx/unZOKXrNrFEAsUgDcTB27x/fvgL3ayO+l87wSA69EV29Ogry9fpVvxccfe6wdxhEa8v81trnSinN8FQA8iwQA3uitHKwC6b3t1c2G8D0bb28eQ/4Sdn2VyAuuJZq3wVHsv6M/0fQIx3Pd8+BI9fYHjgGmgpZq2ZZNIkb+gs1uvpV+c3LlQSavOkxanfBGe94snsHzfGW7+vGVTR1u/Ja6RywrI6pJRCHa75wh4Abzo2aZVB+VafaQfzz08D8wdqXnEdDQ6p7wD4WISDPHu1Alh38wA57PAPsk0MC22SRQDsBAPoZgL8GAMXsSoEas11IAAAAAElFTkSuQmCC"
             }).appendTo(jQuery("<a/>", {
                 href : "#",
                 click : function(e){
@@ -190,9 +190,10 @@ function JVCMaster(){
                 jQuery.ajax({
                     url : "http://www.jeuxvideo.com/profil/" + t.text() + ".html",
                     success : function(data){
+                        var btn_CDV = otParent.find("a[href^=http\\:\\/\\/www\\.jeuxvideo\\.com\\/profil] img");
                         // Si le pseudo est banni
                         if(data.match("<p class=\"banni\">")){
-                            otParent.find("a[href^=http\\:\\/\\/www\\.jeuxvideo\\.com\\/profil] img").attr("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wICggWDgPWFDkAAAD2SURBVCjPhdEtroNAEMDxP4VtsqYkxXALDAoBohfgCIg9wJpaLoDZA+BxXAgEsmkIigSxJDzR0Pa9NK/jJvnNZD4crfXGlzDGOAAeQBzH/2Kt9WaMcTwAay0ARVH8QlVVcTqdiKIIrfV22PFfCHC9XhmGgXmeATi8dwZIkoTL5fLMu65jmiaeM1trKcuSrusIw5C2bQHIsowgCFjX9YX7vsday/F4pGkaANI0BcB1Xe73O1LKBwYQQiCEQCnF7XZDCMH5fCYIAoQQr87vUdc1AHme4/v+E37ESinGcfx4b2c/+r6EtZZlWQCQUr5G8LwH3gu+vf0HNF5XpCC6I0sAAAAASUVORK5CYII=");
+                            btn_CDV.attr("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wICggWDgPWFDkAAAD2SURBVCjPhdEtroNAEMDxP4VtsqYkxXALDAoBohfgCIg9wJpaLoDZA+BxXAgEsmkIigSxJDzR0Pa9NK/jJvnNZD4crfXGlzDGOAAeQBzH/2Kt9WaMcTwAay0ARVH8QlVVcTqdiKIIrfV22PFfCHC9XhmGgXmeATi8dwZIkoTL5fLMu65jmiaeM1trKcuSrusIw5C2bQHIsowgCFjX9YX7vsday/F4pGkaANI0BcB1Xe73O1LKBwYQQiCEQCnF7XZDCMH5fCYIAoQQr87vUdc1AHme4/v+E37ESinGcfx4b2c/+r6EtZZlWQCQUr5G8LwH3gu+vf0HNF5XpCC6I0sAAAAASUVORK5CYII=");
                         }
                         else{
                                 // Rang
@@ -200,25 +201,10 @@ function JVCMaster(){
                                 // Sexe
                                 sSexe = data.match("<h1.*class=\"(sexe_[f|m])\">")[1];
 
-                            // On ajoute des styles au pseudo en fonction de son sexe
-                            t.css({
-                                backgroundColor : (sSexe == "sexe_m") ? "#B3E0FF" : "#FFC2E0",
-                                borderRadius : "5px",
-                                padding : "3px",
-                                display : "inline-block"
-                            });
-
-                            // Quand on passe et enlève la souris sur le pseudo 
-                            t.hover(function(){
-                                t.css({
-                                    backgroundColor : (sSexe == "sexe_m") ? "#A1CAE6" : "#E6AFCA"
-                                })
-                            },
-                            function(){
-                                t.css({
-                                    backgroundColor : (sSexe == "sexe_m") ? "#B3E0FF" : "#FFC2E0"
-                                });
-                            });
+                            if(sSexe == "sexe_f")
+                                btn_CDV.attr("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAEmSURBVHjahNG/SwJhHMfx92Ond4slYaF3EmgN0tQQLTm2FQQtZbTV5tYc9Cc49TccLU61NZ4E4eJSJGFDSGFJmoZ3Ss/TIF72g/xsD8/reZ4P30c4lq0Yk0wtKwA0gIW1xX+xc2GrTC0rNADVlQDETpe+oauNc6L6NPOraZyirQID/PELAqycrXNTr/De6QDg42Gy1iYHqR1/XaqXeW694HdWXcnlcoFiq0RaT3FczQOwb24zZ5goV37h2/sKrvIwZZTdp0MAcpE9DIJE+5O8ug2mAmGEY9nKUz3/2aZsc927oynfSGoJksEEhtDRRWjQeTRbjzmOGnliEzPEtVkMoft72k9ciJ9Q7T/8OW8BMFrFVR5N2QYgEgj7N+siNMDDA+O+/XMAnBxmyJCBTqUAAAAASUVORK5CYII=");
+                            else
+                                btn_CDV.attr("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAEmSURBVHjahJE9S8NQFIafG29JHKq1FOkHCFUHRwcpoh0cHJ3cdHBRhOAfUBAc/Qnd3QRxEBfBMUUQZ0UIFYeiRrQpVBKbkOsQjPUDe7bDec57Xt4jSqal6FPNWlUASIDFyuS/8DmWataqQgJ43Vj8cDP/DVrav0RP55ifnqBuWkoD8AL1CwQ43ang3N/Q6bwBoPUqA5RmVxhf2Eh6x76i3Xom8ewFipntC9p2HX10isbJHgDF6jpGdgw/UF/wnX2LCn2iVJHHo1UAMnNbgEGg5fCdFpoxjCiZllLhe3I28l26T9dEvoscKZPKlhHSQEg99txbDwfLvJztMpDOI4cKCGkkM/kTLqwdE7w2/sxbAPRaUaFP5LlxVIOZRFlIPYY/F/q9/WMAikdlnhDc6i4AAAAASUVORK5CYII=");
 
                             jQuery("<span>", {
                                 "class" : "JVCMaster_cdvinformations_rank",
@@ -506,7 +492,7 @@ function JVCMaster(){
                 jQuery("<img />", {
                     "class" : "JVCMaster_btn_hidepost",
                     css : { marginRight : "3px"},
-                    src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wIBAoODxWRH6sAAADcSURBVCjPlZExbsJgDIU/+ycVGxMjZe7UMwTOwlU4R3uQROICrTIhMRDRIjYGRFUFEvx3+EVCEKjiTc/2e7ZlS5Li+QfjEQLQAYjj17pg5jmdAncOVIUkzfx4hGhIH4EjZgecZjxFGXn+w35fYHYgjl9IUrxejquqhs9mv2w2VSvXuRR736yf5yXr7yWDAUQRPA9B2+KGf35sW3Hd+f1tDkBZwmRy/yrKA7grdg5EbqxxhghMp8JiAf0+dLttgwAkKf5rBWZQFLDbhWKvFwyq4Rq17/x2M64+2HT+A8hKUErfzQyDAAAAAElFTkSuQmCC"
+                    src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMEAYAAADkOZvdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAIcbAACL/wAA/6wAAIMCAACETAAA7XIAADqFAAAdxCRWn50AAALqSURBVHjaZJNfaFt1HMU/39+9jVmMXWVZCSOUIqPOMce1yKgjlDGCSh7GENEJfS4yREcp2odRhoziQzdKKaWKD2NIcVuZY5RZ1m4UQVHR0IcZNJSVlRpCrF0NaWju/f3xocM/23k7Lx8Oh3Nk5c/5eXBOBl0ngBr3TgBQ5DRgyUgC2HChXQe+UDXP5wafqKzc83+1s9Lhzria0TLjTfqHk3vlkgyri2G/rL5253lwbtdc4vwzveCOmYLOELpbxMhRk6Scl+OscY6q9wYFWZakV+eqdKp2r8ud84NYqqXf3TD3o3TzOdMnS5L1Fne94KsZtUoZ7Mcmq0dABqRLDYPqlhEV4KfsK7r2OwEAPxP8dHDm3u4X6Wk/lWqV21JOKhnQadHeqHc5Hqj8Vs/W8b/KuqQkS16OAd1USIMMy3uSJMYEQ3KUNh7TnR9/+EDnOFhd3QjcIjlOyZyEjOpZhlyaVYU3LDeJK0blVVcCKagjsgm08r7MAhm5Lfd5QitfrY3ZLGx9vz0mQ2DfpEII5sNwSbeDm4oWwlZQLiNJAAnUWa8I1GjIdSBglMUnwa6PTmpgfFMyk9B8t3GzYWF7rHm9PgBNq5ei78Bn0OwH0EFkbQrkS5VoKYNUmabjEe3hv+Ao32wLp6Fxpf5Oswjbl7eL7iq41+kD8ENvA8DXg3YEINLhbFgFz6o12wV20sT050Dv/xObs/a0XQC9bK6xAAaTBlCh1wDA5wCA78quFyDcH30TzYHkOBABpmhTTAKwjPtPFTl3BMC9bS888hUAFnZ+wMt07/AP0QVgfdsNwFE3AWCmbQXg1uanBRH49pfCSwCZqfQiQOzZpz4CMCfdPgDpc28BcIlxACnt+fppINVy1/8M3EozH5YAnzoVgPp4ox/w/+h9OAH4rm0n8Z5kWwIgsRzPA3hT3iGA+N1YHkD+mdFv89eAM8SIgXuAJgHkWWcT6KBMFUixjgYOs0ENUFQJAUWaOAA9dAL8PQB4PTdp3o3mAAAAAABJRU5ErkJggg=="
                 }).appendTo(jQuery("<a/>", {
                     href : "#",
                     click : function(e){
@@ -536,7 +522,7 @@ function JVCMaster(){
                 jQuery('<img />', {
                     'class' : 'JVCMaster_btn_hidepseudo',
                     css : { marginRight : '3px'},
-                    src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wIBAoHF9c/PLQAAADmSURBVCjPhdGxTgJBFIXhb2BiYkUpPYliYWjUzkLexVcylj7JPoOhWWIkRkoLEqxWYHcsnF23IHGqk9z/zpxzJhQk/5w5ASLcz2bdoElJjZSSEIIhisUizQkR7HbgkJJYlgZ5sZxMnMXobjpVLJdp0L8xliV4HI/B5WplUVW2da1pbcABJ1m/7fedraf12hVu6F6U0l/Ol82m01/49ttChOeytMdDBoreYo0m68Gxqm5D6HS/16PwaU/HHhQK0kcO+InXrEfYZvgc1/LPFKR3VBlIuZldBka4aOF2ocmB5EHrd5it/AD/OVM2g9hH0wAAAABJRU5ErkJggg=="
+                    src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMEAYAAADkOZvdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAIcbAACL/wAA/6wAAIMCAACETAAA7XIAADqFAAAdxCRWn50AAAMCSURBVHjabI9hSJx1HMc/v//zv/N2qIldy3Is2a6ykuM6xhIRE4kYRzUJoYghFOMYw8QXEm6M3iQiI2SYyIgxLO5FjmGyfDFGLDOJrUmNw1Yd0Zwdyy65rnnq3XPP8/x7sdWC6/PmC1/4fvj9ZPFqS6ExbAwtdHMA1B4ZlQEwZ2RC2vCIM25S5DhqkpwiSbMVUScYVRPWrH7Xm2PZ6zPtrqOUDup09UMyr1al305oGVUvSgp2UHOmdgu8mLPgJrDpZYQ+7rBfPS1zZOSy8qtWaiWsEtYRonJUjVor4uh8VcIXsGbd3lK1PVU4JPWqX9XtuKSlU6WtHnB3un2uB+qQ9bN6FRiTYdmJjvUv/vr9QaLc5W4e5K3PBp977am3ZSFUb/JmTFRNR9VI1R4V30xuDP0VdNKKdg7QAUTIsgs4xXUp4r8nrGO/ecXsg+O/7Z1ufJJ/efn9q9M/fEDHT5Obme03GNno8uadl1iVZTkhKwSUDJEyOZCURCULhGVRzt4XOAPlYPkXuBWxP7SHqeC7Y/nzhTBkDxcGihfBpEvV5W9AmW6pYwnUEatTnQWqZZDJ/yxnidEF0mY+JlAp/n1y8852M/z57Wa0UAtOzm4q3gDNsrdqpsBpcG94X4O06ZO+/nurm6DP+d/xn4ckGf6o9OKmy045Ce5ssam4BOwK5H0hUF6XN25iUDxux+wLYK/Yp0tdlYLnj9W8GZiu7E0TPWYMZMnETfR+r1igx4TBmS+1lzSUolu5rXOVgsCQLqon/ufkfeYC48AV0wlAFhsHNHGTYxUMZsLcBjKm1Sj4aObxjYcfgGvXCj8WZ2DvcGC37zq8d+WxZ+ubYe0ru8+dgUe6q4b1GPg/t6ZkBYigaAH54tNn1h49TMjnFyUXzc3SC+YT40dva6/gpSDX5FzyBtEmQYYCOvC6yksEttNe3lwGTpp1tuDBbl+vOg11c1avCoH889Hily1rjQ0MoNBocwuHIBBnHQ/YzW0cIMQ6QSBCDg9QZCUAKBpMEYBWbIC/BwCMhjqxWSOhnwAAAABJRU5ErkJggg=="
                 }).appendTo(jQuery("<a/>", {
                     href : "#",
                     click : function(e){
