@@ -524,7 +524,7 @@ function JVCMaster(){
 
                 jQuery("<img />", {
                     "class" : "JVCMaster_btn_hidepseudo",
-                    title : "Cacher les posts de ce pseudo"
+                    title : "Cacher les posts de ce pseudo",
                     css : { marginRight : "3px"},
                     src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMEAYAAADkOZvdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAIcbAACL/wAA/6wAAIMCAACETAAA7XIAADqFAAAdxCRWn50AAAMCSURBVHjabI9hSJx1HMc/v//zv/N2qIldy3Is2a6ykuM6xhIRE4kYRzUJoYghFOMYw8QXEm6M3iQiI2SYyIgxLO5FjmGyfDFGLDOJrUmNw1Yd0Zwdyy65rnnq3XPP8/x7sdWC6/PmC1/4fvj9ZPFqS6ExbAwtdHMA1B4ZlQEwZ2RC2vCIM25S5DhqkpwiSbMVUScYVRPWrH7Xm2PZ6zPtrqOUDup09UMyr1al305oGVUvSgp2UHOmdgu8mLPgJrDpZYQ+7rBfPS1zZOSy8qtWaiWsEtYRonJUjVor4uh8VcIXsGbd3lK1PVU4JPWqX9XtuKSlU6WtHnB3un2uB+qQ9bN6FRiTYdmJjvUv/vr9QaLc5W4e5K3PBp977am3ZSFUb/JmTFRNR9VI1R4V30xuDP0VdNKKdg7QAUTIsgs4xXUp4r8nrGO/ecXsg+O/7Z1ufJJ/efn9q9M/fEDHT5Obme03GNno8uadl1iVZTkhKwSUDJEyOZCURCULhGVRzt4XOAPlYPkXuBWxP7SHqeC7Y/nzhTBkDxcGihfBpEvV5W9AmW6pYwnUEatTnQWqZZDJ/yxnidEF0mY+JlAp/n1y8852M/z57Wa0UAtOzm4q3gDNsrdqpsBpcG94X4O06ZO+/nurm6DP+d/xn4ckGf6o9OKmy045Ce5ssam4BOwK5H0hUF6XN25iUDxux+wLYK/Yp0tdlYLnj9W8GZiu7E0TPWYMZMnETfR+r1igx4TBmS+1lzSUolu5rXOVgsCQLqon/ufkfeYC48AV0wlAFhsHNHGTYxUMZsLcBjKm1Sj4aObxjYcfgGvXCj8WZ2DvcGC37zq8d+WxZ+ubYe0ru8+dgUe6q4b1GPg/t6ZkBYigaAH54tNn1h49TMjnFyUXzc3SC+YT40dva6/gpSDX5FzyBtEmQYYCOvC6yksEttNe3lwGTpp1tuDBbl+vOg11c1avCoH889Hily1rjQ0MoNBocwuHIBBnHQ/YzW0cIMQ6QSBCDg9QZCUAKBpMEYBWbIC/BwCMhjqxWSOhnwAAAABJRU5ErkJggg=="
                 }).appendTo(jQuery("<a/>", {
