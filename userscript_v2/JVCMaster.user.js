@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.1.11
+// @version     2.1.12
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.1.11"
+window.JVCMaster_sVersion = "2.1.12"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -107,6 +107,7 @@ function JVCMaster(){
             // Bouton de citation
             jQuery('<img />', {
                 "class" : "JVCMaster_btn_citation",
+                title : "Citer ce post",
                 css : { marginRight : "3px"},
                 src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMEAYAAADkOZvdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAIcbAACL/wAA/6wAAIMCAACETAAA7XIAADqFAAAdxCRWn50AAAMoSURBVHjadJJvSJx1AMc/v98993h3HnLq6Q41lVKwGiGHmAwZQ4bEBW1sEENMgkSWuGMVDDlijIi4F3XY8EWMKBUnIccacdhYMlbYUasX4zj7I1K3FHGXXDc778/zPPf8elUNap/XXz58XnxFa9e8WvtWKZ6TXRwGcV40yMdBHFGn1IfYKsUlQuSYYYRJFuWbXKeHqHZRzspZO6EGZYR01dI2pJTS2yTCjInbxoQmUrJPRKGu6Nl1A9UJe8wOYjBFnDH2RYIx+tmWAyInblHnOCtSooteR0YWxaSwnC5N1/KO68actVwdK4xKnxwWDe6boiN01Z18XymX7ex1NoM8JbNyFEM0kyBGcf3E6Z5gGB+P4OlXP8gnxom6+/23moPMFTRrRV3mrsZRggwCm4ziAlHmJDPo6ydOB4JT6H8LWj+e6J7eAnGNNjEADt017vkD9JX6bxqTTDtna5719DEt3vF0essgVU5NiWkQWRETKRAf4aHrf9LiO/HfF0HLeIa8P4P7wmMHT8RB/+HQepsEdacmqr8I5h161QZofG8H1EmQy2JHngU2xKBKAJB62Fsqljr/jIEn7Tva9B7o4y3fde6D+ZTjosxC6RerUI1AOWcNWjmQak7GSIOdrAatAMgRe8Q+8t/gao8YNq/BwbY1XlmAB22l48URKCTLb1fuQnHXzFp7gIEHQKqgnbGHwPis3FKOQGXIiBgZSKczmQf5h8wL9iV9EqywmpEFMK8oH2FQtr1kS1CIT4Tx71y0Dsx/unZOKXrNrFEAsUgDcTB27x/fvgL3ayO+l87wSA69EV29Ogry9fpVvxccfe6wdxhEa8v81trnSinN8FQA8iwQA3uitHKwC6b3t1c2G8D0bb28eQ/4Sdn2VyAuuJZq3wVHsv6M/0fQIx3Pd8+BI9fYHjgGmgpZq2ZZNIkb+gs1uvpV+c3LlQSavOkxanfBGe94snsHzfGW7+vGVTR1u/Ja6RywrI6pJRCHa75wh4Abzo2aZVB+VafaQfzz08D8wdqXnEdDQ6p7wD4WISDPHu1Alh38wA57PAPsk0MC22SRQDsBAPoZgL8GAMXsSoEas11IAAAAAElFTkSuQmCC"
             }).appendTo(jQuery("<a/>", {
@@ -387,7 +388,8 @@ function JVCMaster(){
                 verticalAlign : "middle"
             }).after(
                 jQuery("<img>", {
-                    id : "JVCMaster_addTooTopicFavorites",
+                    id : "JVCMaster_addToTopicFavorites",
+                    title : "Ajouter ce topic aux favoris",
                     src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAIAQMAAAARA0f2AAAABlBMVEX///+ZzADAT8hDAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfcCBsMAieAZsMmAAAAGklEQVQI12MoZ2D43wBF9QwMdgwMMgwMHAwAXZcF1pKKg9EAAAAASUVORK5CYII=",
                     css : {
                         cursor : "pointer",
@@ -451,7 +453,7 @@ function JVCMaster(){
 
         },
         uninstall : function(){
-            jQuery("#JVCMaster_addTooTopicFavorites").remove();
+            jQuery("#JVCMaster_addToTopicFavorites").remove();
             jQuery("#JVCMaster_TopicFavorites").remove();
         }
     }
@@ -491,6 +493,7 @@ function JVCMaster(){
                 // Bouton pour cacher un post
                 jQuery("<img />", {
                     "class" : "JVCMaster_btn_hidepost",
+                    title : "Cacher ce post",
                     css : { marginRight : "3px"},
                     src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMEAYAAADkOZvdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAIcbAACL/wAA/6wAAIMCAACETAAA7XIAADqFAAAdxCRWn50AAALqSURBVHjaZJNfaFt1HMU/39+9jVmMXWVZCSOUIqPOMce1yKgjlDGCSh7GENEJfS4yREcp2odRhoziQzdKKaWKD2NIcVuZY5RZ1m4UQVHR0IcZNJSVlRpCrF0NaWju/f3xocM/23k7Lx8Oh3Nk5c/5eXBOBl0ngBr3TgBQ5DRgyUgC2HChXQe+UDXP5wafqKzc83+1s9Lhzria0TLjTfqHk3vlkgyri2G/rL5253lwbtdc4vwzveCOmYLOELpbxMhRk6Scl+OscY6q9wYFWZakV+eqdKp2r8ud84NYqqXf3TD3o3TzOdMnS5L1Fne94KsZtUoZ7Mcmq0dABqRLDYPqlhEV4KfsK7r2OwEAPxP8dHDm3u4X6Wk/lWqV21JOKhnQadHeqHc5Hqj8Vs/W8b/KuqQkS16OAd1USIMMy3uSJMYEQ3KUNh7TnR9/+EDnOFhd3QjcIjlOyZyEjOpZhlyaVYU3LDeJK0blVVcCKagjsgm08r7MAhm5Lfd5QitfrY3ZLGx9vz0mQ2DfpEII5sNwSbeDm4oWwlZQLiNJAAnUWa8I1GjIdSBglMUnwa6PTmpgfFMyk9B8t3GzYWF7rHm9PgBNq5ei78Bn0OwH0EFkbQrkS5VoKYNUmabjEe3hv+Ao32wLp6Fxpf5Oswjbl7eL7iq41+kD8ENvA8DXg3YEINLhbFgFz6o12wV20sT050Dv/xObs/a0XQC9bK6xAAaTBlCh1wDA5wCA78quFyDcH30TzYHkOBABpmhTTAKwjPtPFTl3BMC9bS888hUAFnZ+wMt07/AP0QVgfdsNwFE3AWCmbQXg1uanBRH49pfCSwCZqfQiQOzZpz4CMCfdPgDpc28BcIlxACnt+fppINVy1/8M3EozH5YAnzoVgPp4ox/w/+h9OAH4rm0n8Z5kWwIgsRzPA3hT3iGA+N1YHkD+mdFv89eAM8SIgXuAJgHkWWcT6KBMFUixjgYOs0ENUFQJAUWaOAA9dAL8PQB4PTdp3o3mAAAAAABJRU5ErkJggg=="
                 }).appendTo(jQuery("<a/>", {
@@ -519,9 +522,10 @@ function JVCMaster(){
                     }
                 }).appendTo(vars.oPostContainer.find(".pseudo")));
 
-                jQuery('<img />', {
-                    'class' : 'JVCMaster_btn_hidepseudo',
-                    css : { marginRight : '3px'},
+                jQuery("<img />", {
+                    "class" : "JVCMaster_btn_hidepseudo",
+                    title : "Cacher les posts de ce pseudo"
+                    css : { marginRight : "3px"},
                     src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMEAYAAADkOZvdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAIcbAACL/wAA/6wAAIMCAACETAAA7XIAADqFAAAdxCRWn50AAAMCSURBVHjabI9hSJx1HMc/v//zv/N2qIldy3Is2a6ykuM6xhIRE4kYRzUJoYghFOMYw8QXEm6M3iQiI2SYyIgxLO5FjmGyfDFGLDOJrUmNw1Yd0Zwdyy65rnnq3XPP8/x7sdWC6/PmC1/4fvj9ZPFqS6ExbAwtdHMA1B4ZlQEwZ2RC2vCIM25S5DhqkpwiSbMVUScYVRPWrH7Xm2PZ6zPtrqOUDup09UMyr1al305oGVUvSgp2UHOmdgu8mLPgJrDpZYQ+7rBfPS1zZOSy8qtWaiWsEtYRonJUjVor4uh8VcIXsGbd3lK1PVU4JPWqX9XtuKSlU6WtHnB3un2uB+qQ9bN6FRiTYdmJjvUv/vr9QaLc5W4e5K3PBp977am3ZSFUb/JmTFRNR9VI1R4V30xuDP0VdNKKdg7QAUTIsgs4xXUp4r8nrGO/ecXsg+O/7Z1ufJJ/efn9q9M/fEDHT5Obme03GNno8uadl1iVZTkhKwSUDJEyOZCURCULhGVRzt4XOAPlYPkXuBWxP7SHqeC7Y/nzhTBkDxcGihfBpEvV5W9AmW6pYwnUEatTnQWqZZDJ/yxnidEF0mY+JlAp/n1y8852M/z57Wa0UAtOzm4q3gDNsrdqpsBpcG94X4O06ZO+/nurm6DP+d/xn4ckGf6o9OKmy045Ce5ssam4BOwK5H0hUF6XN25iUDxux+wLYK/Yp0tdlYLnj9W8GZiu7E0TPWYMZMnETfR+r1igx4TBmS+1lzSUolu5rXOVgsCQLqon/ufkfeYC48AV0wlAFhsHNHGTYxUMZsLcBjKm1Sj4aObxjYcfgGvXCj8WZ2DvcGC37zq8d+WxZ+ubYe0ru8+dgUe6q4b1GPg/t6ZkBYigaAH54tNn1h49TMjnFyUXzc3SC+YT40dva6/gpSDX5FzyBtEmQYYCOvC6yksEttNe3lwGTpp1tuDBbl+vOg11c1avCoH889Hily1rjQ0MoNBocwuHIBBnHQ/YzW0cIMQ6QSBCDg9QZCUAKBpMEYBWbIC/BwCMhjqxWSOhnwAAAABJRU5ErkJggg=="
                 }).appendTo(jQuery("<a/>", {
                     href : "#",
@@ -770,6 +774,7 @@ function JVCMaster(){
         
         var buttonOptions = jQuery("<a/>", {
             href : '#',
+            title : "Panneau de configuration de JVCMaster",
             text : "JVCMaster " + window.JVCMaster_sVersion,
             click : function(e){
                 // jQuery('<div style="position: relative;padding-bottom: 8px;background: url(http://image.jeuxvideo.com/css_img/defaut/bloc_forum_bas.png) left bottom no-repeat;"><h3 style="position: static;height: 20px;line-height: 22px;font-size: 116.67%;width: auto;background: url(http://image.jeuxvideo.com/css_img/defaut/bloc_h3_forums.png) right top no-repeat!important;"><span class="txt">JVCMaster : Extensions</span></h3><div style="padding: 5px;border: solid 1px #9C0;border-bottom: 0;height: 1%;position: relative;"><ul id="JVCMaster_Scripts" class="liste_liens">').appendTo('#JVCMaster_LightBox_popup');
