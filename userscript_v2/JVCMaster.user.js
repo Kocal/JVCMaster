@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.1.12
+// @version     2.2
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.1.12"
+window.JVCMaster_sVersion = "2.2"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -66,6 +66,7 @@ function JVCMaster(){
                     
                 if(/(?:(?:<br(\/ )?> *){9,}){5,}/gi.test(sHtml)
                 || /^[0-9]+|http:\/\/concours-apple\.fr\.cr|[0-9]+$/gi.test(sHtml)
+                || /(W{20,})+/gi.test(sHtml)
                 || /[@]{15,}|([W]+[V]+(<br (\/)?>+)){20,}/gi.test(sHtml)){
                     
                     // On cache le post
@@ -567,6 +568,63 @@ function JVCMaster(){
             vars.oPostContainer.find("li.post.JVCMaster_hiddenPosts_informPost").slideUp(300).remove();
         }
     };
+
+    // Script "Highlight post"
+    this.oScripts.highlightpost = {
+        id : "highlightpost",
+        name : "Highlight post",
+        description : "Permet de surligner les posts permaliens",
+        main : function(){
+            var hash = window.location.hash;
+            if(hash !== ""){
+                var post = $(hash);
+                if(post.is('*')){
+                    post.addClass("JVCMaster_highlightedPost");
+                    $("body").animate({
+                        scrollTop : post.offset().top - 50
+                    }, 500, function(){
+                        post.animate({
+                            backgroundColor : "#FFF9D0"
+                        }, 500)
+                    });
+                }
+            }
+
+            $(".ancre a").click(function(e){
+                var t = $(this);
+                var href = t.attr("href").match("(#.*)$")[0];
+                var post = $(href);
+
+                console.log(post);
+                if(post.is('*')){
+                    var highlightedPost = $('.JVCMaster_highlightedPost');
+                    highlightedPost.removeClass("JVCMaster_highlightedPost");
+
+                    console.log("hell");
+
+                    highlightedPost.animate({
+                        backgroundColor : "#EFF4FC"
+                    }, 500);
+
+                    $("body").animate({
+                        scrollTop : post.offset().top - 50
+                    }, 300, function(){
+                        post.addClass("JVCMaster_highlightedPost");
+                        post.animate({
+                            backgroundColor : "#FFF9D0"
+                        }, 500);
+                    });
+
+                }
+            });
+        },
+        uninstall : function(){
+            var highlightedPost = $('.JVCMaster_highlightedPost');
+            highlightedPost.css("backgroundColor", "");
+            highlightedPost.removeClass("JVCMaster_highlightedPost");
+            $(".ancre a").unbind("click");
+        }
+    },
 
     // Script "Show CDV"
     this.oScripts.showcdv = {
