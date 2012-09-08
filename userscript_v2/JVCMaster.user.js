@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.2
+// @version     2.2.1
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.2"
+window.JVCMaster_sVersion = "2.2.1"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -300,158 +300,159 @@ function JVCMaster(){
         name : "Topic favoris",
         description : "Permet d'épingler ces topics favoris dans une box",
         main : function(){
+            // Si on est sur un forum/topic
+            if($("#bloc_forums_img").is('*')){
                 var oTopicFavorites = funcs.sortObject(JSON.parse(localStorage.getItem("JVCMaster_TopicFavorites") || "{}"));
             
-            // Ce qui sera affiché dans la box juste en dessous des forums préférés 
-            var sHtml = "<h3 class=\"titre_bloc\"><span>Mes topics préférés</span></h3>";
-                sHtml += "<div class=\"bloc_inner\">";
-                sHtml += "<ul class=\"liste_liens\">";
-                sHtml += "</ul>";
-                sHtml += "</div>";
+                // Ce qui sera affiché dans la box juste en dessous des forums préférés 
+                var sHtml = "<h3 class=\"titre_bloc\"><span>Mes topics préférés</span></h3>";
+                    sHtml += "<div class=\"bloc_inner\">";
+                    sHtml += "<ul class=\"liste_liens\">";
+                    sHtml += "</ul>";
+                    sHtml += "</div>";
 
-            // Box en dessous des forums préférés
-            jQuery("div.bloc3").after(
-                jQuery("<div>", {
-                    id : "JVCMaster_TopicFavorites",
-                    "class" : "bloc3",
-                    html : sHtml
-                })
-            );
-            
-            (listTopicFavorites = function(){
-                var oTopicFavorites = funcs.sortObject(JSON.parse(localStorage.getItem("JVCMaster_TopicFavorites") || "{}"));
-                for(topic in oTopicFavorites){
-                    jQuery("<a/>", {
-                        href : oTopicFavorites[topic]["sTopicUrl"],
-                        html : "<b>" + oTopicFavorites[topic]["sForumName"] + "</b> : " + oTopicFavorites[topic]["sTopicName"] 
-                    }).after(jQuery("<a/>", {
-                        "class" : "JVCMaster_btn_topicfavorites_delete",
-                        css : {
-                            display : "none",
-                            width : "10px",
-                            height : "10px",
-                            position : "absolute",
-                            top : "2px",
-                            cursor : 'pointer',
-                            right : "0",
-                            background : "url(http://image.jeuxvideo.com/css_img/defaut/bt_forum_supp_pref.png) no-repeat top left"
-                        },
-                        mouseover : function(){
-                            jQuery(this).css("backgroundPosition", "bottom left");
-                        },
-                        mouseout : function(){
-                            jQuery(this).css("backgroundPosition", "top left");
-                        },
-                        click : function(e){
-                            var tParent = jQuery(this).parent();
-                            // console.log(tParent.attr("data-jvcmaster_forumname"));
-                            // console.log(tParent.attr("data-jvcmaster_topicname"));
-                            delete oTopicFavorites[tParent.attr("data-jvcmaster_forumname") + "_" + tParent.attr("data-jvcmaster_topicname")]                        
-                            localStorage.setItem("JVCMaster_TopicFavorites", JSON.stringify(oTopicFavorites));
+                // Box en dessous des forums préférés
+                jQuery("div.bloc3:first").after(
+                    jQuery("<div>", {
+                        id : "JVCMaster_TopicFavorites",
+                        "class" : "bloc3",
+                        html : sHtml
+                    })
+                );
+                
+                (listTopicFavorites = function(){
+                    var oTopicFavorites = funcs.sortObject(JSON.parse(localStorage.getItem("JVCMaster_TopicFavorites") || "{}"));
+                    for(topic in oTopicFavorites){
+                        jQuery("<a/>", {
+                            href : oTopicFavorites[topic]["sTopicUrl"],
+                            html : "<b>" + oTopicFavorites[topic]["sForumName"] + "</b> : " + oTopicFavorites[topic]["sTopicName"] 
+                        }).after(jQuery("<a/>", {
+                            "class" : "JVCMaster_btn_topicfavorites_delete",
+                            css : {
+                                display : "none",
+                                width : "10px",
+                                height : "10px",
+                                position : "absolute",
+                                top : "2px",
+                                cursor : 'pointer',
+                                right : "0",
+                                background : "url(http://image.jeuxvideo.com/css_img/defaut/bt_forum_supp_pref.png) no-repeat top left"
+                            },
+                            mouseover : function(){
+                                jQuery(this).css("backgroundPosition", "bottom left");
+                            },
+                            mouseout : function(){
+                                jQuery(this).css("backgroundPosition", "top left");
+                            },
+                            click : function(e){
+                                var tParent = jQuery(this).parent();
+                                // console.log(tParent.attr("data-jvcmaster_forumname"));
+                                // console.log(tParent.attr("data-jvcmaster_topicname"));
+                                delete oTopicFavorites[tParent.attr("data-jvcmaster_forumname") + "_" + tParent.attr("data-jvcmaster_topicname")]                        
+                                localStorage.setItem("JVCMaster_TopicFavorites", JSON.stringify(oTopicFavorites));
 
-                            tParent.slideUp(300, function(){
-                                jQuery(".JVCMaster_TopicFavorites").remove();
-                                listTopicFavorites();
-                            });
+                                tParent.slideUp(300, function(){
+                                    jQuery(".JVCMaster_TopicFavorites").remove();
+                                    listTopicFavorites();
+                                });
 
-                            e.preventDefault();
-                        }
-                    })).appendTo(jQuery("<li>", {
-                        "class" : "JVCMaster_TopicFavorites",
-                        "data-jvcmaster_forumname" : oTopicFavorites[topic]["sForumName"],
-                        "data-jvcmaster_topicname" : oTopicFavorites[topic]["sTopicName"],
-                        css : {
-                            position : "relative"
-                        },
-                        mouseover : function(){
-                            var t = jQuery(this);
-                            t.find(".JVCMaster_btn_topicfavorites_delete").css("display", "inline-block");
-                            t.css("backgroundColor", "#F5F5F5");
-                        },
-                        mouseout : function(){
-                            var t = jQuery(this);
-                            t.find(".JVCMaster_btn_topicfavorites_delete").css("display", "none");
-                            t.css("backgroundColor", "#EDEDED");
-                        }
-                    }).appendTo("#JVCMaster_TopicFavorites ul"));
-                }
-            })();
-
-            // Pour insérer le bouton juste à côté
-            jQuery("div.bloc_forum div.bloc_inner").css("textAlign", "center");
-            // On règle les quelques bugs d"alignement
-            jQuery("div.bloc_forum form").css("textAlign", "left");
-            jQuery("div.bloc_forum td.nouveau, div.bloc_forum td.navig_prec").css("textAlign", "left");
-            // On insère le petit bouton à côté des titres du topic
-
-            jQuery("div.bloc_forum h1.sujet, div.bloc_forum h4.sujet").css({
-                display : "inline-block",
-                verticalAlign : "middle"
-            }).after(
-                jQuery("<img>", {
-                    id : "JVCMaster_addToTopicFavorites",
-                    title : "Ajouter ce topic aux favoris",
-                    src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAIAQMAAAARA0f2AAAABlBMVEX///+ZzADAT8hDAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfcCBsMAieAZsMmAAAAGklEQVQI12MoZ2D43wBF9QwMdgwMMgwMHAwAXZcF1pKKg9EAAAAASUVORK5CYII=",
-                    css : {
-                        cursor : "pointer",
-                        marginLeft : "5px",
-                    },
-                    title : "JVCMaster : ajouter ce topic à vos topics favoris",
-                    click : function(e){
-                        // L'url du topic (première page)
-                        var sTopicUrl = '';
-                        // On cherche l"url de la première page du topic
-                        var oPagination = jQuery(".pagination:first strong, .pagination:first a");
-
-                        // S"il n"y a pas de pagination
-                        if(oPagination.is('*')){
-                            oPagination.each(function(){
+                                e.preventDefault();
+                            }
+                        })).appendTo(jQuery("<li>", {
+                            "class" : "JVCMaster_TopicFavorites",
+                            "data-jvcmaster_forumname" : oTopicFavorites[topic]["sForumName"],
+                            "data-jvcmaster_topicname" : oTopicFavorites[topic]["sTopicName"],
+                            css : {
+                                position : "relative"
+                            },
+                            mouseover : function(){
                                 var t = jQuery(this);
-                                if(t.text() == 1){
-                                    if(t.attr('href') || t.text()){
-                                        sTopicUrl = t.attr('href') || window.location.href;
+                                t.find(".JVCMaster_btn_topicfavorites_delete").css("display", "inline-block");
+                                t.css("backgroundColor", "#F5F5F5");
+                            },
+                            mouseout : function(){
+                                var t = jQuery(this);
+                                t.find(".JVCMaster_btn_topicfavorites_delete").css("display", "none");
+                                t.css("backgroundColor", "#EDEDED");
+                            }
+                        }).appendTo("#JVCMaster_TopicFavorites ul"));
+                    }
+                })();
+
+                // Pour insérer le bouton juste à côté
+                jQuery("div.bloc_forum div.bloc_inner").css("textAlign", "center");
+                // On règle les quelques bugs d"alignement
+                jQuery("div.bloc_forum form").css("textAlign", "left");
+                jQuery("div.bloc_forum td.nouveau, div.bloc_forum td.navig_prec").css("textAlign", "left");
+                // On insère le petit bouton à côté des titres du topic
+
+                jQuery("div.bloc_forum h1.sujet, div.bloc_forum h4.sujet").css({
+                    display : "inline-block",
+                    verticalAlign : "middle"
+                }).after(
+                    jQuery("<img>", {
+                        id : "JVCMaster_addToTopicFavorites",
+                        title : "Ajouter ce topic aux favoris",
+                        src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAIAQMAAAARA0f2AAAABlBMVEX///+ZzADAT8hDAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfcCBsMAieAZsMmAAAAGklEQVQI12MoZ2D43wBF9QwMdgwMMgwMHAwAXZcF1pKKg9EAAAAASUVORK5CYII=",
+                        css : {
+                            cursor : "pointer",
+                            marginLeft : "5px",
+                        },
+                        title : "JVCMaster : ajouter ce topic à vos topics favoris",
+                        click : function(e){
+                            // L'url du topic (première page)
+                            var sTopicUrl = '';
+                            // On cherche l"url de la première page du topic
+                            var oPagination = jQuery(".pagination:first strong, .pagination:first a");
+
+                            // S"il n"y a pas de pagination
+                            if(oPagination.is('*')){
+                                oPagination.each(function(){
+                                    var t = jQuery(this);
+                                    if(t.text() == 1){
+                                        if(t.attr('href') || t.text()){
+                                            sTopicUrl = t.attr('href') || window.location.href;
+                                        }
                                     }
-                                }
-                            })
-                        }
-                        else{
-                            tmp = jQuery(".revenir a:first");
-                            if(tmp.is('*')){
-                                tmp = tmp.attr('href').split("-");
-                                tmp[3] = "1"; // Première page
-                                sTopicUrl = tmp.join("-");
+                                })
                             }
                             else{
-                                sTopicUrl = window.location.href;
+                                tmp = jQuery(".revenir a:first");
+                                if(tmp.is('*')){
+                                    tmp = tmp.attr('href').split("-");
+                                    tmp[3] = "1"; // Première page
+                                    sTopicUrl = tmp.join("-");
+                                }
+                                else{
+                                    sTopicUrl = window.location.href;
+                                }
                             }
+
+                            // On cherche le nom du forum 
+                            var sForumName = jQuery.trim(jQuery(".bloc_forum h3:first").text().replace("Forum : ", ""));
+                            // On cherche le nom du topic
+                            var sTopicName = jQuery(".bloc_forum .sujet:first").text();
+                                sTopicName = jQuery.trim(sTopicName.substr(10).substr(0, sTopicName.length - 12)); 
+                            
+                            // La clé est sous forme <forumName>_<topicName> pour trier par le nom du forum, et ensuite du topic
+                            oTopicFavorites[sForumName + "_" + sTopicName] = {
+                                sForumName : sForumName,
+                                sTopicUrl  : sTopicUrl,
+                                sTopicName : sTopicName
+                            } 
+
+                            // On stock
+                            localStorage.setItem("JVCMaster_TopicFavorites", JSON.stringify(oTopicFavorites));
+
+                            // On actualise les topics favoris
+                            jQuery(".JVCMaster_TopicFavorites").remove();
+                            listTopicFavorites();
+                               
+                            e.preventDefault();
                         }
-
-                        // On cherche le nom du forum 
-                        var sForumName = jQuery.trim(jQuery(".bloc_forum h3:first").text().replace("Forum : ", ""));
-                        // On cherche le nom du topic
-                        var sTopicName = jQuery(".bloc_forum .sujet:first").text();
-                            sTopicName = jQuery.trim(sTopicName.substr(10).substr(0, sTopicName.length - 12)); 
-                        
-                        // La clé est sous forme <forumName>_<topicName> pour trier par le nom du forum, et ensuite du topic
-                        oTopicFavorites[sForumName + "_" + sTopicName] = {
-                            sForumName : sForumName,
-                            sTopicUrl  : sTopicUrl,
-                            sTopicName : sTopicName
-                        } 
-
-                        // On stock
-                        localStorage.setItem("JVCMaster_TopicFavorites", JSON.stringify(oTopicFavorites));
-
-                        // On actualise les topics favoris
-                        jQuery(".JVCMaster_TopicFavorites").remove();
-                        listTopicFavorites();
-                           
-                        e.preventDefault();
-                    }
-                })
-            );
-
-
+                    })
+                );
+            }
         },
         uninstall : function(){
             jQuery("#JVCMaster_addToTopicFavorites").remove();
@@ -583,7 +584,7 @@ function JVCMaster(){
                     $("body").animate({
                         scrollTop : post.offset().top - 50
                     }, 500, function(){
-                        post.animate({
+                        post.stop().animate({
                             backgroundColor : "#FFF9D0"
                         }, 500)
                     });
@@ -610,7 +611,7 @@ function JVCMaster(){
                         scrollTop : post.offset().top - 50
                     }, 300, function(){
                         post.addClass("JVCMaster_highlightedPost");
-                        post.animate({
+                        post.stop().animate({
                             backgroundColor : "#FFF9D0"
                         }, 500);
                     });
