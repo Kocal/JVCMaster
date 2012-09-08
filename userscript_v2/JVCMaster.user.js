@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.2.1
+// @version     2.3
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.2.1"
+window.JVCMaster_sVersion = "2.3"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -28,9 +28,9 @@ function JVCMaster(){
     // Variables globales
     this.vars = {
         // Ce qui contient le pseudo, la date, le post et le permalink 
-        oPostContainer : jQuery('.msg'),
+        oPostContainer : $('.msg'),
         // Les posts
-        oPosts : jQuery('li.post')
+        oPosts : $('li.post')
     };
 
     this.funcs = {
@@ -61,7 +61,7 @@ function JVCMaster(){
         description : "Permet de cacher les posts des bots",
         main : function(){
             vars.oPosts.each(function(){
-                var t    = jQuery(this);
+                var t    = $(this);
                 var sHtml = t.html();
                     
                 if(/(?:(?:<br(\/ )?> *){9,}){5,}/gi.test(sHtml)
@@ -73,12 +73,12 @@ function JVCMaster(){
                     t.slideUp(300);
 
                     // On insère après celui-ci, un post d'information
-                    t.after(jQuery("<li>", {
+                    t.after($("<li>", {
                         "class" : "JVCMaster_AntiBot_informPost post",
                         html    : "<b>JVCMaster</b> : <i>Spam, ce message a &eacute;t&eacute; cach&eacute;, cliquer pour faire apparaitre le post</i>",
                         css : {cursor : "pointer", display : "none"},
                         click : function(e){
-                            jQuery(this).slideUp(300);
+                            $(this).slideUp(300);
                             t.slideDown(300);
                         }
                     }));
@@ -89,8 +89,8 @@ function JVCMaster(){
              });
         },
         uninstall : function(){
-            jQuery(".JVCMaster_AntiBot_informPost").slideUp(300).remove();
-            jQuery(".JVCMaster_hideByAntibot").slideDown(300);
+            $(".JVCMaster_AntiBot_informPost").slideUp(300).remove();
+            $(".JVCMaster_hideByAntibot").slideDown(300);
         }
     }
 
@@ -101,38 +101,38 @@ function JVCMaster(){
         description : "Permet de citer un post",
         main : function(){
             // Présent sur la page de réponse d'un topic
-            var oTextarea = jQuery("#newmessage");
+            var oTextarea = $("#newmessage");
             // Présent sur les pages d'un topic
-            var oAlertemail = jQuery(".alertemail");
+            var oAlertemail = $(".alertemail");
 
             // Bouton de citation
-            jQuery('<img />', {
+            $('<img />', {
                 "class" : "JVCMaster_btn_citation",
                 title : "Citer ce post",
                 css : { marginRight : "3px"},
                 src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMEAYAAADkOZvdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAIcbAACL/wAA/6wAAIMCAACETAAA7XIAADqFAAAdxCRWn50AAAMoSURBVHjadJJvSJx1AMc/v98993h3HnLq6Q41lVKwGiGHmAwZQ4bEBW1sEENMgkSWuGMVDDlijIi4F3XY8EWMKBUnIccacdhYMlbYUasX4zj7I1K3FHGXXDc778/zPPf8elUNap/XXz58XnxFa9e8WvtWKZ6TXRwGcV40yMdBHFGn1IfYKsUlQuSYYYRJFuWbXKeHqHZRzspZO6EGZYR01dI2pJTS2yTCjInbxoQmUrJPRKGu6Nl1A9UJe8wOYjBFnDH2RYIx+tmWAyInblHnOCtSooteR0YWxaSwnC5N1/KO68actVwdK4xKnxwWDe6boiN01Z18XymX7ex1NoM8JbNyFEM0kyBGcf3E6Z5gGB+P4OlXP8gnxom6+/23moPMFTRrRV3mrsZRggwCm4ziAlHmJDPo6ydOB4JT6H8LWj+e6J7eAnGNNjEADt017vkD9JX6bxqTTDtna5719DEt3vF0essgVU5NiWkQWRETKRAf4aHrf9LiO/HfF0HLeIa8P4P7wmMHT8RB/+HQepsEdacmqr8I5h161QZofG8H1EmQy2JHngU2xKBKAJB62Fsqljr/jIEn7Tva9B7o4y3fde6D+ZTjosxC6RerUI1AOWcNWjmQak7GSIOdrAatAMgRe8Q+8t/gao8YNq/BwbY1XlmAB22l48URKCTLb1fuQnHXzFp7gIEHQKqgnbGHwPis3FKOQGXIiBgZSKczmQf5h8wL9iV9EqywmpEFMK8oH2FQtr1kS1CIT4Tx71y0Dsx/unZOKXrNrFEAsUgDcTB27x/fvgL3ayO+l87wSA69EV29Ogry9fpVvxccfe6wdxhEa8v81trnSinN8FQA8iwQA3uitHKwC6b3t1c2G8D0bb28eQ/4Sdn2VyAuuJZq3wVHsv6M/0fQIx3Pd8+BI9fYHjgGmgpZq2ZZNIkb+gs1uvpV+c3LlQSavOkxanfBGe94snsHzfGW7+vGVTR1u/Ja6RywrI6pJRCHa75wh4Abzo2aZVB+VafaQfzz08D8wdqXnEdDQ6p7wD4WISDPHu1Alh38wA57PAPsk0MC22SRQDsBAPoZgL8GAMXsSoEas11IAAAAAElFTkSuQmCC"
-            }).appendTo(jQuery("<a/>", {
+            }).appendTo($("<a/>", {
                 href : "#",
                 click : function(e){
-                    var oPostContainer = jQuery(this).parent().parent().parent();
+                    var oPostContainer = $(this).parent().parent().parent();
                     
                     // Si on est pas sur un topic, ou un mp
                     if(!oPostContainer.is('*'))
                         return;
 
                     // Si on est sur un mp
-                    if(jQuery("#reception").is("*") && jQuery("#bouton_post").is("*")){
-                        var sPost = jQuery.trim(oPostContainer.find(".msg_body").html().replace(/( +<br(?: \/)?>)/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2")).replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
-                        var sDate = jQuery.trim(oPostContainer.find(".msg_infos").text().replace("Post&eacute; ", "").replace("\n", ""));
+                    if($("#reception").is("*") && $("#bouton_post").is("*")){
+                        var sPost = $.trim(oPostContainer.find(".msg_body").html().replace(/( +<br(?: \/)?>)/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2")).replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
+                        var sDate = $.trim(oPostContainer.find(".msg_infos").text().replace("Posté ", "").replace("\n", ""));
                     } 
                     // Si on est sur un topic
                     else{
-                        var sPost = jQuery.trim(oPostContainer.find("li.post").html().replace(/( +<br(?: \/)?>)/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2")).replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
-                        var sDate = jQuery.trim(oPostContainer.find("li.date").text().replace("Post&eacute; ", "").replace("\n", ""));
+                        var sPost = $.trim(oPostContainer.find("li.post").html().replace(/( +<br(?: \/)?>)/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2")).replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
+                        var sDate = $.trim(oPostContainer.find("li.date").text().replace("Posté ", "").replace("\n", ""));
                     }
 
-                    var sPseudo = jQuery.trim(oPostContainer.find(".pseudo strong").text());
-                    var sPermalink = jQuery.trim(oPostContainer.find("li.ancre a").attr("href"));
+                    var sPseudo = $.trim(oPostContainer.find(".pseudo strong").text());
+                    var sPermalink = $.trim(oPostContainer.find("li.ancre a").attr("href"));
 
                     var sCitation = "";
                     
@@ -142,12 +142,12 @@ function JVCMaster(){
                     // Si un lien permanent est présent
                     if(sPermalink) sCitation += "| " + sPermalink + "\n";
 
-                    sCitation += "| Ecrit par « " + sPseudo + " » , " + sDate + "\n| « "+ sPost + " »\n\n\n> ";
+                    sCitation += "| Ecrit par « " + sPseudo + " », " + sDate + "\n| « "+ sPost + " »\n\n\n> ";
 
                     // Si on est sur la page d"un topic
                     if(oAlertemail.is('*') && !oTextarea.is('*')){
                         localStorage.setItem("JVCMaster_citation", sCitation);
-                        window.location.href = jQuery(".bt_repondre").attr("href");
+                        window.location.href = $(".bt_repondre").attr("href");
                     } 
                     // Si on est sur la page de réponse d"un topic
                     else if(!oAlertemail.is('*') && oTextarea.is('*')){
@@ -161,7 +161,7 @@ function JVCMaster(){
             }).appendTo(vars.oPostContainer.find(".pseudo")));
 
             // // Si on est sur la page d'un topic
-            if(jQuery(".nouveau").is('*') && oTextarea.is('*')){
+            if($(".nouveau").is('*') && oTextarea.is('*')){
                 var sCitation = localStorage.getItem("JVCMaster_citation");
                 if(sCitation){
                     oTextarea.val(sCitation);
@@ -171,11 +171,34 @@ function JVCMaster(){
                 oTextarea.get(0).setSelectionRange(oTextarea.val().length, oTextarea.val().length);
                 oTextarea.focus();
             }
+
+            // Pour les utilisateurs de JVCMaster, on modifie la gueule de la citation et on ajoute du CSS
+            vars.oPosts.each(function(){
+                var t = $(this);
+                    t.css("display", "none")
+                var html = t.html();
+
+
+                html = html.replace(/(?:<br(?: \/)?>)?\| (Ecrit par .*)/g, "<div class='JVCMaster_citation_viewOnTopic' style='padding: 15px 5px;width: 97.6%;background: #D3EFFF;border: 1px solid #51BFFF;border-radius: 6px;margin: 5px 0;position: relative;'>$1");
+                html = html.replace(/\| <a href="([^"]*?)".+>.+<\/a>\n <div class='JVCMaster_citation_viewOnTopic' style='([^"]*?)'>/g, '<div class="JVCMaster_citation_viewOnTopic" style="$2padding-bottom:30px;"><div style="background: #BDE7FF;position: absolute;bottom: -1px;left: -1px; right:-1px;;padding: 2px 5px;border: 1px solid #51BFFF;height:15px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><a href=\'$1\'>$1</a></div>');
+                html = html.replace(/ »(?:\n <br>){3}&gt;( \n <br>)?/g, " »</div>").replace(/<br( \/)?>\|/g, "<br>");
+                html = html.replace(/Ecrit par « (.+) » ?, (?:posté )?le  ?((?:\d+) (?:\w+) (?:\d{4}) à (?:\d{2}):(?:\d{2}):(?:\d{2}))/gi, '<div style="background: #BDE7FF;position: absolute;top: -1px;left: -1px;padding: 2px 5px;border: 1px solid #51BFFF;">$1</div><div style="background: #BDE7FF; position: absolute; top: -1px; right: -1px;padding: 2px 5px; border: 1px solid #51BFFF;">$2</div>');//.replace(/Ecrit par « (.+) » ?, posté le  ?((?:\d+) (?:\w+) (?:\d{4}) à (?:\d{2}):(?:\d{2}):(?:\d{2}))/gi, "<div style='background: #BDE7FF; position: absolute;     top: -1px;     right: -1px;    padding: 2px 5px; border: 1px solid #51BFFF;'>$1</div>");
+
+                t.after($('<li/>', {
+                    'class' : 'post JVCMaster_citation_viewOnTopic',
+                    html : html,
+                }));
+            });
         },
 
         uninstall : function(){
-            jQuery(".JVCMaster_btn_citation").remove();
+            $(".JVCMaster_btn_citation").remove();
             localStorage.removeItem("JVCMaster_citation");
+
+            
+            
+            vars.oPostContainer.find('.JVCMaster_citation_viewOnTopic').slideUp();
+            vars.oPostContainer.find('li.post:first').slideDown();
         }
     };
 
@@ -185,11 +208,11 @@ function JVCMaster(){
         name : "CDV informations",
         description : "Permet d'afficher des informations d'un pseudo à ses côt&eacute;s",
         main : function(){
-            jQuery(".pseudo strong").each(function(t){
-                var t = jQuery(this);
+            $(".pseudo strong").each(function(t){
+                var t = $(this);
                 var otParent = t.parent();
 
-                jQuery.ajax({
+                $.ajax({
                     url : "http://www.jeuxvideo.com/profil/" + t.text() + ".html",
                     success : function(data){
                         var btn_CDV = otParent.find("a[href^=http\\:\\/\\/www\\.jeuxvideo\\.com\\/profil] img");
@@ -208,7 +231,7 @@ function JVCMaster(){
                             else
                                 btn_CDV.attr("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAEmSURBVHjahJE9S8NQFIafG29JHKq1FOkHCFUHRwcpoh0cHJ3cdHBRhOAfUBAc/Qnd3QRxEBfBMUUQZ0UIFYeiRrQpVBKbkOsQjPUDe7bDec57Xt4jSqal6FPNWlUASIDFyuS/8DmWataqQgJ43Vj8cDP/DVrav0RP55ifnqBuWkoD8AL1CwQ43ang3N/Q6bwBoPUqA5RmVxhf2Eh6x76i3Xom8ewFipntC9p2HX10isbJHgDF6jpGdgw/UF/wnX2LCn2iVJHHo1UAMnNbgEGg5fCdFpoxjCiZllLhe3I28l26T9dEvoscKZPKlhHSQEg99txbDwfLvJztMpDOI4cKCGkkM/kTLqwdE7w2/sxbAPRaUaFP5LlxVIOZRFlIPYY/F/q9/WMAikdlnhDc6i4AAAAASUVORK5CYII=");
 
-                            jQuery("<span>", {
+                            $("<span>", {
                                 "class" : "JVCMaster_cdvinformations_rank",
                                 css : {
                                     marginRight : "3px",
@@ -286,12 +309,12 @@ function JVCMaster(){
             });
         },
         uninstall : function(){
-            jQuery(".pseudo strong").css({
+            $(".pseudo strong").css({
                 backgroundColor : "",
                 borderRadius : "",
                 padding : ""
             });
-            jQuery(".JVCMaster_cdvinformations_rank").remove();
+            $(".JVCMaster_cdvinformations_rank").remove();
         }
     };
 
@@ -312,8 +335,8 @@ function JVCMaster(){
                     sHtml += "</div>";
 
                 // Box en dessous des forums préférés
-                jQuery("div.bloc3:first").after(
-                    jQuery("<div>", {
+                $("div.bloc3:first").after(
+                    $("<div>", {
                         id : "JVCMaster_TopicFavorites",
                         "class" : "bloc3",
                         html : sHtml
@@ -323,10 +346,10 @@ function JVCMaster(){
                 (listTopicFavorites = function(){
                     var oTopicFavorites = funcs.sortObject(JSON.parse(localStorage.getItem("JVCMaster_TopicFavorites") || "{}"));
                     for(topic in oTopicFavorites){
-                        jQuery("<a/>", {
+                        $("<a/>", {
                             href : oTopicFavorites[topic]["sTopicUrl"],
                             html : "<b>" + oTopicFavorites[topic]["sForumName"] + "</b> : " + oTopicFavorites[topic]["sTopicName"] 
-                        }).after(jQuery("<a/>", {
+                        }).after($("<a/>", {
                             "class" : "JVCMaster_btn_topicfavorites_delete",
                             css : {
                                 display : "none",
@@ -339,26 +362,26 @@ function JVCMaster(){
                                 background : "url(http://image.jeuxvideo.com/css_img/defaut/bt_forum_supp_pref.png) no-repeat top left"
                             },
                             mouseover : function(){
-                                jQuery(this).css("backgroundPosition", "bottom left");
+                                $(this).css("backgroundPosition", "bottom left");
                             },
                             mouseout : function(){
-                                jQuery(this).css("backgroundPosition", "top left");
+                                $(this).css("backgroundPosition", "top left");
                             },
                             click : function(e){
-                                var tParent = jQuery(this).parent();
+                                var tParent = $(this).parent();
                                 // console.log(tParent.attr("data-jvcmaster_forumname"));
                                 // console.log(tParent.attr("data-jvcmaster_topicname"));
                                 delete oTopicFavorites[tParent.attr("data-jvcmaster_forumname") + "_" + tParent.attr("data-jvcmaster_topicname")]                        
                                 localStorage.setItem("JVCMaster_TopicFavorites", JSON.stringify(oTopicFavorites));
 
                                 tParent.slideUp(300, function(){
-                                    jQuery(".JVCMaster_TopicFavorites").remove();
+                                    $(".JVCMaster_TopicFavorites").remove();
                                     listTopicFavorites();
                                 });
 
                                 e.preventDefault();
                             }
-                        })).appendTo(jQuery("<li>", {
+                        })).appendTo($("<li>", {
                             "class" : "JVCMaster_TopicFavorites",
                             "data-jvcmaster_forumname" : oTopicFavorites[topic]["sForumName"],
                             "data-jvcmaster_topicname" : oTopicFavorites[topic]["sTopicName"],
@@ -366,12 +389,12 @@ function JVCMaster(){
                                 position : "relative"
                             },
                             mouseover : function(){
-                                var t = jQuery(this);
+                                var t = $(this);
                                 t.find(".JVCMaster_btn_topicfavorites_delete").css("display", "inline-block");
                                 t.css("backgroundColor", "#F5F5F5");
                             },
                             mouseout : function(){
-                                var t = jQuery(this);
+                                var t = $(this);
                                 t.find(".JVCMaster_btn_topicfavorites_delete").css("display", "none");
                                 t.css("backgroundColor", "#EDEDED");
                             }
@@ -380,17 +403,17 @@ function JVCMaster(){
                 })();
 
                 // Pour insérer le bouton juste à côté
-                jQuery("div.bloc_forum div.bloc_inner").css("textAlign", "center");
+                $("div.bloc_forum div.bloc_inner").css("textAlign", "center");
                 // On règle les quelques bugs d"alignement
-                jQuery("div.bloc_forum form").css("textAlign", "left");
-                jQuery("div.bloc_forum td.nouveau, div.bloc_forum td.navig_prec").css("textAlign", "left");
+                $("div.bloc_forum form").css("textAlign", "left");
+                $("div.bloc_forum td.nouveau, div.bloc_forum td.navig_prec").css("textAlign", "left");
                 // On insère le petit bouton à côté des titres du topic
 
-                jQuery("div.bloc_forum h1.sujet, div.bloc_forum h4.sujet").css({
+                $("div.bloc_forum h1.sujet, div.bloc_forum h4.sujet").css({
                     display : "inline-block",
                     verticalAlign : "middle"
                 }).after(
-                    jQuery("<img>", {
+                    $("<img>", {
                         id : "JVCMaster_addToTopicFavorites",
                         title : "Ajouter ce topic aux favoris",
                         src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAIAQMAAAARA0f2AAAABlBMVEX///+ZzADAT8hDAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfcCBsMAieAZsMmAAAAGklEQVQI12MoZ2D43wBF9QwMdgwMMgwMHAwAXZcF1pKKg9EAAAAASUVORK5CYII=",
@@ -403,12 +426,12 @@ function JVCMaster(){
                             // L'url du topic (première page)
                             var sTopicUrl = '';
                             // On cherche l"url de la première page du topic
-                            var oPagination = jQuery(".pagination:first strong, .pagination:first a");
+                            var oPagination = $(".pagination:first strong, .pagination:first a");
 
                             // S"il n"y a pas de pagination
                             if(oPagination.is('*')){
                                 oPagination.each(function(){
-                                    var t = jQuery(this);
+                                    var t = $(this);
                                     if(t.text() == 1){
                                         if(t.attr('href') || t.text()){
                                             sTopicUrl = t.attr('href') || window.location.href;
@@ -417,7 +440,7 @@ function JVCMaster(){
                                 })
                             }
                             else{
-                                tmp = jQuery(".revenir a:first");
+                                tmp = $(".revenir a:first");
                                 if(tmp.is('*')){
                                     tmp = tmp.attr('href').split("-");
                                     tmp[3] = "1"; // Première page
@@ -429,10 +452,10 @@ function JVCMaster(){
                             }
 
                             // On cherche le nom du forum 
-                            var sForumName = jQuery.trim(jQuery(".bloc_forum h3:first").text().replace("Forum : ", ""));
+                            var sForumName = $.trim($(".bloc_forum h3:first").text().replace("Forum : ", ""));
                             // On cherche le nom du topic
-                            var sTopicName = jQuery(".bloc_forum .sujet:first").text();
-                                sTopicName = jQuery.trim(sTopicName.substr(10).substr(0, sTopicName.length - 12)); 
+                            var sTopicName = $(".bloc_forum .sujet:first").text();
+                                sTopicName = $.trim(sTopicName.substr(10).substr(0, sTopicName.length - 12)); 
                             
                             // La clé est sous forme <forumName>_<topicName> pour trier par le nom du forum, et ensuite du topic
                             oTopicFavorites[sForumName + "_" + sTopicName] = {
@@ -445,7 +468,7 @@ function JVCMaster(){
                             localStorage.setItem("JVCMaster_TopicFavorites", JSON.stringify(oTopicFavorites));
 
                             // On actualise les topics favoris
-                            jQuery(".JVCMaster_TopicFavorites").remove();
+                            $(".JVCMaster_TopicFavorites").remove();
                             listTopicFavorites();
                                
                             e.preventDefault();
@@ -455,8 +478,8 @@ function JVCMaster(){
             }
         },
         uninstall : function(){
-            jQuery("#JVCMaster_addToTopicFavorites").remove();
-            jQuery("#JVCMaster_TopicFavorites").remove();
+            $("#JVCMaster_addToTopicFavorites").remove();
+            $("#JVCMaster_TopicFavorites").remove();
         }
     }
 
@@ -472,7 +495,7 @@ function JVCMaster(){
                 var oHiddenPostsViaPseudos = JSON.parse(localStorage.getItem("JVCMaster_oHiddenPostsViaPseudos") || "[]");
 
                 // Le message d"information comme quoi le post a été caché;
-                vars.oPostContainer.find("li.post").after(jQuery("<li/>", {
+                vars.oPostContainer.find("li.post:not(.JVCMaster_citation_viewOnTopic)").after($("<li/>", {
                     "class" : "JVCMaster_hiddenPosts_informPost post",
                     html : "<b>JVCMaster</b> : <i>Ce message a &eacute;t&eacute; cach&eacute;</i>",
                     css : {
@@ -481,11 +504,11 @@ function JVCMaster(){
                 }));
 
                 vars.oPostContainer.each(function(){
-                    var t = jQuery(this);
+                    var t = $(this);
 
                     // Si un id ou un pseudo est à cacher
                     if(oHiddenPosts.indexOf(t.attr("id").replace("message_", "")) !== -1
-                        || oHiddenPostsViaPseudos.indexOf(jQuery.trim(t.find(".pseudo strong").text().toLowerCase())) !== -1){
+                        || oHiddenPostsViaPseudos.indexOf($.trim(t.find(".pseudo strong").text().toLowerCase())) !== -1){
                             
                         t.find("li.post:first").slideUp(300);
                         t.find("li.post.JVCMaster_hiddenPosts_informPost").slideDown(300);
@@ -493,15 +516,15 @@ function JVCMaster(){
                 });
 
                 // Bouton pour cacher un post
-                jQuery("<img />", {
+                $("<img />", {
                     "class" : "JVCMaster_btn_hidepost",
                     title : "Cacher ce post",
                     css : { marginRight : "3px"},
                     src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMEAYAAADkOZvdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAIcbAACL/wAA/6wAAIMCAACETAAA7XIAADqFAAAdxCRWn50AAALqSURBVHjaZJNfaFt1HMU/39+9jVmMXWVZCSOUIqPOMce1yKgjlDGCSh7GENEJfS4yREcp2odRhoziQzdKKaWKD2NIcVuZY5RZ1m4UQVHR0IcZNJSVlRpCrF0NaWju/f3xocM/23k7Lx8Oh3Nk5c/5eXBOBl0ngBr3TgBQ5DRgyUgC2HChXQe+UDXP5wafqKzc83+1s9Lhzria0TLjTfqHk3vlkgyri2G/rL5253lwbtdc4vwzveCOmYLOELpbxMhRk6Scl+OscY6q9wYFWZakV+eqdKp2r8ud84NYqqXf3TD3o3TzOdMnS5L1Fne94KsZtUoZ7Mcmq0dABqRLDYPqlhEV4KfsK7r2OwEAPxP8dHDm3u4X6Wk/lWqV21JOKhnQadHeqHc5Hqj8Vs/W8b/KuqQkS16OAd1USIMMy3uSJMYEQ3KUNh7TnR9/+EDnOFhd3QjcIjlOyZyEjOpZhlyaVYU3LDeJK0blVVcCKagjsgm08r7MAhm5Lfd5QitfrY3ZLGx9vz0mQ2DfpEII5sNwSbeDm4oWwlZQLiNJAAnUWa8I1GjIdSBglMUnwa6PTmpgfFMyk9B8t3GzYWF7rHm9PgBNq5ei78Bn0OwH0EFkbQrkS5VoKYNUmabjEe3hv+Ao32wLp6Fxpf5Oswjbl7eL7iq41+kD8ENvA8DXg3YEINLhbFgFz6o12wV20sT050Dv/xObs/a0XQC9bK6xAAaTBlCh1wDA5wCA78quFyDcH30TzYHkOBABpmhTTAKwjPtPFTl3BMC9bS888hUAFnZ+wMt07/AP0QVgfdsNwFE3AWCmbQXg1uanBRH49pfCSwCZqfQiQOzZpz4CMCfdPgDpc28BcIlxACnt+fppINVy1/8M3EozH5YAnzoVgPp4ox/w/+h9OAH4rm0n8Z5kWwIgsRzPA3hT3iGA+N1YHkD+mdFv89eAM8SIgXuAJgHkWWcT6KBMFUixjgYOs0ENUFQJAUWaOAA9dAL8PQB4PTdp3o3mAAAAAABJRU5ErkJggg=="
-                }).appendTo(jQuery("<a/>", {
+                }).appendTo($("<a/>", {
                     href : "#",
                     click : function(e){
-                        var t = jQuery(this);
+                        var t = $(this);
                         var oPostContainer = t.parent().parent().parent();
                         if(oPostContainer.attr("id")){
                             var oPostContainerId = oPostContainer.attr("id").replace("message_", "");
@@ -524,21 +547,21 @@ function JVCMaster(){
                     }
                 }).appendTo(vars.oPostContainer.find(".pseudo")));
 
-                jQuery("<img />", {
+                $("<img />", {
                     "class" : "JVCMaster_btn_hidepseudo",
                     title : "Cacher les posts de ce pseudo",
                     css : { marginRight : "3px"},
                     src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMEAYAAADkOZvdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAIcbAACL/wAA/6wAAIMCAACETAAA7XIAADqFAAAdxCRWn50AAAMCSURBVHjabI9hSJx1HMc/v//zv/N2qIldy3Is2a6ykuM6xhIRE4kYRzUJoYghFOMYw8QXEm6M3iQiI2SYyIgxLO5FjmGyfDFGLDOJrUmNw1Yd0Zwdyy65rnnq3XPP8/x7sdWC6/PmC1/4fvj9ZPFqS6ExbAwtdHMA1B4ZlQEwZ2RC2vCIM25S5DhqkpwiSbMVUScYVRPWrH7Xm2PZ6zPtrqOUDup09UMyr1al305oGVUvSgp2UHOmdgu8mLPgJrDpZYQ+7rBfPS1zZOSy8qtWaiWsEtYRonJUjVor4uh8VcIXsGbd3lK1PVU4JPWqX9XtuKSlU6WtHnB3un2uB+qQ9bN6FRiTYdmJjvUv/vr9QaLc5W4e5K3PBp977am3ZSFUb/JmTFRNR9VI1R4V30xuDP0VdNKKdg7QAUTIsgs4xXUp4r8nrGO/ecXsg+O/7Z1ufJJ/efn9q9M/fEDHT5Obme03GNno8uadl1iVZTkhKwSUDJEyOZCURCULhGVRzt4XOAPlYPkXuBWxP7SHqeC7Y/nzhTBkDxcGihfBpEvV5W9AmW6pYwnUEatTnQWqZZDJ/yxnidEF0mY+JlAp/n1y8852M/z57Wa0UAtOzm4q3gDNsrdqpsBpcG94X4O06ZO+/nurm6DP+d/xn4ckGf6o9OKmy045Ce5ssam4BOwK5H0hUF6XN25iUDxux+wLYK/Yp0tdlYLnj9W8GZiu7E0TPWYMZMnETfR+r1igx4TBmS+1lzSUolu5rXOVgsCQLqon/ufkfeYC48AV0wlAFhsHNHGTYxUMZsLcBjKm1Sj4aObxjYcfgGvXCj8WZ2DvcGC37zq8d+WxZ+ubYe0ru8+dgUe6q4b1GPg/t6ZkBYigaAH54tNn1h49TMjnFyUXzc3SC+YT40dva6/gpSDX5FzyBtEmQYYCOvC6yksEttNe3lwGTpp1tuDBbl+vOg11c1avCoH889Hily1rjQ0MoNBocwuHIBBnHQ/YzW0cIMQ6QSBCDg9QZCUAKBpMEYBWbIC/BwCMhjqxWSOhnwAAAABJRU5ErkJggg=="
-                }).appendTo(jQuery("<a/>", {
+                }).appendTo($("<a/>", {
                     href : "#",
                     click : function(e){
-                        var oPostContainer = jQuery(this).parent().parent().parent();
-                        var pseudoToHide = jQuery.trim(oPostContainer.find(".pseudo").text().toLowerCase());
+                        var oPostContainer = $(this).parent().parent().parent();
+                        var pseudoToHide = $.trim(oPostContainer.find(".pseudo").text().toLowerCase());
                         var toHide = (oHiddenPostsViaPseudos.indexOf(pseudoToHide) === -1) ? true : false;
 
                         vars.oPostContainer.each(function(){
-                            var t = jQuery(this);
-                            var pseudo = jQuery.trim(t.find(".pseudo").text().toLowerCase());
+                            var t = $(this);
+                            var pseudo = $.trim(t.find(".pseudo").text().toLowerCase());
 
                             if(pseudo == pseudoToHide){
                                 if(toHide){
@@ -554,7 +577,7 @@ function JVCMaster(){
                             }
                         });
 
-                        localStorage.setItem("JVCMaster_oHiddenPostsViaPseudos", JSON.stringify(jQuery.unique(oHiddenPostsViaPseudos)));
+                        localStorage.setItem("JVCMaster_oHiddenPostsViaPseudos", JSON.stringify($.unique(oHiddenPostsViaPseudos)));
 
                         e.preventDefault();
                     }
@@ -563,8 +586,8 @@ function JVCMaster(){
         },
 
         uninstall : function(){
-            jQuery(".JVCMaster_btn_hidepost").remove();
-            jQuery(".JVCMaster_btn_hidepseudo").remove();
+            $(".JVCMaster_btn_hidepost").remove();
+            $(".JVCMaster_btn_hidepseudo").remove();
             vars.oPostContainer.find("li.post:first").slideDown(300);
             vars.oPostContainer.find("li.post.JVCMaster_hiddenPosts_informPost").slideUp(300).remove();
         }
@@ -635,15 +658,15 @@ function JVCMaster(){
         main : function(){
             // Evite que la cdv se duplique si l'utilisateur bourine le bouton
             var bAlreadyLoading = false;
-            var oPseudos = jQuery(".pseudo strong");
+            var oPseudos = $(".pseudo strong");
             oPseudos.css("cursor", "pointer");
 
             oPseudos.click(function(e){
                 if(!bAlreadyLoading){
                     bAlreadyLoading = true;
 
-                    var iframe = jQuery("<iframe>", {
-                        src : "http://www.jeuxvideo.com/profil/" + jQuery(this).text() + ".html",
+                    var iframe = $("<iframe>", {
+                        src : "http://www.jeuxvideo.com/profil/" + $(this).text() + ".html",
                         css : {
                             width : "800px",
                             height : "600px",
@@ -651,7 +674,7 @@ function JVCMaster(){
                         },
                         load : function(){
                             if(window.innerHeight < 600){
-                                jQuery(this).css("height", window.innerHeight - 50);
+                                $(this).css("height", window.innerHeight - 50);
                             }
                             lb.show();
                             bAlreadyLoading = false;
@@ -663,7 +686,7 @@ function JVCMaster(){
             });
         },
         uninstall : function(){
-            var oPseudos = jQuery(".pseudo strong");
+            var oPseudos = $(".pseudo strong");
             oPseudos.css("cursor", "");
             oPseudos.unbind("click");
         }
@@ -678,16 +701,16 @@ function JVCMaster(){
             // Evite que la cdv se duplique si l'utilisateur bourine le bouton
             var bAlreadyLoading = false;
 
-            jQuery(".img_shack, a[href^=http\\:\\/\\/www\\.noelshack\\.com], a[href^=http\\:\\/\\/image\\.noelshack\\.com]").click(function(e){
+            $(".img_shack, a[href^=http\\:\\/\\/www\\.noelshack\\.com], a[href^=http\\:\\/\\/image\\.noelshack\\.com]").click(function(e){
                 if(!bAlreadyLoading){
                     bAlreadyLoading = true;
 
                     // Si c"est une minitature
-                    if(jQuery(this).attr("class") === "img_shack")
-                        var sImgFalseUrl = jQuery(this).parent().attr("href");
+                    if($(this).attr("class") === "img_shack")
+                        var sImgFalseUrl = $(this).parent().attr("href");
                     // Si c"est un lien hyper-texte
                     else{
-                        var sImgFalseUrl = jQuery(this).attr("href");
+                        var sImgFalseUrl = $(this).attr("href");
                     }
                     
                     var sImgTrueUrl = "";
@@ -707,14 +730,14 @@ function JVCMaster(){
                         sImgTrueUrl = sImgTrueUrl.replace(toReplace[0], toReplace[1] + '/');  
                     } 
 
-                    jQuery("<img />", {
+                    $("<img />", {
                         src : sImgTrueUrl,
                         css : {
                             cursor : "pointer"
                         },
                         load : function(){
-                            var t = jQuery(this);
-                            var popup = jQuery("#JVCMaster_LightBox_popup");
+                            var t = $(this);
+                            var popup = $("#JVCMaster_LightBox_popup");
                             var width = popup.css("width").replace("px", "");
                             var height = popup.css("height").replace("px", "");
                             
@@ -739,7 +762,7 @@ function JVCMaster(){
 
                             lb.show();
                         }
-                    }).appendTo(jQuery("<a/>", {
+                    }).appendTo($("<a/>", {
                         href : sImgTrueUrl
                     }).appendTo("#JVCMaster_LightBox_popup"));
 
@@ -748,14 +771,14 @@ function JVCMaster(){
             });
         },
         uninstall : function(){
-            jQuery(".img_shack, a[href^=http\\:\\/\\/www\\.noelshack\\.com], a[href^=http\\:\\/\\/image\\.noelshack\\.com]").unbind("click");
+            $(".img_shack, a[href^=http\\:\\/\\/www\\.noelshack\\.com], a[href^=http\\:\\/\\/image\\.noelshack\\.com]").unbind("click");
         }
     };
 
     // LightBox
     function LightBox(){
         // On crée le calque qui servira à cacher la page
-        jQuery("<div>", {
+        $("<div>", {
             id : "JVCMaster_LightBox_layer",
             css : {
                 position : "fixed",
@@ -770,7 +793,7 @@ function JVCMaster(){
         }).appendTo("body");
         
         // On crée la popup
-        jQuery("<div>", {
+        $("<div>", {
             id : "JVCMaster_LightBox_popup",
             css : {
                 position : "fixed",
@@ -782,8 +805,8 @@ function JVCMaster(){
             }
         }).appendTo("body");
 
-        jQuery(window).resize(function(){
-            var popup = jQuery("#JVCMaster_LightBox_popup");
+        $(window).resize(function(){
+            var popup = $("#JVCMaster_LightBox_popup");
             popup.css({
                 top : (window.innerHeight / 2 - popup.css("height").replace("px", "")  / 2) + "px",
                 left : (window.innerWidth / 2 - popup.css("width").replace("px", "") / 2) + "px"
@@ -792,7 +815,7 @@ function JVCMaster(){
         
 
         this.show = function(width, height, html){
-            var popup = jQuery("#JVCMaster_LightBox_popup");
+            var popup = $("#JVCMaster_LightBox_popup");
 
             popup.css({
                 width : width + "px",
@@ -803,16 +826,16 @@ function JVCMaster(){
                 left : (window.innerWidth / 2 - popup.css("width").replace("px", "") / 2) + "px"
             });
             
-            jQuery("#JVCMaster_LightBox_layer").fadeIn(300, function(){
+            $("#JVCMaster_LightBox_layer").fadeIn(300, function(){
                 popup.fadeIn(300);
             });
         }
 
         this.hide = function(){
-            var popup = jQuery("#JVCMaster_LightBox_popup");
+            var popup = $("#JVCMaster_LightBox_popup");
 
             popup.fadeOut(300, function(){
-                jQuery("#JVCMaster_LightBox_layer").fadeOut(300, function(){
+                $("#JVCMaster_LightBox_layer").fadeOut(300, function(){
                     popup.html("");
                     popup.css("padding", "0");
                     popup.attr("class", "");
@@ -826,21 +849,21 @@ function JVCMaster(){
     (function(){
         oScripts = this.oScripts;
 
-        jQuery.each(sActivatedScripts, function(key, value){
+        $.each(sActivatedScripts, function(key, value){
             if(value)
                 oScripts[key].main();
         });
         
-        var buttonOptions = jQuery("<a/>", {
+        var buttonOptions = $("<a/>", {
             href : '#',
             title : "Panneau de configuration de JVCMaster",
             text : "JVCMaster " + window.JVCMaster_sVersion,
             click : function(e){
-                // jQuery('<div style="position: relative;padding-bottom: 8px;background: url(http://image.jeuxvideo.com/css_img/defaut/bloc_forum_bas.png) left bottom no-repeat;"><h3 style="position: static;height: 20px;line-height: 22px;font-size: 116.67%;width: auto;background: url(http://image.jeuxvideo.com/css_img/defaut/bloc_h3_forums.png) right top no-repeat!important;"><span class="txt">JVCMaster : Extensions</span></h3><div style="padding: 5px;border: solid 1px #9C0;border-bottom: 0;height: 1%;position: relative;"><ul id="JVCMaster_Scripts" class="liste_liens">').appendTo('#JVCMaster_LightBox_popup');
-                    jQuery('<div class="bloc1"><h3 class="titre_bloc"><span>JVCMaster : Extensions</span></h3><div class="bloc_inner"><ul id="JVCMaster_Scripts" class="liste_liens">').appendTo('#JVCMaster_LightBox_popup');
+                // $('<div style="position: relative;padding-bottom: 8px;background: url(http://image.jeuxvideo.com/css_img/defaut/bloc_forum_bas.png) left bottom no-repeat;"><h3 style="position: static;height: 20px;line-height: 22px;font-size: 116.67%;width: auto;background: url(http://image.jeuxvideo.com/css_img/defaut/bloc_h3_forums.png) right top no-repeat!important;"><span class="txt">JVCMaster : Extensions</span></h3><div style="padding: 5px;border: solid 1px #9C0;border-bottom: 0;height: 1%;position: relative;"><ul id="JVCMaster_Scripts" class="liste_liens">').appendTo('#JVCMaster_LightBox_popup');
+                    $('<div class="bloc1"><h3 class="titre_bloc"><span>JVCMaster : Extensions</span></h3><div class="bloc_inner"><ul id="JVCMaster_Scripts" class="liste_liens">').appendTo('#JVCMaster_LightBox_popup');
                 // On boucle sur les oScripts
-                jQuery.each(oScripts, function(key, value){
-                    jQuery("<li>", {
+                $.each(oScripts, function(key, value){
+                    $("<li>", {
                         id : "JVCMaster_extension_" + value.id,
                         css : {
                             textAlign : "left",
@@ -851,8 +874,8 @@ function JVCMaster(){
                         html : '<input type="checkbox" style="vertical-align : bottom; margin-right: 3px" ' + (sActivatedScripts[value.id] ? 'checked="checked"' : '') + '/><b>' + value.name + "</b> : " + value.description
                     }).appendTo('#JVCMaster_Scripts');
                     
-                    jQuery("#JVCMaster_extension_" + value.id + " input[type=checkbox]").click(function(){
-                        if(jQuery(this).is(':checked')){
+                    $("#JVCMaster_extension_" + value.id + " input[type=checkbox]").click(function(){
+                        if($(this).is(':checked')){
                             oScripts[value.id].main();
                             sActivatedScripts[value.id] = true;
                         }
@@ -865,14 +888,14 @@ function JVCMaster(){
                     });
                 });
                 
-                var lb_popup = jQuery("#JVCMaster_LightBox_popup");
+                var lb_popup = $("#JVCMaster_LightBox_popup");
                 
                 lb_popup.attr("class", "forums hp_forums")
                 lb_popup.css("padding", "5px 5px 0");
                 lb.show();
                 e.preventDefault();
             }
-        }).appendTo(jQuery("<td id=\"JVCMaster_buttonOptions\">").prependTo(jQuery("table#connexion tbody tr")));
+        }).appendTo($("<td id=\"JVCMaster_buttonOptions\">").prependTo($("table#connexion tbody tr")));
         
         // Si l"utilisateur viens d"installer JVCMaster
         if(typeof localStorage.getItem("JVCMaster_firstUse") === "object"){
@@ -881,16 +904,16 @@ function JVCMaster(){
         }
 
         // Si on est sur un mp, et que l'utilisateur clique sur "Voir les messages précédents"
-        var voir_debut = jQuery("#voir_debut");
+        var voir_debut = $("#voir_debut");
         if(voir_debut.is('*')){
             voir_debut.click(function(){
 
                 setTimeout(function(){
                     // On raffraichit les variables
-                    vars.oPostContainer = jQuery('.msg'),
-                    vars.oPosts = jQuery('li.post'),
+                    vars.oPostContainer = $('.msg'),
+                    vars.oPosts = $('li.post'),
                     
-                    jQuery.each(sActivatedScripts, function(key, value){
+                    $.each(sActivatedScripts, function(key, value){
                         if(value){
                             console.log(key);
                             oScripts[key].uninstall();
