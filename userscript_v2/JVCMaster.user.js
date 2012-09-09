@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.4.6
+// @version     2.4.7
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.4.6"
+window.JVCMaster_sVersion = "2.4.7"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -132,7 +132,7 @@ function JVCMaster(){
                         var sDate = $.trim(oPostContainers.find("li.date").text());
                     }
 
-                    sPost = sPost.replace(/<br(?: \/)?>/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2").replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
+                    sPost = sPost.replace(/ *<br(?: \/)?>/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2").replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
                     sDate = sDate.replace("Posté ", "").replace("\n", "");
 
                     var sPseudo = $.trim(oPostContainers.find(".pseudo strong").text());
