@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.4.7
+// @version     2.4.8
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.4.7"
+window.JVCMaster_sVersion = "2.4.8"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -797,20 +797,12 @@ function JVCMaster(){
                     var oTds = $(this).find("td");
                     var oTopic_img = $(oTds[0]).find("img"),
                         sTopic_url = $(oTds[1]).find('a').attr("href"),
-                        iTopic_msg = oTds[3].innerText;
+                        iTopic_msg = $(oTds[3]).text();
 
-                    oTopic_img.parent().css("position", "relative")
-                    $(oTopic_img).after($("<a/>", {
+                    $(oTopic_img).wrap($("<a/>", {
                         "class" : "JVCMaster_btn_lastMsg",
                         href : sTopic_url.replace(/(http:\/\/www.jeuxvideo.com\/forums\/)([0-9]+\-)([0-9]+\-)([0-9]+\-)([0-9]+\-)/g, "$1$2$3$4" + Math.ceil(iTopic_msg / 20) + '-'),
                         title : "Accéder à la dernière page de ce topic",
-                        css : {
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0
-                        }
                     }));
                 });
             }
