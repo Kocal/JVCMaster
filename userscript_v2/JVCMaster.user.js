@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.4.1
+// @version     2.4.3
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.4.1"
+window.JVCMaster_sVersion = "2.4.3"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -70,7 +70,8 @@ function JVCMaster(){
                 || /[@]{15,}|([W]+[V]+(<br (\/)?>+)){20,}/gi.test(sHtml)){
                     
                     // On cache le post
-                    t.slideUp(300);
+                    t.hide(0);
+                    t.parent().find('.post.JVCMaster_citation_viewOnTopic').hide();
 
                     // On insère après celui-ci, un post d'information
                     t.after($("<li>", {
@@ -175,19 +176,26 @@ function JVCMaster(){
             // Pour les utilisateurs de JVCMaster, on modifie la gueule de la citation et on ajoute du CSS
             vars.oPosts.each(function(){
                 var t = $(this);
-                    t.css("display", "none")
+                if(t.css("display") == "none"){
+                    var display = "none";
+                }
+                t.css("display", "none")
+
                 var html = t.html();
 
                 html = html.replace(/(?:<br(?: \/)?>)?\| (Ecrit par .*)/g, "<div class='JVCMaster_citation_viewOnTopic' style='padding: 23px 5px 5px;width: 97.7%;background: #D3EFFF;border: 1px solid #51BFFF;border-radius: 6px;margin: 5px 0;position: relative;'>$1");
                 html = html.replace(/ »\n(?: <br>(\| )*\n){2} <br>(\| )*&gt;/g, "</div>");
                 html = html.replace(/\|(?: )*<a href="([^"]*?)".+>.+<\/a>(?:(?:\n |(?:\n <br>(?:\| )+))<div class='JVCMaster_citation_viewOnTopic' style='([^"]*?)'>)?/g, '<div class="JVCMaster_citation_viewOnTopic" style="$2padding-bottom:30px;"><div style="background: #BDE7FF;position: absolute;bottom: -1px;left: -1px; right:-1px;padding: 2px 5px;border: 1px solid #51BFFF;height:15px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><a href=\'$1\'>$1</a></div>');
-                html = html.replace(/Ecrit par « (.+) » ?, (?:posté )?le  ?((?:\d+) (?:\w+) (?:\d{4}) à (?:\d{2}):(?:\d{2}):(?:\d{2}))/gi, '<div style="background: #BDE7FF;position: absolute;top: -1px;left: -1px;padding: 2px 5px;border: 1px solid #51BFFF;">$1</div><div style="background: #BDE7FF; position: absolute; top: -1px; right: -1px;padding: 2px 5px; border: 1px solid #51BFFF;">$2</div>');//.replace(/Ecrit par « (.+) » ?, posté le  ?((?:\d+) (?:\w+) (?:\d{4}) à (?:\d{2}):(?:\d{2}):(?:\d{2}))/gi, "<div style='background: #BDE7FF; position: absolute;     top: -1px;     right: -1px;    padding: 2px 5px; border: 1px solid #51BFFF;'>$1</div>");
+                html = html.replace(/Ecrit par « (.+) » ?, (?:posté|via mobile )?le  ?((?:\d+) (?:\w+) (?:\d{4}) à (?:\d{2}):(?:\d{2}):(?:\d{2}))/gi, '<div style="background: #BDE7FF;position: absolute;top: -1px;left: -1px;padding: 2px 5px;border: 1px solid #51BFFF;">$1</div><div style="background: #BDE7FF; position: absolute; top: -1px; right: -1px;padding: 2px 5px; border: 1px solid #51BFFF;">$2</div>');//.replace(/Ecrit par « (.+) » ?, posté le  ?((?:\d+) (?:\w+) (?:\d{4}) à (?:\d{2}):(?:\d{2}):(?:\d{2}))/gi, "<div style='background: #BDE7FF; position: absolute;     top: -1px;     right: -1px;    padding: 2px 5px; border: 1px solid #51BFFF;'>$1</div>");
                 html = html.replace(/ *<br( \/)?>(\| )*«/g, "");
                 html = html.replace(/<br( \/)?>(\| )+/g, "<br>");
 
                 t.after($('<li/>', {
                     'class' : 'post JVCMaster_citation_viewOnTopic',
                     html : html,
+                    css : {
+                        display : display
+                    }
                 }));
             });
         },
@@ -788,13 +796,12 @@ function JVCMaster(){
                         sTopic_url = $(oTds[1]).find('a').attr("href"),
                         iTopic_msg = oTds[3].innerText;
 
-                        oTopic_img.css("cursor", "pointer");
-                        oTopic_img.click(function(){
-                            window.open(sTopic_url.replace(/(http:\/\/www.jeuxvideo.com\/forums\/)([0-9]+\-)([0-9]+\-)([0-9]+\-)([0-9]+\-)/g, "$1$2$3$4" + Math.ceil(iTopic_msg / 20) + '-'), Math.random());
+                    oTopic_img.attr("title", "Addéder à la dernière page de ce topic");
+                    oTopic_img.css("cursor", "pointer");
+                    oTopic_img.click(function(){
+                        window.open(sTopic_url.replace(/(http:\/\/www.jeuxvideo.com\/forums\/)([0-9]+\-)([0-9]+\-)([0-9]+\-)([0-9]+\-)/g, "$1$2$3$4" + Math.ceil(iTopic_msg / 20) + '-'), Math.random());
 
-                        });
-
-
+                    });
                 });
             }
 
