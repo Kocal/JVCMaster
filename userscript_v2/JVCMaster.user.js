@@ -238,7 +238,7 @@ function JVCMaster(){
                             else
                                 btn_CDV.attr("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAEmSURBVHjahJE9S8NQFIafG29JHKq1FOkHCFUHRwcpoh0cHJ3cdHBRhOAfUBAc/Qnd3QRxEBfBMUUQZ0UIFYeiRrQpVBKbkOsQjPUDe7bDec57Xt4jSqal6FPNWlUASIDFyuS/8DmWataqQgJ43Vj8cDP/DVrav0RP55ifnqBuWkoD8AL1CwQ43ang3N/Q6bwBoPUqA5RmVxhf2Eh6x76i3Xom8ewFipntC9p2HX10isbJHgDF6jpGdgw/UF/wnX2LCn2iVJHHo1UAMnNbgEGg5fCdFpoxjCiZllLhe3I28l26T9dEvoscKZPKlhHSQEg99txbDwfLvJztMpDOI4cKCGkkM/kTLqwdE7w2/sxbAPRaUaFP5LlxVIOZRFlIPYY/F/q9/WMAikdlnhDc6i4AAAAASUVORK5CYII=");
 
-                            otParent.find("a:last").after($("<span>", {
+                            otParent.find("a:not(.JVCMaster_btn_mp):last").after($("<span>", {
                                 "class" : "JVCMaster_cdvinformations_rank",
                                 css : {
                                     marginRight : "3px",
@@ -796,12 +796,19 @@ function JVCMaster(){
                         sTopic_url = $(oTds[1]).find('a').attr("href"),
                         iTopic_msg = oTds[3].innerText;
 
-                    oTopic_img.attr("title", "Accéder à la dernière page de ce topic");
-                    oTopic_img.css("cursor", "pointer");
-                    oTopic_img.click(function(){
-                        window.open(sTopic_url.replace(/(http:\/\/www.jeuxvideo.com\/forums\/)([0-9]+\-)([0-9]+\-)([0-9]+\-)([0-9]+\-)/g, "$1$2$3$4" + Math.ceil(iTopic_msg / 20) + '-'), Math.random());
-
-                    });
+                    oTopic_img.parent().css("position", "relative")
+                    $(oTopic_img).after($("<a/>", {
+                        "class" : "JVCMaster_btn_lastMsg",
+                        href : sTopic_url.replace(/(http:\/\/www.jeuxvideo.com\/forums\/)([0-9]+\-)([0-9]+\-)([0-9]+\-)([0-9]+\-)/g, "$1$2$3$4" + Math.ceil(iTopic_msg / 20) + '-'),
+                        title : "Accéder à la dernière page de ce topic",
+                        css : {
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0
+                        }
+                    }));
                 });
             }
 
@@ -810,13 +817,11 @@ function JVCMaster(){
                 vars.oPostContainers.each(function(k, oPostContainer){
                     var pseudo = $(this).find("li.pseudo");
 
-                    $("<span>", {
-                        click : function(){
-                            window.open("http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=" + pseudo.find("strong").text(), "_tab")
-                        },
+                    $("<a/>", {
+                        "class" : "JVCMaster_btn_mp",
+                        href : "http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=" + pseudo.find("strong").text(),
                         title : "Envoyer un message privé à " + pseudo.find("strong").text(),
                         css : {
-                            cursor : "pointer",
                             background: "url(http://image.jeuxvideo.com/css_img/defaut/mprives/enveloppe.png) no-repeat top right",
                             width: "16px",
                             display: "inline-block",
@@ -827,7 +832,8 @@ function JVCMaster(){
             }
         },
         uninstall : function(){
-
+            $(".JVCMaster_btn_mp").remove();
+            $(".JVCMaster_btn_lastMsg").remove();
         }
     };
 
