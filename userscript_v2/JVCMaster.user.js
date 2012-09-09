@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.4.5
+// @version     2.4.6
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.4.5"
+window.JVCMaster_sVersion = "2.4.6"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -123,14 +123,17 @@ function JVCMaster(){
 
                     // Si on est sur un mp
                     if($("#reception").is("*") && $("#bouton_post").is("*")){
-                        var sPost = $.trim(oPostContainers.find(".msg_body").html().replace(/( +<br(?: \/)?>)/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2")).replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
-                        var sDate = $.trim(oPostContainers.find(".msg_infos").text().replace("Posté ", "").replace("\n", ""));
+                        var sPost = $.trim(oPostContainers.find(".msg_body").html());
+                        var sDate = $.trim(oPostContainers.find(".msg_infos").text());
                     } 
                     // Si on est sur un topic
                     else{
-                        var sPost = $.trim(oPostContainers.find("li.post").html().replace(/( +<br(?: \/)?>)/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2")).replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
-                        var sDate = $.trim(oPostContainers.find("li.date").text().replace("Posté ", "").replace("\n", ""));
+                        var sPost = $.trim(oPostContainers.find("li.post").html());
+                        var sDate = $.trim(oPostContainers.find("li.date").text());
                     }
+
+                    sPost = sPost.replace(/<br(?: \/)?>/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2").replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
+                    sDate = sDate.replace("Posté ", "").replace("\n", "");
 
                     var sPseudo = $.trim(oPostContainers.find(".pseudo strong").text());
                     var sPermalink = $.trim(oPostContainers.find("li.ancre a").attr("href"));
@@ -143,7 +146,7 @@ function JVCMaster(){
                     // Si un lien permanent est présent
                     if(sPermalink) sCitation += "| " + sPermalink + "\n";
 
-                    sCitation += "| Ecrit par « " + sPseudo + " », " + sDate + "\n| « "+ sPost + " »\n\n\n> ";
+                    sCitation += "| Ecrit par « " + sPseudo + " », " + sDate + "\n| « " + sPost + " »\n\n\n> ";
 
                     // Si on est sur la page d"un topic
                     if(oAlertemail.is('*') && !oTextarea.is('*')){
