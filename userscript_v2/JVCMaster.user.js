@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.3
+// @version     2.4.1
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.3"
+window.JVCMaster_sVersion = "2.4.1"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -28,7 +28,7 @@ function JVCMaster(){
     // Variables globales
     this.vars = {
         // Ce qui contient le pseudo, la date, le post et le permalink 
-        oPostContainer : $('.msg'),
+        oPostContainers : $('.msg'),
         // Les posts
         oPosts : $('li.post')
     };
@@ -114,25 +114,25 @@ function JVCMaster(){
             }).appendTo($("<a/>", {
                 href : "#",
                 click : function(e){
-                    var oPostContainer = $(this).parent().parent().parent();
+                    var oPostContainers = $(this).parent().parent().parent();
                     
                     // Si on est pas sur un topic, ou un mp
-                    if(!oPostContainer.is('*'))
+                    if(!oPostContainers.is('*'))
                         return;
 
                     // Si on est sur un mp
                     if($("#reception").is("*") && $("#bouton_post").is("*")){
-                        var sPost = $.trim(oPostContainer.find(".msg_body").html().replace(/( +<br(?: \/)?>)/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2")).replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
-                        var sDate = $.trim(oPostContainer.find(".msg_infos").text().replace("Posté ", "").replace("\n", ""));
+                        var sPost = $.trim(oPostContainers.find(".msg_body").html().replace(/( +<br(?: \/)?>)/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2")).replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
+                        var sDate = $.trim(oPostContainers.find(".msg_infos").text().replace("Posté ", "").replace("\n", ""));
                     } 
                     // Si on est sur un topic
                     else{
-                        var sPost = $.trim(oPostContainer.find("li.post").html().replace(/( +<br(?: \/)?>)/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2")).replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
-                        var sDate = $.trim(oPostContainer.find("li.date").text().replace("Posté ", "").replace("\n", ""));
+                        var sPost = $.trim(oPostContainers.find("li.post").html().replace(/( +<br(?: \/)?>)/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2")).replace(/&gt;/g, ">").replace(/&lt/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ");
+                        var sDate = $.trim(oPostContainers.find("li.date").text().replace("Posté ", "").replace("\n", ""));
                     }
 
-                    var sPseudo = $.trim(oPostContainer.find(".pseudo strong").text());
-                    var sPermalink = $.trim(oPostContainer.find("li.ancre a").attr("href"));
+                    var sPseudo = $.trim(oPostContainers.find(".pseudo strong").text());
+                    var sPermalink = $.trim(oPostContainers.find("li.ancre a").attr("href"));
 
                     var sCitation = "";
                     
@@ -158,7 +158,7 @@ function JVCMaster(){
                     
                     e.preventDefault();
                 }
-            }).appendTo(vars.oPostContainer.find(".pseudo")));
+            }).appendTo(vars.oPostContainers.find(".pseudo")));
 
             // // Si on est sur la page d'un topic
             if($(".nouveau").is('*') && oTextarea.is('*')){
@@ -178,11 +178,12 @@ function JVCMaster(){
                     t.css("display", "none")
                 var html = t.html();
 
-
-                html = html.replace(/(?:<br(?: \/)?>)?\| (Ecrit par .*)/g, "<div class='JVCMaster_citation_viewOnTopic' style='padding: 15px 5px;width: 97.6%;background: #D3EFFF;border: 1px solid #51BFFF;border-radius: 6px;margin: 5px 0;position: relative;'>$1");
-                html = html.replace(/\| <a href="([^"]*?)".+>.+<\/a>\n <div class='JVCMaster_citation_viewOnTopic' style='([^"]*?)'>/g, '<div class="JVCMaster_citation_viewOnTopic" style="$2padding-bottom:30px;"><div style="background: #BDE7FF;position: absolute;bottom: -1px;left: -1px; right:-1px;;padding: 2px 5px;border: 1px solid #51BFFF;height:15px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><a href=\'$1\'>$1</a></div>');
-                html = html.replace(/ »(?:\n <br>){3}&gt;( \n <br>)?/g, " »</div>").replace(/<br( \/)?>\|/g, "<br>");
+                html = html.replace(/(?:<br(?: \/)?>)?\| (Ecrit par .*)/g, "<div class='JVCMaster_citation_viewOnTopic' style='padding: 23px 5px 5px;width: 97.7%;background: #D3EFFF;border: 1px solid #51BFFF;border-radius: 6px;margin: 5px 0;position: relative;'>$1");
+                html = html.replace(/ »\n(?: <br>(\| )*\n){2} <br>(\| )*&gt;/g, "</div>");
+                html = html.replace(/\|(?: )*<a href="([^"]*?)".+>.+<\/a>(?:(?:\n |(?:\n <br>(?:\| )+))<div class='JVCMaster_citation_viewOnTopic' style='([^"]*?)'>)?/g, '<div class="JVCMaster_citation_viewOnTopic" style="$2padding-bottom:30px;"><div style="background: #BDE7FF;position: absolute;bottom: -1px;left: -1px; right:-1px;padding: 2px 5px;border: 1px solid #51BFFF;height:15px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><a href=\'$1\'>$1</a></div>');
                 html = html.replace(/Ecrit par « (.+) » ?, (?:posté )?le  ?((?:\d+) (?:\w+) (?:\d{4}) à (?:\d{2}):(?:\d{2}):(?:\d{2}))/gi, '<div style="background: #BDE7FF;position: absolute;top: -1px;left: -1px;padding: 2px 5px;border: 1px solid #51BFFF;">$1</div><div style="background: #BDE7FF; position: absolute; top: -1px; right: -1px;padding: 2px 5px; border: 1px solid #51BFFF;">$2</div>');//.replace(/Ecrit par « (.+) » ?, posté le  ?((?:\d+) (?:\w+) (?:\d{4}) à (?:\d{2}):(?:\d{2}):(?:\d{2}))/gi, "<div style='background: #BDE7FF; position: absolute;     top: -1px;     right: -1px;    padding: 2px 5px; border: 1px solid #51BFFF;'>$1</div>");
+                html = html.replace(/ *<br( \/)?>(\| )*«/g, "");
+                html = html.replace(/<br( \/)?>(\| )+/g, "<br>");
 
                 t.after($('<li/>', {
                     'class' : 'post JVCMaster_citation_viewOnTopic',
@@ -194,11 +195,9 @@ function JVCMaster(){
         uninstall : function(){
             $(".JVCMaster_btn_citation").remove();
             localStorage.removeItem("JVCMaster_citation");
-
             
-            
-            vars.oPostContainer.find('.JVCMaster_citation_viewOnTopic').slideUp();
-            vars.oPostContainer.find('li.post:first').slideDown();
+            vars.oPostContainers.find('.JVCMaster_citation_viewOnTopic').slideUp();
+            vars.oPostContainers.find('li.post:first').slideDown();
         }
     };
 
@@ -231,7 +230,7 @@ function JVCMaster(){
                             else
                                 btn_CDV.attr("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAEmSURBVHjahJE9S8NQFIafG29JHKq1FOkHCFUHRwcpoh0cHJ3cdHBRhOAfUBAc/Qnd3QRxEBfBMUUQZ0UIFYeiRrQpVBKbkOsQjPUDe7bDec57Xt4jSqal6FPNWlUASIDFyuS/8DmWataqQgJ43Vj8cDP/DVrav0RP55ifnqBuWkoD8AL1CwQ43ang3N/Q6bwBoPUqA5RmVxhf2Eh6x76i3Xom8ewFipntC9p2HX10isbJHgDF6jpGdgw/UF/wnX2LCn2iVJHHo1UAMnNbgEGg5fCdFpoxjCiZllLhe3I28l26T9dEvoscKZPKlhHSQEg99txbDwfLvJztMpDOI4cKCGkkM/kTLqwdE7w2/sxbAPRaUaFP5LlxVIOZRFlIPYY/F/q9/WMAikdlnhDc6i4AAAAASUVORK5CYII=");
 
-                            $("<span>", {
+                            otParent.find("a:last").after($("<span>", {
                                 "class" : "JVCMaster_cdvinformations_rank",
                                 css : {
                                     marginRight : "3px",
@@ -240,7 +239,7 @@ function JVCMaster(){
                                     width : "14px",
                                     backgroundImage : "url(data:image/png;base64,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)"
                                 }
-                            }).appendTo(otParent);
+                            }));
                             
                             // On cherche le rang
                             switch(sRank){
@@ -490,12 +489,12 @@ function JVCMaster(){
         description : "Permet de cacher un post",
         main : function(){
             // S'il y a des posts, et qu'ils on un id
-            if(vars.oPostContainer.is('*') && vars.oPostContainer[0].id !== ""){
+            if(vars.oPostContainers.is('*') && vars.oPostContainers[0].id !== ""){
                 var oHiddenPosts = JSON.parse(localStorage.getItem("JVCMaster_oHiddenPosts") || "[]");
                 var oHiddenPostsViaPseudos = JSON.parse(localStorage.getItem("JVCMaster_oHiddenPostsViaPseudos") || "[]");
 
                 // Le message d"information comme quoi le post a été caché;
-                vars.oPostContainer.find("li.post:not(.JVCMaster_citation_viewOnTopic)").after($("<li/>", {
+                vars.oPostContainers.find("li.post:not(.JVCMaster_citation_viewOnTopic)").after($("<li/>", {
                     "class" : "JVCMaster_hiddenPosts_informPost post",
                     html : "<b>JVCMaster</b> : <i>Ce message a &eacute;t&eacute; cach&eacute;</i>",
                     css : {
@@ -503,14 +502,14 @@ function JVCMaster(){
                     }
                 }));
 
-                vars.oPostContainer.each(function(){
+                vars.oPostContainers.each(function(){
                     var t = $(this);
 
                     // Si un id ou un pseudo est à cacher
                     if(oHiddenPosts.indexOf(t.attr("id").replace("message_", "")) !== -1
                         || oHiddenPostsViaPseudos.indexOf($.trim(t.find(".pseudo strong").text().toLowerCase())) !== -1){
                             
-                        t.find("li.post:first").slideUp(300);
+                        t.find("li.post").slideUp(300);
                         t.find("li.post.JVCMaster_hiddenPosts_informPost").slideDown(300);
                     }
                 });
@@ -525,27 +524,27 @@ function JVCMaster(){
                     href : "#",
                     click : function(e){
                         var t = $(this);
-                        var oPostContainer = t.parent().parent().parent();
-                        if(oPostContainer.attr("id")){
-                            var oPostContainerId = oPostContainer.attr("id").replace("message_", "");
+                        var oPostContainers = t.parent().parent().parent();
+                        if(oPostContainers.attr("id")){
+                            var oPostContainersId = oPostContainers.attr("id").replace("message_", "");
 
                              // Si le post n"est pas déjà été caché
-                            if(oHiddenPosts.indexOf(oPostContainerId) === -1){
-                                oHiddenPosts.push(oPostContainerId);         
-                                oPostContainer.find("li.post:first").slideUp(300);
-                                oPostContainer.find("li.post.JVCMaster_hiddenPosts_informPost").slideDown(300);
+                            if(oHiddenPosts.indexOf(oPostContainersId) === -1){
+                                oHiddenPosts.push(oPostContainersId);         
+                                oPostContainers.find("li.post:visible").addClass("JVCMaster_hideByHidePost").slideUp(300);
+                                oPostContainers.find("li.post.JVCMaster_hiddenPosts_informPost").slideDown(300);
                             }
                             else{
-                                oHiddenPosts.splice(oHiddenPosts.indexOf(oPostContainerId), 1);
-                                oPostContainer.find("li.post.JVCMaster_hiddenPosts_informPost").slideUp(300);
-                                oPostContainer.find("li.post:first").slideDown(300);
+                                oHiddenPosts.splice(oHiddenPosts.indexOf(oPostContainersId), 1);
+                                oPostContainers.find("li.post.JVCMaster_hiddenPosts_informPost").slideUp(300);
+                                oPostContainers.find("li.post.JVCMaster_hideByHidePost, li.post.JVCMaster_citation_viewOnTopic").slideDown(300);
                             }
 
                             localStorage.setItem("JVCMaster_oHiddenPosts", JSON.stringify(oHiddenPosts));
                             e.preventDefault();   
                         }
                     }
-                }).appendTo(vars.oPostContainer.find(".pseudo")));
+                }).appendTo(vars.oPostContainers.find(".pseudo")));
 
                 $("<img />", {
                     "class" : "JVCMaster_btn_hidepseudo",
@@ -555,23 +554,23 @@ function JVCMaster(){
                 }).appendTo($("<a/>", {
                     href : "#",
                     click : function(e){
-                        var oPostContainer = $(this).parent().parent().parent();
-                        var pseudoToHide = $.trim(oPostContainer.find(".pseudo").text().toLowerCase());
+                        var oPostContainers = $(this).parent().parent().parent();
+                        var pseudoToHide = $.trim(oPostContainers.find(".pseudo").text().toLowerCase());
                         var toHide = (oHiddenPostsViaPseudos.indexOf(pseudoToHide) === -1) ? true : false;
 
-                        vars.oPostContainer.each(function(){
+                        vars.oPostContainers.each(function(){
                             var t = $(this);
                             var pseudo = $.trim(t.find(".pseudo").text().toLowerCase());
 
                             if(pseudo == pseudoToHide){
                                 if(toHide){
-                                    t.find("li.post:first").slideUp(300);
-                                    t.find("li.post:last").slideDown(300);
+                                    t.find("li.post:visible").addClass("JVCMaster_hideByHidePost").slideUp(300);
+                                    t.find("li.post.JVCMaster_hiddenPosts_informPost").slideDown(300);
                                     oHiddenPostsViaPseudos.push(pseudoToHide);
                                 }
                                 else{
-                                    t.find("li.post:last").slideUp(300);    
-                                    t.find("li.post:first").slideDown(300);
+                                    t.find("li.post.JVCMaster_hiddenPosts_informPost").slideUp(300);
+                                    t.find("li.post.JVCMaster_hideByHidePost, li.post.JVCMaster_citation_viewOnTopic").slideDown(300);
                                     oHiddenPostsViaPseudos.splice(oHiddenPostsViaPseudos.indexOf(pseudoToHide), 1);                  
                                 } 
                             }
@@ -581,15 +580,15 @@ function JVCMaster(){
 
                         e.preventDefault();
                     }
-                }).appendTo(vars.oPostContainer.find(".pseudo")));
+                }).appendTo(vars.oPostContainers.find(".pseudo")));
             }
         },
 
         uninstall : function(){
             $(".JVCMaster_btn_hidepost").remove();
             $(".JVCMaster_btn_hidepseudo").remove();
-            vars.oPostContainer.find("li.post:first").slideDown(300);
-            vars.oPostContainer.find("li.post.JVCMaster_hiddenPosts_informPost").slideUp(300).remove();
+            vars.oPostContainers.find("li.post:first").slideDown(300);
+            vars.oPostContainers.find("li.post.JVCMaster_hiddenPosts_informPost").slideUp(300).remove();
         }
     };
 
@@ -623,8 +622,6 @@ function JVCMaster(){
                 if(post.is('*')){
                     var highlightedPost = $('.JVCMaster_highlightedPost');
                     highlightedPost.removeClass("JVCMaster_highlightedPost");
-
-                    console.log("hell");
 
                     highlightedPost.animate({
                         backgroundColor : "#EFF4FC"
@@ -775,6 +772,58 @@ function JVCMaster(){
         }
     };
 
+    // Script "Shortcuts"
+    this.oScripts.shortcuts = {
+        id : "shortcuts",
+        name : "Raccourcis",
+        description : "Rajoute des raccourcis dans la navigation des forums",
+        main : function(){
+            
+            // Sur les pages où les topics sont listés
+            var oListeTopics = $("#liste_topics tr:not(:first)");
+            if(oListeTopics){
+                oListeTopics.each(function(k, tr){
+                    var oTds = $(this).find("td");
+                    var oTopic_img = $(oTds[0]).find("img"),
+                        sTopic_url = $(oTds[1]).find('a').attr("href"),
+                        iTopic_msg = oTds[3].innerText;
+
+                        oTopic_img.css("cursor", "pointer");
+                        oTopic_img.click(function(){
+                            window.open(sTopic_url.replace(/(http:\/\/www.jeuxvideo.com\/forums\/)([0-9]+\-)([0-9]+\-)([0-9]+\-)([0-9]+\-)/g, "$1$2$3$4" + Math.ceil(iTopic_msg / 20) + '-'), Math.random());
+
+                        });
+
+
+                });
+            }
+
+            // là où des posts apparaissent
+            if(vars.oPostContainers){
+                vars.oPostContainers.each(function(k, oPostContainer){
+                    var pseudo = $(this).find("li.pseudo");
+
+                    $("<span>", {
+                        click : function(){
+                            window.open("http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=" + pseudo.find("strong").text(), "_tab")
+                        },
+                        title : "Envoyer un message privé à " + pseudo.find("strong").text(),
+                        css : {
+                            cursor : "pointer",
+                            background: "url(http://image.jeuxvideo.com/css_img/defaut/mprives/enveloppe.png) no-repeat top right",
+                            width: "16px",
+                            display: "inline-block",
+                            height: "10px"
+                        }
+                    }).appendTo(pseudo);
+                });
+            }
+        },
+        uninstall : function(){
+
+        }
+    };
+
     // LightBox
     function LightBox(){
         // On crée le calque qui servira à cacher la page
@@ -876,7 +925,15 @@ function JVCMaster(){
                     
                     $("#JVCMaster_extension_" + value.id + " input[type=checkbox]").click(function(){
                         if($(this).is(':checked')){
-                            oScripts[value.id].main();
+                            if(value.id == "shortcuts"){
+                                setTimeout(function(){
+                                    oScripts[value.id].main();
+                                }, 300);
+                            }
+                            else{
+                                oScripts[value.id].main();
+                            }
+
                             sActivatedScripts[value.id] = true;
                         }
                         else{
@@ -910,7 +967,7 @@ function JVCMaster(){
 
                 setTimeout(function(){
                     // On raffraichit les variables
-                    vars.oPostContainer = $('.msg'),
+                    vars.oPostContainers = $('.msg'),
                     vars.oPosts = $('li.post'),
                     
                     $.each(sActivatedScripts, function(key, value){
