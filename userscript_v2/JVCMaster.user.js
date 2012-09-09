@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.4.4
+// @version     2.4.5
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.4.4"
+window.JVCMaster_sVersion = "2.4.5"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -784,7 +784,7 @@ function JVCMaster(){
     this.oScripts.shortcuts = {
         id : "shortcuts",
         name : "Raccourcis",
-        description : "Rajoute des raccourcis dans la navigation des forums",
+        description : "Rajoute des raccourcis (Oh, merci Captain Obvious)",
         main : function(){
             
             // Sur les pages où les topics sont listés
