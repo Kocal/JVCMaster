@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.4.15
+// @version     2.4.16
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.4.15"
+window.JVCMaster_sVersion = "2.4.16"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
