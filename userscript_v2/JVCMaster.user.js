@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     2.5.3
+// @version     2.5.4
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.5.3"
+window.JVCMaster_sVersion = "2.5.4"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -186,23 +186,23 @@ function JVCMaster(){
 
                 var html = t.html();
 
-                html = html.replace(/(?:<br(?: \/)?>)?\| ((?:Ecrit par|Citation de) (?:« )?(.*[^»])(?: »)?, .*((?:\d+) (?:\w+) (?:\d{4}) à (?:\d{2}):(?:\d{2}):(?:\d{2})))/g, 
+                html = html.replace(/((?:Ecrit par « |Citation de )([a-zA-Z0-9_\-\|\]]*)(?: »)?.*)/gi, 
                                 "<div class='JVCMaster_citation_viewOnTopic' style='padding: 23px 5px 5px;background: #D3EFFF;border: 1px solid #51BFFF;border-radius: 6px;margin: 5px 0;position: relative;'>$1");
                 
-                html = html.replace(/ » ?\n <br>(\| )* ?\n (<br>(\| )* ?\n <br>(\| )*&gt;|<br>(\| )*)/g, 
+                html = html.replace(/ ?» ?\n <br>(?:\| )* ?\n (?:<br>(?:\| )* ?\n <br>(?:\| )*&gt; ?|<br>(?:\| )*)/g, 
                                 "</div>");
                 
                 html = html.replace(/\|(?: )*<a href="([^"]*?)".+>.+<\/a> ?\n (?:<br(?:\/ )?>(?:\| )*)?<div class='JVCMaster_citation_viewOnTopic' style='([^"]*?)'>/g, 
                                     '<div class="JVCMaster_citation_viewOnTopic" style="$2padding-bottom:23px;"><div style="background: #BDE7FF;position: absolute;bottom: -1px;left: -1px; right:-1px;padding: 2px 5px;border: 1px solid #51BFFF;height:15px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><a href=\'$1\'>$1</a></div>');
                 
-                html = html.replace(/(?:Ecrit par|Citation de) (?:« )?(.*[^»])(?: »)?,(?: posté le)?(?: via mobile)?(?: le)? ((?:\d+) (?:\w+) (?:\d{4}) à (?:\d{2}):(?:\d{2}):(?:\d{2}))( ?\n <br(?: \/)?>)/gi, 
+                html = html.replace(/(?:Ecrit par « |Citation de )([a-zA-Z0-9_\-\|\]]*)(?: »)? ?, *(.*)/gi, 
                                    '<div style="background: #BDE7FF;position: absolute;top: -1px;left: -1px;padding: 2px 5px;border: 1px solid #51BFFF;">$1</div><div style="background: #BDE7FF; position: absolute; top: -1px; right: -1px;padding: 2px 5px; border: 1px solid #51BFFF;">$2</div>');//.replace(/Ecrit par « (.+) » ?, posté le  ?((?:\d+) (?:\w+) (?:\d{4}) à (?:\d{2}):(?:\d{2}):(?:\d{2}))/gi, "<div style='background: #BDE7FF; position: absolute;     top: -1px;     right: -1px;    padding: 2px 5px; border: 1px solid #51BFFF;'>$1</div>");
-                
-                html = html.replace(/(<\/div>)(?:(?:\| )*«(?: |&nbsp;))(<div class="JVCMaster_citation_viewOnTopic")?/g, 
-                                    "$1$2");
 
-                html = html.replace(/<br( \/)?>(\| )+/g, 
+                html = html.replace(/<br(?: \/)?>(?:\| )+(« |«&nbsp;)?(?:\|)?/g, 
                                     "<br>");
+
+                html = html.replace(/(<\/div>\n) ?<br(?: \/)?> ?/g,
+                                    "$1");
 
                 t.after($('<li/>', {
                     'class' : 'post JVCMaster_citation_viewOnTopic',
