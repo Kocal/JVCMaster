@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     2.5.4
+// @version     2.5.5
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.5.4"
+window.JVCMaster_sVersion = "2.5.5"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -186,11 +186,11 @@ function JVCMaster(){
 
                 var html = t.html();
 
-                html = html.replace(/((?:Ecrit par « |Citation de )([a-zA-Z0-9_\-\|\]]*)(?: »)?.*)/gi, 
-                                "<div class='JVCMaster_citation_viewOnTopic' style='padding: 23px 5px 5px;background: #D3EFFF;border: 1px solid #51BFFF;border-radius: 6px;margin: 5px 0;position: relative;'>$1");
+                html = html.replace(/(?:\| )?((?:Ecrit par « |Citation de )([a-zA-Z0-9_\-\|\]]*)(?: »)?.*)/gi, 
+                                    "<div class='JVCMaster_citation_viewOnTopic' style='padding: 23px 5px 5px;background: #D3EFFF;border: 1px solid #51BFFF;border-radius: 6px;margin: 5px 0;position: relative;'>$1");
                 
                 html = html.replace(/ ?» ?\n <br>(?:\| )* ?\n (?:<br>(?:\| )* ?\n <br>(?:\| )*&gt; ?|<br>(?:\| )*)/g, 
-                                "</div>");
+                                    "</div>");
                 
                 html = html.replace(/\|(?: )*<a href="([^"]*?)".+>.+<\/a> ?\n (?:<br(?:\/ )?>(?:\| )*)?<div class='JVCMaster_citation_viewOnTopic' style='([^"]*?)'>/g, 
                                     '<div class="JVCMaster_citation_viewOnTopic" style="$2padding-bottom:23px;"><div style="background: #BDE7FF;position: absolute;bottom: -1px;left: -1px; right:-1px;padding: 2px 5px;border: 1px solid #51BFFF;height:15px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><a href=\'$1\'>$1</a></div>');
