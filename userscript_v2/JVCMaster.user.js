@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     2.5.1
+// @version     2.5.3
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.5.1"
+window.JVCMaster_sVersion = "2.5.3"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -809,7 +809,8 @@ function JVCMaster(){
                     var oTopic_img = $(oTds[0]).find("img"),
                         sTopic_url = $(oTds[1]).find('a').attr("href"),
                         iTopic_msg = $(oTds[3]).text();
-                        iTopic_msg = (isNaN(parseInt(iTopic_msg))) ? $(oTds[4]).text() : iTopic_msg;
+                        iTopic_msg = (isNaN(iTopic_msg)) ? $(oTds[4]).text() : iTopic_msg;
+                        iTopic_msg = (iTopic_msg % 20 == 0) ? parseInt(iTopic_msg) + 1 : iTopic_msg;
 
                     $(oTopic_img).wrap($("<a/>", {
                         "class" : "JVCMaster_btn_lastMsg",
