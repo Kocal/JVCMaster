@@ -3,9 +3,9 @@
 // @namespace   jvcmaster
 // @description Ajoute des fonctionnalités aux forums de Jeuxvideo.com
 // @include     http://www.jeuxvideo.com/*
-// @include     https://www.jeuxvideo.com/*
+// @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     2.4.17
+// @version     2.5
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.4.17"
+window.JVCMaster_sVersion = "2.5"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -928,7 +928,7 @@ function JVCMaster(){
             text : "JVCMaster " + window.JVCMaster_sVersion,
             click : function(e){
                 // $('<div style="position: relative;padding-bottom: 8px;background: url(http://image.jeuxvideo.com/css_img/defaut/bloc_forum_bas.png) left bottom no-repeat;"><h3 style="position: static;height: 20px;line-height: 22px;font-size: 116.67%;width: auto;background: url(http://image.jeuxvideo.com/css_img/defaut/bloc_h3_forums.png) right top no-repeat!important;"><span class="txt">JVCMaster : Extensions</span></h3><div style="padding: 5px;border: solid 1px #9C0;border-bottom: 0;height: 1%;position: relative;"><ul id="JVCMaster_Scripts" class="liste_liens">').appendTo('#JVCMaster_LightBox_popup');
-                    $('<div class="bloc1"><h3 class="titre_bloc"><span>JVCMaster : Extensions</span></h3><div class="bloc_inner"><ul id="JVCMaster_Scripts" class="liste_liens">').appendTo('#JVCMaster_LightBox_popup');
+                $('<div class="bloc1"><h3 class="titre_bloc"><span>JVCMaster : Extensions</span></h3><div class="bloc_inner"><ul id="JVCMaster_Scripts" class="liste_liens">').appendTo('#JVCMaster_LightBox_popup');
                 // On boucle sur les oScripts
                 $.each(oScripts, function(key, value){
                     $("<li>", {
@@ -971,7 +971,14 @@ function JVCMaster(){
                 lb.show();
                 e.preventDefault();
             }
-        }).appendTo($("<td id=\"JVCMaster_buttonOptions\">").prependTo($("table#connexion tbody tr")));
+        });
+
+        buttonOptions.appendTo($("<td id=\"JVCMaster_buttonOptions\">").prependTo($("table#connexion tbody tr")))
+        
+        // Obligé d'utiliser un timer, car sur les forumJV, la barre est "actualisée"
+        setTimeout(function(){
+            buttonOptions.appendTo($("<li>").prependTo($("div#log ul")));
+        }, 1001);
         
         // Si l"utilisateur viens d"installer JVCMaster
         if(typeof localStorage.getItem("JVCMaster_firstUse") === "object"){
