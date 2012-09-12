@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     2.5.5
+// @version     2.5.6
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.5.5"
+window.JVCMaster_sVersion = "2.5.6"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -186,7 +186,7 @@ function JVCMaster(){
 
                 var html = t.html();
 
-                html = html.replace(/(?:\| )?((?:Ecrit par « |Citation de )([a-zA-Z0-9_\-\|\]]*)(?: »)?.*)/gi, 
+                html = html.replace(/(?:<br(?: \/)?>)?(?:\| )((?:Ecrit par « |Citation de )([a-zA-Z0-9_\-\|\]]*)(?: »)?.*)/gi, 
                                     "<div class='JVCMaster_citation_viewOnTopic' style='padding: 23px 5px 5px;background: #D3EFFF;border: 1px solid #51BFFF;border-radius: 6px;margin: 5px 0;position: relative;'>$1");
                 
                 html = html.replace(/ ?» ?\n <br>(?:\| )* ?\n (?:<br>(?:\| )* ?\n <br>(?:\| )*&gt; ?|<br>(?:\| )*)/g, 
