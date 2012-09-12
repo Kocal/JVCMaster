@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     2.5
+// @version     2.5.1
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.5"
+window.JVCMaster_sVersion = "2.5.1"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -809,10 +809,15 @@ function JVCMaster(){
                     var oTopic_img = $(oTds[0]).find("img"),
                         sTopic_url = $(oTds[1]).find('a').attr("href"),
                         iTopic_msg = $(oTds[3]).text();
+                        iTopic_msg = (isNaN(parseInt(iTopic_msg))) ? $(oTds[4]).text() : iTopic_msg;
 
                     $(oTopic_img).wrap($("<a/>", {
                         "class" : "JVCMaster_btn_lastMsg",
-                        href : sTopic_url.replace(/(http:\/\/www.jeuxvideo.com\/forums\/)([0-9]+\-)([0-9]+\-)([0-9]+\-)([0-9]+\-)/g, "$1$2$3$4" + Math.ceil(iTopic_msg / 20) + '-'),
+                        css : {
+                            display : "inline-block",
+                            width : "16px"
+                        },
+                        href : sTopic_url.replace(/(http:\/\/www.jeuxvideo.com\/forums\/|http:\/\/.*\.forumjv.com\/)([0-9]+\-)([0-9]+\-)([0-9]+\-)([0-9]+\-)/g, "$1$2$3$4" + Math.ceil(iTopic_msg / 20) + '-'),
                         title : "Accéder à la dernière page de ce topic",
                     }));
                 });
@@ -839,7 +844,7 @@ function JVCMaster(){
         },
         uninstall : function(){
             $(".JVCMaster_btn_mp").remove();
-            $(".JVCMaster_btn_lastMsg").remove();
+            $(".JVCMaster_btn_lastMsg").attr("title", "").attr("class", "").attr("href", "");
         }
     };
 
