@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     https://www.jeuxvideo.com/*
 // @run-at      document-end
-// @version     2.4.16
+// @version     2.4.17
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.4.16"
+window.JVCMaster_sVersion = "2.4.17"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -195,7 +195,7 @@ function JVCMaster(){
                 html = html.replace(/\|(?: )*<a href="([^"]*?)".+>.+<\/a> ?\n (?:<br(?:\/ )?>(?:\| )*)?<div class='JVCMaster_citation_viewOnTopic' style='([^"]*?)'>/g, 
                                     '<div class="JVCMaster_citation_viewOnTopic" style="$2padding-bottom:23px;"><div style="background: #BDE7FF;position: absolute;bottom: -1px;left: -1px; right:-1px;padding: 2px 5px;border: 1px solid #51BFFF;height:15px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><a href=\'$1\'>$1</a></div>');
                 
-                html = html.replace(/(?:Ecrit par|Citation de) (?:« )?(.*[^»])(?: »)?,(?: via mobile)?(?: le)? ((?:\d+) (?:\w+) (?:\d{4}) à (?:\d{2}):(?:\d{2}):(?:\d{2}))( ?\n <br(?: \/)?>)/gi, 
+                html = html.replace(/(?:Ecrit par|Citation de) (?:« )?(.*[^»])(?: »)?,(?: posté le)?(?: via mobile)?(?: le)? ((?:\d+) (?:\w+) (?:\d{4}) à (?:\d{2}):(?:\d{2}):(?:\d{2}))( ?\n <br(?: \/)?>)/gi, 
                                    '<div style="background: #BDE7FF;position: absolute;top: -1px;left: -1px;padding: 2px 5px;border: 1px solid #51BFFF;">$1</div><div style="background: #BDE7FF; position: absolute; top: -1px; right: -1px;padding: 2px 5px; border: 1px solid #51BFFF;">$2</div>');//.replace(/Ecrit par « (.+) » ?, posté le  ?((?:\d+) (?:\w+) (?:\d{4}) à (?:\d{2}):(?:\d{2}):(?:\d{2}))/gi, "<div style='background: #BDE7FF; position: absolute;     top: -1px;     right: -1px;    padding: 2px 5px; border: 1px solid #51BFFF;'>$1</div>");
                 
                 html = html.replace(/(<\/div>)(?:(?:\| )*«(?: |&nbsp;))(<div class="JVCMaster_citation_viewOnTopic")?/g, 
