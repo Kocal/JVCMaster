@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     2.5.6
+// @version     2.6
 // ==/UserScript==
 
 /*
@@ -18,7 +18,7 @@ Au début d'une variable
     "b" : Boolean
 */
 
-window.JVCMaster_sVersion = "2.5.6"
+window.JVCMaster_sVersion = "2.6"
 
 function JVCMaster(){
     this.version = window.JVCMaster_sVersion;
@@ -503,6 +503,18 @@ function JVCMaster(){
             $("#JVCMaster_TopicFavorites").remove();
         }
     }
+
+    this.oScripts.friendlist = {
+        id : "friendlist",
+        name : "FriendList",
+        description : "Permet d'ajouter des pseudos à ses amis",
+        main : function(){
+
+        },
+        uninstall : function(){
+
+        }
+    };
 
     // Script "HidePost"
     this.oScripts.hidepost = {
