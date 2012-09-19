@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.1
+// @version     3.1.1
 // ==/UserScript==
 
 function JVCMaster(){
@@ -13,7 +13,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = 3.1;
+    _.version = 3.1.1;
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -524,7 +524,7 @@ function JVCMaster(){
         hightlightpermapost : {
             id : "hightlightpermapost",
             name : "Surlign'perma-post",
-            description : "Les posts \"permanants\" sont surlignés",
+            description : "Les posts \"permanents\" sont surlignés",
             init : function(){
                 var hash = window.location.hash;
 
