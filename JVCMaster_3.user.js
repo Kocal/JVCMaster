@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3
+// @version     3.1
 // ==/UserScript==
 
 function JVCMaster(){
@@ -13,7 +13,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = 3;
+    _.version = 3.1;
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -198,7 +198,7 @@ function JVCMaster(){
                         _.scripts[script].destroy();
                         _.scripts[script].init();
                     });                 
-                }, 500);
+                }, 1000);
             });
         }
 
@@ -306,9 +306,12 @@ function JVCMaster(){
                                 border: 1px solid #9DDBFF; \
                                 border-radius: 6px; \
                                 box-shadow : 0 0 10px rgba(0,0,0,0.2); \
-                                margin:4px 0 5px; \
+                                margin:20px 0 5px; \
                                 padding: 20px 5px 5px; \
                                 position: relative; \
+                            } \
+                            .JVCMaster_POST_CITATION .postContainer:first-child{ \
+                                margin-top : -5px; \
                             } \
                             .JVCMaster_POST_CITATION .postContainer .CITATION_pseudo, .JVCMaster_POST_CITATION .postContainer .CITATION_date, .JVCMaster_POST_CITATION .postContainer .CITATION_permalink{ \
                                 background : #CBECFF; \
