@@ -26,7 +26,7 @@ function JVCMaster(){
     localStorage */
     _.LS_get = function(key){ return localStorage.getItem("JVCMaster_" + key); }
     _.LS_set = function(key, value){ localStorage.setItem("JVCMaster_" + key, value); }
-    _.LS_rm = function(key){ localStorage.removeItem("JVCMaster_" + key); }
+    _.LS_rm  = function(key){ localStorage.removeItem("JVCMaster_" + key); }
     
     /*
     Le pattern où les boutons seront insérés */
@@ -127,7 +127,7 @@ function JVCMaster(){
         Bouton "JVCMaster x.x.x" pour ouvrir le panneau de configuration */
         var BTN_CONFIGURATION = $("<a/>", {
             title : "Panneau de configuration de JVCMaster",
-            text : "JVCMaster " + _.version,
+            text  : "JVCMaster " + _.version,
             click : function(e){
                  /*
                 On rafraichit la liste des extensions activées */
@@ -144,16 +144,16 @@ function JVCMaster(){
                 $.colorbox({html : html});
                 
                 $("input[type=checkbox][data-jvcmaster-script-id]").click(function(){
-                   var t = $(this);
-                   var id = t.attr("data-jvcmaster-script-id");
+                   var t  = $(this)
+                     , id = t.attr("data-jvcmaster-script-id");
 
-                   if(t.is(":checked")){
+                    if(t.is(":checked")){
                         _.activatedExtensions.push(id);
                         _.scripts[id].init();
-                   } else{
+                    } else{
                         _.activatedExtensions.splice(_.activatedExtensions.indexOf(id), 1);
                         _.scripts[id].destroy();
-                   }
+                    }
 
                    _.LS_set("activatedExtensions", JSON.stringify($.unique(_.activatedExtensions)));
                 })
@@ -216,8 +216,8 @@ function JVCMaster(){
     // Extensions de JVCMaster
     _.scripts = {
         antiflood : {
-             id : "antiflood",
-            name : "Anti-Flood",
+            id          : "antiflood",
+            name        : "Anti-Flood",
             description : "Cache le flood",
             init : function(){
                 _.insertCSS(".JVCMaster_POST_FLOOD{ \
@@ -233,15 +233,15 @@ function JVCMaster(){
                 var postContainers = $("div[id^=message]");
 
                 postContainers.find(".post").each(function(){
-                    var t = $(this)
+                    var t             = $(this)
                       , postContainer = t.parents(".msg")
-                      , html = t.html();
+                      , html          = t.html();
 
                     if(/( ?<br( \/)?>&nbsp;\n){200}/.test(html)
                     || /[W]{40}/.test(html)
                     ){
                         var BTN_AVERTIR_HREF = postContainers.find(".avertir").attr("href")
-                          , pseudo = postContainer.find(".pseudo strong").text()
+                          , pseudo           = postContainer.find(".pseudo strong").text()
                         ;
 
                         postContainer.hide();
@@ -260,15 +260,15 @@ function JVCMaster(){
         },
 
         citation : {
-            id : "citation",
-            name : "Citation",
+            id          : "citation",
+            name        : "Citation",
             description : "Citer des posts",
 
             init : function(){
                 var textarea = $("#newmessage")
                   , btn = $("<img />", {
                         title : "Citer ce post",
-                        src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMEAYAAADkOZvdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAIcbAACL/wAA/6wAAIMCAACETAAA7XIAADqFAAAdxCRWn50AAAMoSURBVHjadJJvSJx1AMc/v98993h3HnLq6Q41lVKwGiGHmAwZQ4bEBW1sEENMgkSWuGMVDDlijIi4F3XY8EWMKBUnIccacdhYMlbYUasX4zj7I1K3FHGXXDc778/zPPf8elUNap/XXz58XnxFa9e8WvtWKZ6TXRwGcV40yMdBHFGn1IfYKsUlQuSYYYRJFuWbXKeHqHZRzspZO6EGZYR01dI2pJTS2yTCjInbxoQmUrJPRKGu6Nl1A9UJe8wOYjBFnDH2RYIx+tmWAyInblHnOCtSooteR0YWxaSwnC5N1/KO68actVwdK4xKnxwWDe6boiN01Z18XymX7ex1NoM8JbNyFEM0kyBGcf3E6Z5gGB+P4OlXP8gnxom6+/23moPMFTRrRV3mrsZRggwCm4ziAlHmJDPo6ydOB4JT6H8LWj+e6J7eAnGNNjEADt017vkD9JX6bxqTTDtna5719DEt3vF0essgVU5NiWkQWRETKRAf4aHrf9LiO/HfF0HLeIa8P4P7wmMHT8RB/+HQepsEdacmqr8I5h161QZofG8H1EmQy2JHngU2xKBKAJB62Fsqljr/jIEn7Tva9B7o4y3fde6D+ZTjosxC6RerUI1AOWcNWjmQak7GSIOdrAatAMgRe8Q+8t/gao8YNq/BwbY1XlmAB22l48URKCTLb1fuQnHXzFp7gIEHQKqgnbGHwPis3FKOQGXIiBgZSKczmQf5h8wL9iV9EqywmpEFMK8oH2FQtr1kS1CIT4Tx71y0Dsx/unZOKXrNrFEAsUgDcTB27x/fvgL3ayO+l87wSA69EV29Ogry9fpVvxccfe6wdxhEa8v81trnSinN8FQA8iwQA3uitHKwC6b3t1c2G8D0bb28eQ/4Sdn2VyAuuJZq3wVHsv6M/0fQIx3Pd8+BI9fYHjgGmgpZq2ZZNIkb+gs1uvpV+c3LlQSavOkxanfBGe94snsHzfGW7+vGVTR1u/Ja6RywrI6pJRCHa75wh4Abzo2aZVB+VafaQfzz08D8wdqXnEdDQ6p7wD4WISDPHu1Alh38wA57PAPsk0MC22SRQDsBAPoZgL8GAMXsSoEas11IAAAAAElFTkSuQmCC",
+                        src   : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMEAYAAADkOZvdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAIcbAACL/wAA/6wAAIMCAACETAAA7XIAADqFAAAdxCRWn50AAAMoSURBVHjadJJvSJx1AMc/v98993h3HnLq6Q41lVKwGiGHmAwZQ4bEBW1sEENMgkSWuGMVDDlijIi4F3XY8EWMKBUnIccacdhYMlbYUasX4zj7I1K3FHGXXDc778/zPPf8elUNap/XXz58XnxFa9e8WvtWKZ6TXRwGcV40yMdBHFGn1IfYKsUlQuSYYYRJFuWbXKeHqHZRzspZO6EGZYR01dI2pJTS2yTCjInbxoQmUrJPRKGu6Nl1A9UJe8wOYjBFnDH2RYIx+tmWAyInblHnOCtSooteR0YWxaSwnC5N1/KO68actVwdK4xKnxwWDe6boiN01Z18XymX7ex1NoM8JbNyFEM0kyBGcf3E6Z5gGB+P4OlXP8gnxom6+/23moPMFTRrRV3mrsZRggwCm4ziAlHmJDPo6ydOB4JT6H8LWj+e6J7eAnGNNjEADt017vkD9JX6bxqTTDtna5719DEt3vF0essgVU5NiWkQWRETKRAf4aHrf9LiO/HfF0HLeIa8P4P7wmMHT8RB/+HQepsEdacmqr8I5h161QZofG8H1EmQy2JHngU2xKBKAJB62Fsqljr/jIEn7Tva9B7o4y3fde6D+ZTjosxC6RerUI1AOWcNWjmQak7GSIOdrAatAMgRe8Q+8t/gao8YNq/BwbY1XlmAB22l48URKCTLb1fuQnHXzFp7gIEHQKqgnbGHwPis3FKOQGXIiBgZSKczmQf5h8wL9iV9EqywmpEFMK8oH2FQtr1kS1CIT4Tx71y0Dsx/unZOKXrNrFEAsUgDcTB27x/fvgL3ayO+l87wSA69EV29Ogry9fpVvxccfe6wdxhEa8v81trnSinN8FQA8iwQA3uitHKwC6b3t1c2G8D0bb28eQ/4Sdn2VyAuuJZq3wVHsv6M/0fQIx3Pd8+BI9fYHjgGmgpZq2ZZNIkb+gs1uvpV+c3LlQSavOkxanfBGe94snsHzfGW7+vGVTR1u/Ja6RywrI6pJRCHa75wh4Abzo2aZVB+VafaQfzz08D8wdqXnEdDQ6p7wD4WISDPHu1Alh38wA57PAPsk0MC22SRQDsBAPoZgL8GAMXsSoEas11IAAAAAElFTkSuQmCC",
                         click : function(){
                             var postContainer = $(this).parents(".msg");
 
@@ -315,7 +315,7 @@ function JVCMaster(){
                                 border-radius: 6px; \
                                 box-shadow : 0 0 10px rgba(0,0,0,0.2); \
                                 margin:20px 0 5px; \
-                                padding: 20px 5px 5px; \
+                                padding: 5px; \
                                 position: relative; \
                             } \
                             .JVCMaster_POST_CITATION .postContainer:first-child{ \
@@ -386,16 +386,16 @@ function JVCMaster(){
 
                     html = t.html();
 
-                    html = html.replace(/(?:<br(?: \/)?>)?(?:\| )((?:Ecrit par « |Citation de )([a-zA-Z0-9_\-\|\]]*)(?: »)?.*)/gi, 
+                    html = html.replace(/(?:<br(?: \/)?>)?(?:\| )((?:Ecrit par « |Citation de )([a-zA-Z0-9_\-\|\]]*)(?: »)?(?:[^|]*) )/gi, 
                                         '<div class="postContainer' + (t.attr("class") == "msg_body" ? " JVCMaster_MSGBODY" : '' ) + '">$1')
 
-                                .replace(/»(\n|<br( \/)?>\n)((\| )*<br>\n| <br( \/)?>(\| )*\n)*((\| )*&gt; | <br( \/)?>)((\| )*&gt; )?/g, 
+                                .replace(/»( *<br( \/)?> <br( \/)?>|((?:\n)|<br( \/)?>(?:\n))((\| )*<br>(?:\n)| <br( \/)?>(\| )*(?:\n))*((\| )*&gt; | <br( \/)?>)((\| )*&gt; )?)/g, 
                                         "</div>")
                                 
-                                .replace(/\|(?: )*<a href="([^"]*?)".+>.+<\/a> ?\n (?:<br(?:\/ )?>(?:\| )*)?<div class="postContainer">/g, 
+                                .replace(/\| *<a href="([^"]*?)".+>.+<\/a> ?\n? (?:<br(?:\/ )?>(?:\| )*)?<div class="postContainer">/g, 
                                         '<div class="postContainer"><div class="CITATION_permalink"><a href=\'$1\'>$1</a></div>')
                                 
-                                .replace(/(<div class="postContainer(?: JVCMaster_MSGBODY)?">|<\/div>)(?:Ecrit par « |Citation de (?:")?)([a-zA-Z0-9_\-\[\]]*)(?: »|(?:")?)? ?, *(.*)/gi, 
+                                .replace(/(<div class="postContainer(?: JVCMaster_MSGBODY)?">|<\/div>)(?:Ecrit par « |Citation de (?:")?)([a-zA-Z0-9_\-\[\]]*)(?: »|(?:")?)?, *([^|]*) /gi, 
                                        '$1<div class="CITATION_pseudo"><a href="http://www.jeuxvideo.com/profil/$2.html">$2</a></div><div class="CITATION_date">$3</div>')
                                 
                                 .replace(/ ?(<br(?: \/)?>) ?(?:\| )+(« |«&nbsp;)?(?:\|)?/g, 
@@ -409,7 +409,7 @@ function JVCMaster(){
 
                     t.before($("<li>", {
                         "class" : "JVCMaster_POST_CITATION " + (t.attr("class") == "msg_body" ? "JVCMaster_MSGBODY" : "JVCMaster_POST" )
-                        , html : html
+                        , html  : html
                     }));
 
                     $(".JVCMaster_POST .postContainer").hover(function(){
@@ -428,14 +428,14 @@ function JVCMaster(){
         },
 
         hideposts : {
-            id : "hideposts",
-            name : "HidePosts",
+            id          : "hideposts",
+            name        : "HidePosts",
             description : "Cacher des posts et les posts d'un pseudo",
             init : function(){
                 $("div[id^=message]").find(".post").after($("<li/>", {
                     "class" : "JVCMaster_POST JVCMaster_POST_HIDDENPOST"
-                    , html : "<b>JVCMaster</b> : <i>Ce message a été caché</i>"
-                    , css : { display : "none" }
+                    , html  : "<b>JVCMaster</b> : <i>Ce message a été caché</i>"
+                    , css   : { display : "none" }
                 }));
 
                 var postContainers      = $(".msg")
@@ -540,8 +540,8 @@ function JVCMaster(){
         },
 
         hightlightpermapost : {
-            id : "hightlightpermapost",
-            name : "Surlign'perma-post",
+            id          : "hightlightpermapost",
+            name        : "Surlign'perma-post",
             description : "Les posts \"permanents\" sont surlignés",
             init : function(){
                 var hash = window.location.hash;
@@ -555,7 +555,7 @@ function JVCMaster(){
                 }
 
                 $(".ancre a").click(function(e){
-                    var t = $(this)
+                    var t    = $(this)
                       , href = t.attr("href").match("(#.*)$")[0]
                       , post = $(href)
                     ;
@@ -577,8 +577,8 @@ function JVCMaster(){
         },
 
         cdvinformations : {
-            id : "cdvinformations",
-            name : "CDV informations",
+            id :        "cdvinformations",
+            name        : "CDV informations",
             description : "Affiche des informations à côté du pseudo", 
             init : function(){
                 /*
@@ -619,15 +619,15 @@ function JVCMaster(){
                 _.setButton("BADGE_RANK", BADGE_RANK);
 
                 $(".pseudo strong").each(function(){
-                    var t = $(this)
+                    var t             = $(this)
                       , postContainer = t.parents(".msg")
-                      , pseudo = t.text().toLowerCase()
+                      , pseudo        = t.text().toLowerCase()
                     ;
 
                     $.ajax({
                         url : "http://www.jeuxvideo.com/profil/" + pseudo + ".html",
                         success : function(data){
-                            var BTN_CDV = postContainer.find("a[href^=http\\:\\/\\/www\\.jeuxvideo\\.com\\/profil] img")
+                            var BTN_CDV    = postContainer.find("a[href^=http\\:\\/\\/www\\.jeuxvideo\\.com\\/profil] img")
                               , BADGE_RANK = postContainer.find("span.JVCMaster_BADGE_RANK span")
                             ;
 
@@ -635,8 +635,8 @@ function JVCMaster(){
                             if(data.match("<p class=\"banni\">"))
                                 BTN_CDV.attr("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wICggWDgPWFDkAAAD2SURBVCjPhdEtroNAEMDxP4VtsqYkxXALDAoBohfgCIg9wJpaLoDZA+BxXAgEsmkIigSxJDzR0Pa9NK/jJvnNZD4crfXGlzDGOAAeQBzH/2Kt9WaMcTwAay0ARVH8QlVVcTqdiKIIrfV22PFfCHC9XhmGgXmeATi8dwZIkoTL5fLMu65jmiaeM1trKcuSrusIw5C2bQHIsowgCFjX9YX7vsday/F4pGkaANI0BcB1Xe73O1LKBwYQQiCEQCnF7XZDCMH5fCYIAoQQr87vUdc1AHme4/v+E37ESinGcfx4b2c/+r6EtZZlWQCQUr5G8LwH3gu+vf0HNF5XpCC6I0sAAAAASUVORK5CYII=");
                             else{
-                                var rank = data.match("<body.*class=\"(.*)\">")[1]
-                                  , sexe = data.match("<h1.*class=\"(sexe_[f|m])\">")[1]
+                                var rank   = data.match("<body.*class=\"(.*)\">")[1]
+                                  , sexe   = data.match("<h1.*class=\"(sexe_[f|m])\">")[1]
                                   , avatar = data.match('<img id="img_grande"(?: | style="(?:[^"]*)" onClick="(?:[^"]*)" )?src="([^"]*)"')[1]
                                 ;
 
@@ -730,25 +730,25 @@ function JVCMaster(){
         },
 
         visionoelshack : {
-            id : "visionoelshack",
-            name : "Visionneuse d'image NoelShack",
+            id          : "visionoelshack",
+            name        : "Visionneuse d'image NoelShack",
             description : "Visionner directement les images NoelShack",
             init : function(){
                 setTimeout(function(){
                     $("a[href^=http\\:\\/\\/www\\.noelshack\\.com], a[href^=http\\:\\/\\/image\\.noelshack\\.com]").click(function(e){
 
-                        var t = $(this)
-                          , pageUrl = t.attr("href")
+                        var t        = $(this)
+                          , pageUrl  = t.attr("href")
                           , imageUrl = pageUrl
                         ;
 
                         imageUrl = pageUrl.replace(/http:\/\/www\.noelshack.com\/([0-9]{4})\-([0-9]*)\-([0-9]*)\-(.*)/, "http://image.noelshack.com/fichiers/$1/$2/$3-$4")
                         $.colorbox({
-                            photo : true
-                            , href : imageUrl
-                            , title : "<a href='" + imageUrl + "' style='overflow: hidden;text-overflow: ellipsis;white-space: nowrap'>" + imageUrl + "</a>"
+                            photo       : true
+                            , href      : imageUrl
+                            , title     : "<a href='" + imageUrl + "' style='overflow: hidden;text-overflow: ellipsis;white-space: nowrap'>" + imageUrl + "</a>"
                             , maxHeight : "95%"
-                            , maxWidth : "95%"
+                            , maxWidth  : "95%"
                         });
                         
                         e.preventDefault();
@@ -761,8 +761,8 @@ function JVCMaster(){
         },
 
         favoritestopics : {
-            id : "favoritestopics",
-            name : "Topics préférés",
+            id          : "favoritestopics",
+            name        : "Topics préférés",
             description : "Epinglez vos topics préférés",
             init : function(){
                 _.insertCSS("#JVCMaster_FavoritesTopics li{ \
@@ -792,7 +792,7 @@ function JVCMaster(){
                                 background-position : bottom left; \
                             }");
 
-                html = "<h3 class=\"titre_bloc\"><span>Mes topics préférés</span></h3>";
+                html =  "<h3 class=\"titre_bloc\"><span>Mes topics préférés</span></h3>";
                 html += "<div class=\"bloc_inner\">";
                 html += "<ul class=\"liste_liens\">";
                 html += "</ul>";
@@ -829,7 +829,7 @@ function JVCMaster(){
                              }).after($("<a/>", {
                                 "class" : "JVCMaster_BTN_RMFAVORITESTOPIC",
                                 click : function(){
-                                    var t = $(this)
+                                    var t         = $(this)
                                       , forumName = t.prev().find(".JVCMaster_FavoritesTopics_forumName").text()
                                       , topicName = t.prev().find(".JVCMaster_FavoritesTopics_topicName").text()
                                     ;
@@ -858,9 +858,9 @@ function JVCMaster(){
                 }).after(
                     $("<img>", {
                         "class" : "JVCMaster_BTN_FAVORITESTOPIC",
-                        title : "Epingler ce topics à vos topics préférés",
-                        src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAIAQMAAAARA0f2AAAABlBMVEX///+ZzADAT8hDAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfcCBsMAieAZsMmAAAAGklEQVQI12MoZ2D43wBF9QwMdgwMMgwMHAwAXZcF1pKKg9EAAAAASUVORK5CYII=",
-                        css : {
+                        title   : "Epingler ce topics à vos topics préférés",
+                        src     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAIAQMAAAARA0f2AAAABlBMVEX///+ZzADAT8hDAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfcCBsMAieAZsMmAAAAGklEQVQI12MoZ2D43wBF9QwMdgwMMgwMHAwAXZcF1pKKg9EAAAAASUVORK5CYII=",
+                        css     : {
                             cursor : "pointer",
                             marginLeft : "5px",
                         },
@@ -912,10 +912,12 @@ function JVCMaster(){
         },*/
 
         shortcuts : {
-            id : "shortcuts",
-            name : "Raccourcis",
+            id          : "shortcuts",
+            name        : "Raccourcis",
             description : "Des raccourcis sont ajoutés",
             init : function(){
+                if(_.onMp())
+                    return;
                 /*
                 Bouton MP */
                 _.insertCSS(".JVCMaster_BTN_MP span { \
@@ -931,12 +933,12 @@ function JVCMaster(){
 
                     var btn = $("<a/>", {
                         title : "Envoyer un mp à " + pseudo.text(),
-                        href : "http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=" + pseudo.text(),
-                        css : {
-                            background: "url(http://image.jeuxvideo.com/css_img/defaut/mprives/enveloppe.png) no-repeat top right",
-                            width: "16px",
-                            display: "inline-block",
-                            height: "10px"
+                        href  : "http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=" + pseudo.text(),
+                        css   : {
+                            background: "url(http://image.jeuxvideo.com/css_img/defaut/mprives/enveloppe.png) no-repeat top right"
+                            , width   : "16px"
+                            , display : "inline-block"
+                            , height  : "10px"
                         }
                     });
 
@@ -946,9 +948,9 @@ function JVCMaster(){
                 /*
                 Derniere page lors du clic sur l'"icône" du topic*/
                 $("#liste_topics tr:not(:first)").each(function(){
-                    var t = $(this)
-                      , icon = t.find("td:first").find("img")
-                      , href = t.find("td:eq(1) a").attr("href")
+                    var t         = $(this)
+                      , icon      = t.find("td:first").find("img")
+                      , href      = t.find("td:eq(1) a").attr("href")
                       , nbMessage = parseInt(t.find("td:last").prev().text()) + 1
                     ;
 
@@ -958,7 +960,7 @@ function JVCMaster(){
                         Bug sur les forumJV */
                         css : {
                             display : "inline-block",
-                            width : "16px"
+                            width   : "16px"
                         }
                     }));
                 });
@@ -978,10 +980,10 @@ function JVCMaster(){
                         return; 
 
                     $.colorbox({
-                        iframe : true, 
-                        href: $(this).attr("href"), 
-                        width : "830px", 
-                        height : "81%",
+                        iframe     : true, 
+                        href       : $(this).attr("href"), 
+                        width      : "830px", 
+                        height     : "81%",
                         onComplete : function(){
                             /*
                             Le temps que l'iframe se charge completement */
@@ -989,7 +991,7 @@ function JVCMaster(){
                                 $("#cboxLoadedContent iframe").on("load", function(){  
                                     var tFrame = $(this)
                                       , iframe = tFrame.contents()
-                                      , tabs = iframe.find("#onglets")
+                                      , tabs   = iframe.find("#onglets")
                                     ;
 
                                     tabs.find("li").click(function(e){
