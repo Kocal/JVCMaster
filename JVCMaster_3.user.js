@@ -5,15 +5,18 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.1.1
+// @version     3.1.2
 // ==/UserScript==
+
+/*
+Par défaut, cacher le permalink dans la visualisation des citations, et le montrer si on passe le curseur dessus */
 
 function JVCMaster(){
     /*
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.1.1";
+    _.version = "3.1.2";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -64,7 +67,12 @@ function JVCMaster(){
     /*
     Permet de savoir si on est sur www.jeuxvideo.com */
     _.isJVC = function(){
-        return location.hostname == "www.jeuxvideo.com";
+        return /jeuxvideo.com|forumjv\.com$/.test(window.location.hostname);
+    }
+    /*
+    Permet de savoir si on est sur un MP */
+    _.onMp = function(){
+        return $("#reception").is('*')
     }
 
     /*
@@ -313,6 +321,9 @@ function JVCMaster(){
                             .JVCMaster_POST_CITATION .postContainer:first-child{ \
                                 margin-top : -5px; \
                             } \
+                            .postContainer > .postContainer {\
+                                margin-top : 4px \
+                            } \
                             .JVCMaster_POST_CITATION .postContainer .CITATION_pseudo, .JVCMaster_POST_CITATION .postContainer .CITATION_date, .JVCMaster_POST_CITATION .postContainer .CITATION_permalink{ \
                                 background : #CBECFF; \
                                 border: 1px solid #9DDBFF; \
@@ -335,6 +346,7 @@ function JVCMaster(){
                             .JVCMaster_POST_CITATION .postContainer .CITATION_permalink{ \
                                 border-radius : 0 0 6px 6px; \
                                 bottom : -1px; \
+                                display : none; \
                                 left : -1px; \
                                 overflow : hidden; \
                                 right : -1px; \
@@ -381,7 +393,7 @@ function JVCMaster(){
                                         "</div>")
                                 
                                 .replace(/\|(?: )*<a href="([^"]*?)".+>.+<\/a> ?\n (?:<br(?:\/ )?>(?:\| )*)?<div class="postContainer">/g, 
-                                        '<div class="postContainer" style="padding-bottom:25px;"><div class="CITATION_permalink"><a href=\'$1\'>$1</a></div>')
+                                        '<div class="postContainer"><div class="CITATION_permalink"><a href=\'$1\'>$1</a></div>')
                                 
                                 .replace(/(<div class="postContainer(?: JVCMaster_MSGBODY)?">|<\/div>)(?:Ecrit par « |Citation de (?:")?)([a-zA-Z0-9_\-\[\]]*)(?: »|(?:")?)? ?, *(.*)/gi, 
                                        '$1<div class="CITATION_pseudo"><a href="http://www.jeuxvideo.com/profil/$2.html">$2</a></div><div class="CITATION_date">$3</div>')
@@ -399,6 +411,12 @@ function JVCMaster(){
                         "class" : "JVCMaster_POST_CITATION " + (t.attr("class") == "msg_body" ? "JVCMaster_MSGBODY" : "JVCMaster_POST" )
                         , html : html
                     }));
+
+                    $(".JVCMaster_POST .postContainer").hover(function(){
+                        $(this).find(".CITATION_permalink").slideDown(100);
+                    }, function(){
+                        $(this).find(".CITATION_permalink").slideUp(100);
+                    });
                 })
             },
 
@@ -545,9 +563,7 @@ function JVCMaster(){
                     if(post.is('*')){
                         var highlightedPost = $('.JVCMaster_highlightedPost');
                         highlightedPost.removeClass("JVCMaster_highlightedPost");
-
                         highlightedPost.animate({ backgroundColor : "#EFF4FC" }, 500);
-
                         scrollTo(post);
                     }
                 });
@@ -565,7 +581,31 @@ function JVCMaster(){
             name : "CDV informations",
             description : "Affiche des informations à côté du pseudo", 
             init : function(){
+                /*
+                Impossible de faire une requête AJAX depuis les forumJV sur "Jeuxvideo.com" */
+                if(/forumjv\.com$/.test(window.location.hostname))
+                    return;
+
                 _.insertCSS(".JVCMaster_BADGE_RANK img{ cursor : default }")
+                
+                _.insertCSS(".JVCMaster_avatar{ \
+                        display : none; \
+                        height : 100px; \
+                        left: -105px; \
+                        position: absolute; \
+                        text-align : right; \
+                        top: 0; \
+                        z-index: 1; \
+                        width : 100px; \
+                    } \
+                    .JVCMaster_avatar img{ \
+                        background: white; \
+                        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); \
+                        padding: 5px; \
+                    } \
+                    .pseudo strong{ \
+                        cursor : default \
+                    }");
 
                 BADGE_RANK = $("<span>", {
                     height : "12px"
@@ -584,21 +624,34 @@ function JVCMaster(){
                       , pseudo = t.text().toLowerCase()
                     ;
 
-                    if(!_.isJVC())
-                        return; 
-
                     $.ajax({
                         url : "http://www.jeuxvideo.com/profil/" + pseudo + ".html",
                         success : function(data){
                             var BTN_CDV = postContainer.find("a[href^=http\\:\\/\\/www\\.jeuxvideo\\.com\\/profil] img")
                               , BADGE_RANK = postContainer.find("span.JVCMaster_BADGE_RANK span")
                             ;
-                        
+
+
                             if(data.match("<p class=\"banni\">"))
                                 BTN_CDV.attr("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wICggWDgPWFDkAAAD2SURBVCjPhdEtroNAEMDxP4VtsqYkxXALDAoBohfgCIg9wJpaLoDZA+BxXAgEsmkIigSxJDzR0Pa9NK/jJvnNZD4crfXGlzDGOAAeQBzH/2Kt9WaMcTwAay0ARVH8QlVVcTqdiKIIrfV22PFfCHC9XhmGgXmeATi8dwZIkoTL5fLMu65jmiaeM1trKcuSrusIw5C2bQHIsowgCFjX9YX7vsday/F4pGkaANI0BcB1Xe73O1LKBwYQQiCEQCnF7XZDCMH5fCYIAoQQr87vUdc1AHme4/v+E37ESinGcfx4b2c/+r6EtZZlWQCQUr5G8LwH3gu+vf0HNF5XpCC6I0sAAAAASUVORK5CYII=");
                             else{
                                 var rank = data.match("<body.*class=\"(.*)\">")[1]
-                                  , sexe = data.match("<h1.*class=\"(sexe_[f|m])\">")[1];
+                                  , sexe = data.match("<h1.*class=\"(sexe_[f|m])\">")[1]
+                                  , avatar = data.match('<img id="img_grande"(?: | style="(?:[^"]*)" onClick="(?:[^"]*)" )?src="([^"]*)"')[1]
+                                ;
+
+                                if(!_.onMp()){
+                                    $("<li>", {
+                                        "class" : "JVCMaster_avatar",
+                                        html : "<img src='" + avatar + "'>"
+                                    }).appendTo(postContainer.find("ul"));
+
+                                    postContainer.find(".pseudo strong").hover(function(){
+                                        postContainer.find(".JVCMaster_avatar").fadeIn(200);
+                                    }, function(){
+                                        postContainer.find(".JVCMaster_avatar").fadeOut(200);
+                                    });
+                                }
 
                                 if(sexe == "sexe_f")
                                     BTN_CDV.attr("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAEmSURBVHjahNG/SwJhHMfx92Ond4slYaF3EmgN0tQQLTm2FQQtZbTV5tYc9Cc49TccLU61NZ4E4eJSJGFDSGFJmoZ3Ss/TIF72g/xsD8/reZ4P30c4lq0Yk0wtKwA0gIW1xX+xc2GrTC0rNADVlQDETpe+oauNc6L6NPOraZyirQID/PELAqycrXNTr/De6QDg42Gy1iYHqR1/XaqXeW694HdWXcnlcoFiq0RaT3FczQOwb24zZ5goV37h2/sKrvIwZZTdp0MAcpE9DIJE+5O8ug2mAmGEY9nKUz3/2aZsc927oynfSGoJksEEhtDRRWjQeTRbjzmOGnliEzPEtVkMoft72k9ciJ9Q7T/8OW8BMFrFVR5N2QYgEgj7N+siNMDDA+O+/XMAnBxmyJCBTqUAAAAASUVORK5CYII=");
@@ -756,7 +809,7 @@ function JVCMaster(){
 
                 (listFavoritesTopics = function(){
                     var favoritesTopics = JSON.parse(_.LS_get("favoritesTopics") || "{}");
-                    $("#JVCMaster_FavoritesTopics ul").fadeOut(250, function(){
+                    $("#JVCMaster_FavoritesTopics ul").slideUp(250, function(){
                         $(this).find("li").remove();
                     
                         for(topic in favoritesTopics){
@@ -788,7 +841,7 @@ function JVCMaster(){
                              })).appendTo($("<li>").appendTo("#JVCMaster_FavoritesTopics ul"));
                         }
 
-                        $("#JVCMaster_FavoritesTopics ul").delay(100).fadeIn(250);
+                        $("#JVCMaster_FavoritesTopics ul").delay(100).slideDown(250);
 
                     });
                 })();
@@ -804,7 +857,7 @@ function JVCMaster(){
                     verticalAlign : "middle"
                 }).after(
                     $("<img>", {
-                        id : "JVCMaster_BTN_FAVORITESTOPIC",
+                        "class" : "JVCMaster_BTN_FAVORITESTOPIC",
                         title : "Epingler ce topics à vos topics préférés",
                         src : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAIAQMAAAARA0f2AAAABlBMVEX///+ZzADAT8hDAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfcCBsMAieAZsMmAAAAGklEQVQI12MoZ2D43wBF9QwMdgwMMgwMHAwAXZcF1pKKg9EAAAAASUVORK5CYII=",
                         css : {
@@ -832,7 +885,8 @@ function JVCMaster(){
                 );
             },
             destroy : function(){
-
+                $("#JVCMaster_FavoritesTopics").remove();
+                $(".JVCMaster_BTN_FAVORITESTOPIC").remove();
             }
         },
 
@@ -927,7 +981,7 @@ function JVCMaster(){
                         iframe : true, 
                         href: $(this).attr("href"), 
                         width : "830px", 
-                        height : "70%",
+                        height : "81%",
                         onComplete : function(){
                             /*
                             Le temps que l'iframe se charge completement */
