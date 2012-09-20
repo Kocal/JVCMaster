@@ -16,7 +16,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.1.2";
+    _.version = "3.1.3";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
