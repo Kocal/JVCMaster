@@ -5,18 +5,15 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.1.3
+// @version     3.1.4
 // ==/UserScript==
-
-/*
-Par défaut, cacher le permalink dans la visualisation des citations, et le montrer si on passe le curseur dessus */
 
 function JVCMaster(){
     /*
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.1.3";
+    _.version = "3.1.4";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -312,7 +309,7 @@ function JVCMaster(){
                 _.insertCSS(".JVCMaster_POST_CITATION .postContainer{ \
                                 background: #E4F5FF; \
                                 border: 1px solid #9DDBFF; \
-                                border-radius: 6px; \
+                                border-radius: 6px 6px 0 0 ; \
                                 box-shadow : 0 0 10px rgba(0,0,0,0.2); \
                                 margin:20px 0 5px; \
                                 padding: 5px; \
@@ -345,12 +342,12 @@ function JVCMaster(){
                             } \
                             .JVCMaster_POST_CITATION .postContainer .CITATION_permalink{ \
                                 border-radius : 0 0 6px 6px; \
-                                bottom : -1px; \
                                 display : none; \
                                 left : -1px; \
                                 overflow : hidden; \
                                 right : -1px; \
                                 text-overflow : ellipsis; \
+                                top : 100%; \
                                 white-space : nowrap; \
                             } \
                             .JVCMaster_MSGBODY { \
@@ -386,7 +383,7 @@ function JVCMaster(){
 
                     html = t.html();
 
-                    html = html.replace(/(?:<br(?: \/)?>)?(?:\| )((?:Ecrit par « |Citation de )([a-zA-Z0-9_\-\|\]]*)(?: »)?(?:[^|]*) )/gi, 
+                    html = html.replace(/(?:<br(?: \/)?>)?(?:\| )((?:Ecrit par « |Citation de )([a-zA-Z0-9_\-\|\]]*)(?: »)?(?:[^<]*))/gi, 
                                         '<div class="postContainer' + (t.attr("class") == "msg_body" ? " JVCMaster_MSGBODY" : '' ) + '">$1')
 
                                 .replace(/»( *<br( \/)?> <br( \/)?>|((?:\n)|<br( \/)?>(?:\n))((\| )*<br>(?:\n)| <br( \/)?>(\| )*(?:\n))*((\| )*&gt; | <br( \/)?>)((\| )*&gt; )?)/g, 
@@ -395,13 +392,16 @@ function JVCMaster(){
                                 .replace(/\| *<a href="([^"]*?)".+>.+<\/a> ?\n? (?:<br(?:\/ )?>(?:\| )*)?<div class="postContainer">/g, 
                                         '<div class="postContainer"><div class="CITATION_permalink"><a href=\'$1\'>$1</a></div>')
                                 
-                                .replace(/(<div class="postContainer(?: JVCMaster_MSGBODY)?">|<\/div>)(?:Ecrit par « |Citation de (?:")?)([a-zA-Z0-9_\-\[\]]*)(?: »|(?:")?)?, *([^|]*) /gi, 
+                                .replace(/(<div class="postContainer(?: JVCMaster_MSGBODY)?">|<\/div>)(?:Ecrit par « |Citation de (?:")?)([a-zA-Z0-9_\-\[\]]*)(?: »|(?:")?)?, *([^<]*)/gi, 
                                        '$1<div class="CITATION_pseudo"><a href="http://www.jeuxvideo.com/profil/$2.html">$2</a></div><div class="CITATION_date">$3</div>')
                                 
-                                .replace(/ ?(<br(?: \/)?>) ?(?:\| )+(« |«&nbsp;)?(?:\|)?/g, 
+                                .replace(/ ?(<br(?: \/)?>)? ?(?:\| )+(« |«&nbsp;)?(?:\|)?/g, 
                                         "<br>")
 
-                                .replace(/((\| )+« |<br( \/)?>\n(\| )+)/g,
+                                .replace(/(\| )*« |/g,
+                                        "")
+
+                                .replace(/<br( \/)?>\n(\| )+/,
                                         "<br>")
                                 
                                 .replace(/(<\/div>\n) ?<br(?: \/)?> ?/g,
