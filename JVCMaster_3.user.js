@@ -290,7 +290,7 @@ function JVCMaster(){
                             var citationPermalink = $.trim(postContainer.find(".ancre a").attr("href"))
                               , citationDate      = $.trim(postContainer.find(".date, .msg_infos").text().replace("Posté ", "").replace(/le \n/, ""))
                               , citationPseudo    = $.trim(postContainer.find(".pseudo strong").text())
-                              , citationPost      = getSelection().toString() !== "" && !!getSelection().focusNode.parentElement.className.match("JVCMaster_POST") ? _.getSelectionHtml() : $.trim(postContainer.find(".post:eq(0), .msg_body:eq(0)").html()).replace(/ *<br(?: \/)?>/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ")
+                              , citationPost      = $.trim(getSelection().toString() !== "" && (getSelection().focusNode.className !== undefined ? !!getSelection().focusNode.className.match("JVCMaster_POST") : !!getSelection().focusNode.parentElement.className.match("JVCMaster_POST")) ? _.getSelectionHtml() : postContainer.find(".post:eq(0), .msg_body:eq(0)").html()).replace(/ *<br(?: \/)?>/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ")
                               , citation          = ""
                             ;
 
