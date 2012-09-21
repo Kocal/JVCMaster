@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.1.5
+// @version     3.1.6
 // ==/UserScript==
 
 function JVCMaster(){
@@ -13,7 +13,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.1.5";
+    _.version = "3.1.6";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -76,6 +76,24 @@ function JVCMaster(){
     Permet de trier un Object */
     _.sortObject = function(o) {     var sorted = {},     key, a = [];      for (key in o) {         if (o.hasOwnProperty(key)) {                 a.push(key);         }     }      a.sort();      for (key = 0; key < a.length; key++) {         sorted[a[key]] = o[a[key]];     }     return sorted; }
 
+    _.getSelectionHtml = function(){
+        var html = "";
+        if (typeof window.getSelection != "undefined") {
+            var sel = window.getSelection();
+            if (sel.rangeCount) {
+                var container = document.createElement("div");
+                for (var i = 0, len = sel.rangeCount; i < len; ++i) {
+                    container.appendChild(sel.getRangeAt(i).cloneContents());
+                }
+                html = container.innerHTML;
+            }
+        } else if (typeof document.selection != "undefined") {
+            if (document.selection.type == "Text") {
+                html = document.selection.createRange().htmlText;
+            }
+        }
+        return html;
+    }
     _.init = function(){
         _.setButtonsArea();
 
@@ -272,7 +290,7 @@ function JVCMaster(){
                             var citationPermalink = $.trim(postContainer.find(".ancre a").attr("href"))
                               , citationDate      = $.trim(postContainer.find(".date, .msg_infos").text().replace("Posté ", "").replace(/le \n/, ""))
                               , citationPseudo    = $.trim(postContainer.find(".pseudo strong").text())
-                              , citationPost      = getSelection().toString() !== "" && !!getSelection().focusNode.parentElement.className.match("JVCMaster_POST") ? getSelection().toString() : $.trim(postContainer.find(".post:eq(0), .msg_body:eq(0)").html()).replace(/ *<br(?: \/)?>/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ")
+                              , citationPost      = getSelection().toString() !== "" && !!getSelection().focusNode.parentElement.className.match("JVCMaster_POST") ? _.getSelectionHtml() : $.trim(postContainer.find(".post:eq(0), .msg_body:eq(0)").html()).replace(/ *<br(?: \/)?>/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ")
                               , citation          = ""
                             ;
 
