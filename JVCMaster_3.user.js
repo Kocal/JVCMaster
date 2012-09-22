@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.1.7
+// @version     3.2
 // ==/UserScript==
 
 function JVCMaster(){
@@ -13,7 +13,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.1.7";
+    _.version = "3.2";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -395,7 +395,7 @@ function JVCMaster(){
                                 .replace(/\| *<a href="([^"]*?)".+>.+<\/a> ?\n? (?:<br(?:\/ )?>(?:\| )*)?<div class="postContainer">/g, 
                                         '<div class="postContainer"><div class="CITATION_permalink"><a href=\'$1\'>$1</a></div>')
                                 
-                                .replace(/(<div class="postContainer(?: JVCMaster_MSGBODY)?">|<\/div>)(?:Ecrit par « |Citation de (?:")?)([a-zA-Z0-9_\-\[\]]*)(?: » ?|(?:")?)?, *([^<]*)/gi, 
+                                .replace(/(<div class="postContainer(?: JVCMaster_MSGBODY)?">|<\/div>)(?:Ecrit par « |Citation de (?:")?)([a-zA-Z0-9_\-\[\]]*)(?: »?|(?:")?)? ?, *([^<]*)/gi, 
                                        '$1<div class="CITATION_pseudo"><a href="http://www.jeuxvideo.com/profil/$2.html">$2</a></div><div class="CITATION_date">$3</div>')
                                 
                                 .replace(/ ?(<br(?: \/)?>)? ?(?:\| )+(« |«&nbsp;)?(?:\|)?/g, 
@@ -442,6 +442,7 @@ function JVCMaster(){
                 }));
 
                 var postContainers      = $(".msg")
+                    , topicContainers   = $("#liste_topics tr:not(:first)")
                     , hiddenPosts       = JSON.parse(_.LS_get("hiddenposts") || "[]")
                     , hiddenPostsPseudo = JSON.parse(_.LS_get("hiddenpostspseudo") || "[]");
 
@@ -459,7 +460,20 @@ function JVCMaster(){
                             t.find(".post, .JVCMaster_POST").hide();
                             t.find(".JVCMaster_POST_HIDDENPOST").show();
                         }
-                    })
+                    });
+
+                    topicContainers.each(function(){
+                        var t           = $(this)
+                          , topicTitle  = t.find("td:eq(1) a")
+                          , topicPseudo = t.find("td:last").prev().prev().text().toLowerCase()
+                        ;
+
+
+                        if(hiddenPostsPseudo.indexOf(topicPseudo) !== -1){
+                            topicTitle.css("color", "#0C4568");
+                            topicTitle.html("<b>JVCMaster</b> : <i style='font-weight:normal'>Ce topic a été caché</i>");
+                        }
+                    });
                 }, 10);
 
                 var btn = $("<img />", {
