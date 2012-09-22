@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.1.6
+// @version     3.1.7
 // ==/UserScript==
 
 function JVCMaster(){
@@ -13,7 +13,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.1.6";
+    _.version = "3.1.7";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -50,8 +50,7 @@ function JVCMaster(){
             html : _.patternButton.replace(/_(BTN|BADGE):([a-zA-Z]*)_/g, "<span class='JVCMaster_$1_$2'>").replace(/'><span/g, "'></span><span")
         }).appendTo(_.pseudoArea);
     }
-    /*
-    Permet de fixer le bouton|badge */
+
     _.setButton = function(type, btn, onMp){
         onMp = (onMp === undefined ? true : false);
 
@@ -76,24 +75,10 @@ function JVCMaster(){
     Permet de trier un Object */
     _.sortObject = function(o) {     var sorted = {},     key, a = [];      for (key in o) {         if (o.hasOwnProperty(key)) {                 a.push(key);         }     }      a.sort();      for (key = 0; key < a.length; key++) {         sorted[a[key]] = o[a[key]];     }     return sorted; }
 
-    _.getSelectionHtml = function(){
-        var html = "";
-        if (typeof window.getSelection != "undefined") {
-            var sel = window.getSelection();
-            if (sel.rangeCount) {
-                var container = document.createElement("div");
-                for (var i = 0, len = sel.rangeCount; i < len; ++i) {
-                    container.appendChild(sel.getRangeAt(i).cloneContents());
-                }
-                html = container.innerHTML;
-            }
-        } else if (typeof document.selection != "undefined") {
-            if (document.selection.type == "Text") {
-                html = document.selection.createRange().htmlText;
-            }
-        }
-        return html;
-    }
+    /*
+    Retourne la sélection HTML de l'utilisateur */
+    _.getSelectionHtml = function(){        var html = "";        if (typeof window.getSelection != "undefined") {            var sel = window.getSelection();            if (sel.rangeCount) {                var container = document.createElement("div");                for (var i = 0, len = sel.rangeCount; i < len; ++i) {                    container.appendChild(sel.getRangeAt(i).cloneContents());                }                html = container.innerHTML;            }        } else if (typeof document.selection != "undefined") {            if (document.selection.type == "Text") {                html = document.selection.createRange().htmlText;            }        }        return html;    }
+    
     _.init = function(){
         _.setButtonsArea();
 
@@ -564,21 +549,21 @@ function JVCMaster(){
             init : function(){
                 var hash = window.location.hash;
 
-                scrollTo = function(el){if(el.is('*')){ el.addClass("JVCMaster_highlightedPost"); $("body").animate({ scrollTop : el.offset().top - 50 }, 500, function(){ el.stop().animate({ backgroundColor : "#FFF9D0" }, 500) }); }}
+                scrollTo = function(el){el = $(el);if(el.is('*')){ el.addClass("JVCMaster_highlightedPost"); $("body").animate({ scrollTop : el.offset().top - 50 }, 500, function(){ el.stop().animate({ backgroundColor : "#FFF9D0" }, 500) }); }}
 
                 if(hash !== "" && hash !== "#last_msg"){
                     setTimeout(function(){
-                        scrollTo($(hash));
+                        scrollTo(hash);
                     }, 100);
                 }
 
                 $(".ancre a").click(function(e){
                     var t    = $(this)
                       , href = t.attr("href").match("(#.*)$")[0]
-                      , post = $(href)
+                      , post = href
                     ;
 
-                    if(post.is('*')){
+                    if($(post).is('*')){
                         var highlightedPost = $('.JVCMaster_highlightedPost');
                         highlightedPost.removeClass("JVCMaster_highlightedPost");
                         highlightedPost.animate({ backgroundColor : "#EFF4FC" }, 500);
