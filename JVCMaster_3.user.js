@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.3
+// @version     3.3.1
 // ==/UserScript==
 
 function JVCMaster(){
@@ -13,7 +13,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.3";
+    _.version = "3.3.1";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -843,7 +843,7 @@ function JVCMaster(){
             name        : "Surlign'PEMT",
             description : "Les posts \"PEMT\" sont surlignés",
             init : function(){
-                var formatDate = function(date){ if(!date.is('*')) return; return date.text().match("([0-9]*[a-z]* [a-z]* [0-9]{4} à [0-9]{2}:[0-9]{2}:[0-9]{2})")[1]}
+                var formatDate = function(date){ if(!date.is('*')) return; return date.text().match("([0-9]*[a-z]* [a-zûé]* [0-9]{4} à [0-9]{2}:[0-9]{2}:[0-9]{2})")[1]}
                   , dates = $(".date");
 
                 dates.each(function(k){
