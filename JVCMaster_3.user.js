@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.3.2
+// @version     3.3.3
 // ==/UserScript==
 
 function JVCMaster(){
@@ -13,7 +13,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.3.2";
+    _.version = "3.3.3";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -428,7 +428,7 @@ function JVCMaster(){
                             var citationPermalink = $.trim(postContainer.find(".ancre a").attr("href"))
                               , citationDate      = $.trim(postContainer.find(".date, .msg_infos").text().replace("Posté ", "").replace(/le \n/, ""))
                               , citationPseudo    = $.trim(postContainer.find(".pseudo strong").text())
-                              , citationPost      = $.trim(getSelection().toString() !== "" && (getSelection().focusNode.className !== undefined ? !!getSelection().focusNode.className.match("JVCMaster_POST") : !!getSelection().focusNode.parentElement.className.match("JVCMaster_POST")) ? _.getSelectionHtml() : postContainer.find(".post:eq(0), .msg_body:eq(0)").html()).replace(/ *<br(?: \/)?>/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ")
+                              , citationPost      = $.trim(getSelection().toString() !== "" && (getSelection().focusNode.parentElement.className.match("JVCMaster_POST") || getSelection().focusNode.parentElement.className == "postContainer") ? _.getSelectionHtml() : postContainer.find(".post:eq(0), .msg_body:eq(0)").html()).replace(/ *<br(?: \/)?>/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ")
                               , citation          = ""
                             ;
 
