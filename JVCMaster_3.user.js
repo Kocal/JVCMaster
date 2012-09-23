@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.2
+// @version     3.3
 // ==/UserScript==
 
 function JVCMaster(){
@@ -13,7 +13,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.2";
+    _.version = "3.3";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -256,6 +256,159 @@ function JVCMaster(){
             destroy : function(){
                 $(".JVCMaster_POST_FLOOD").remove();
                 $(".msg").show();
+            }
+        },
+
+        cdvinformations : {
+            id :        "cdvinformations",
+            name        : "CDV informations",
+            description : "Affiche des informations à côté du pseudo", 
+            init : function(){
+                /*
+                Impossible de faire une requête AJAX depuis les forumJV sur "Jeuxvideo.com" */
+                if(/forumjv\.com$/.test(window.location.hostname))
+                    return;
+
+                _.insertCSS(".JVCMaster_BADGE_RANK img{ cursor : default }")
+                
+                _.insertCSS(".JVCMaster_avatar{ \
+                        display : none; \
+                        height : 100px; \
+                        left: -105px; \
+                        position: absolute; \
+                        text-align : right; \
+                        top: 0; \
+                        z-index: 1; \
+                        width : 100px; \
+                    } \
+                    .JVCMaster_avatar img{ \
+                        background: white; \
+                        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); \
+                        padding: 5px; \
+                    } \
+                    .pseudo strong{ \
+                        cursor : default \
+                    }");
+
+                BADGE_RANK = $("<span>", {
+                    height : "12px"
+                    , width : "14px"
+                    , css : {
+                        backgroundImage : "url(data:image/png;base64,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)"
+                        , marginRight : "3px"
+                        , display : "inline-block"
+                    }
+                });
+                _.setButton("BADGE_RANK", BADGE_RANK);
+
+                $(".pseudo strong").each(function(){
+                    var t             = $(this)
+                      , postContainer = t.parents(".msg")
+                      , pseudo        = t.text().toLowerCase()
+                    ;
+
+                    $.ajax({
+                        url : "http://www.jeuxvideo.com/profil/" + pseudo + ".html",
+                        success : function(data){
+                            var BTN_CDV    = postContainer.find("a[href^=http\\:\\/\\/www\\.jeuxvideo\\.com\\/profil] img")
+                              , BADGE_RANK = postContainer.find("span.JVCMaster_BADGE_RANK span")
+                            ;
+
+
+                            if(data.match("<p class=\"banni\">"))
+                                BTN_CDV.attr("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wICggWDgPWFDkAAAD2SURBVCjPhdEtroNAEMDxP4VtsqYkxXALDAoBohfgCIg9wJpaLoDZA+BxXAgEsmkIigSxJDzR0Pa9NK/jJvnNZD4crfXGlzDGOAAeQBzH/2Kt9WaMcTwAay0ARVH8QlVVcTqdiKIIrfV22PFfCHC9XhmGgXmeATi8dwZIkoTL5fLMu65jmiaeM1trKcuSrusIw5C2bQHIsowgCFjX9YX7vsday/F4pGkaANI0BcB1Xe73O1LKBwYQQiCEQCnF7XZDCMH5fCYIAoQQr87vUdc1AHme4/v+E37ESinGcfx4b2c/+r6EtZZlWQCQUr5G8LwH3gu+vf0HNF5XpCC6I0sAAAAASUVORK5CYII=");
+                            else{
+                                var rank   = data.match("<body.*class=\"(.*)\">")[1]
+                                  , sexe   = data.match("<h1.*class=\"(sexe_[f|m])\">")[1]
+                                  , avatar = data.match('<img id="img_grande"(?: | style="(?:[^"]*)" onClick="(?:[^"]*)" )?src="([^"]*)"')[1]
+                                ;
+
+                                if(!_.onMp()){
+                                    $("<li>", {
+                                        "class" : "JVCMaster_avatar",
+                                        html : "<img src='" + avatar + "'>"
+                                    }).appendTo(postContainer.find("ul"));
+
+                                    postContainer.find(".pseudo strong").hover(function(){
+                                        postContainer.find(".JVCMaster_avatar").fadeIn(200);
+                                    }, function(){
+                                        postContainer.find(".JVCMaster_avatar").fadeOut(200);
+                                    });
+                                }
+
+                                if(sexe == "sexe_f")
+                                    BTN_CDV.attr("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAEmSURBVHjahNG/SwJhHMfx92Ond4slYaF3EmgN0tQQLTm2FQQtZbTV5tYc9Cc49TccLU61NZ4E4eJSJGFDSGFJmoZ3Ss/TIF72g/xsD8/reZ4P30c4lq0Yk0wtKwA0gIW1xX+xc2GrTC0rNADVlQDETpe+oauNc6L6NPOraZyirQID/PELAqycrXNTr/De6QDg42Gy1iYHqR1/XaqXeW694HdWXcnlcoFiq0RaT3FczQOwb24zZ5goV37h2/sKrvIwZZTdp0MAcpE9DIJE+5O8ug2mAmGEY9nKUz3/2aZsc927oynfSGoJksEEhtDRRWjQeTRbjzmOGnliEzPEtVkMoft72k9ciJ9Q7T/8OW8BMFrFVR5N2QYgEgj7N+siNMDDA+O+/XMAnBxmyJCBTqUAAAAASUVORK5CYII=");
+                                else
+                                    BTN_CDV.attr("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAEmSURBVHjahJE9S8NQFIafG29JHKq1FOkHCFUHRwcpoh0cHJ3cdHBRhOAfUBAc/Qnd3QRxEBfBMUUQZ0UIFYeiRrQpVBKbkOsQjPUDe7bDec57Xt4jSqal6FPNWlUASIDFyuS/8DmWataqQgJ43Vj8cDP/DVrav0RP55ifnqBuWkoD8AL1CwQ43ang3N/Q6bwBoPUqA5RmVxhf2Eh6x76i3Xom8ewFipntC9p2HX10isbJHgDF6jpGdgw/UF/wnX2LCn2iVJHHo1UAMnNbgEGg5fCdFpoxjCiZllLhe3I28l26T9dEvoscKZPKlhHSQEg99txbDwfLvJztMpDOI4cKCGkkM/kTLqwdE7w2/sxbAPRaUaFP5LlxVIOZRFlIPYY/F/q9/WMAikdlnhDc6i4AAAAASUVORK5CYII=");
+
+                                switch(rank){
+                                    case "carton":
+                                        BADGE_RANK.css({
+                                            width : "13px",
+                                            height : "13px",
+                                            backgroundPosition : "0 0"
+                                        });
+                                    break;
+
+                                    case "bronze":
+                                        BADGE_RANK.css({
+                                            width : "8px",
+                                            height : "14px",
+                                            backgroundPosition : "-14px 0"
+                                        });
+                                    break;
+
+                                    case "argent":
+                                        BADGE_RANK.css({
+                                            height : "13px",
+                                            backgroundPosition : "-22px 0"
+                                        });
+                                    break;
+
+                                    case "or":
+                                        BADGE_RANK.css({
+                                            width : "13px",
+                                            height : "13px",
+                                            backgroundPosition : "0 -14px"
+                                        });
+                                    break;
+
+                                    case "rubis":
+                                        BADGE_RANK.css({
+                                            width : "11px",
+                                            backgroundPosition : "-14px -15px"
+                                        });
+                                    break;
+
+                                    case "saphir":
+                                        BADGE_RANK.css({
+                                            width : "12px",
+                                            backgroundPosition : "0 -28px"
+                                        });
+                                    break;
+
+                                    case "emeraude":
+                                        BADGE_RANK.css({
+                                            width : "12px",
+                                            backgroundPosition : "-12px -28px"
+                                        });
+                                    break;
+
+                                    case "diamant":
+                                        BADGE_RANK.css({
+                                            width : "11px",
+                                            backgroundPosition : "-25px -27px"
+                                        });
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                })
+            },
+            destroy : function(){
+                $("span.JVCMaster_BADGE_RANK span").remove();
+                $("a[href^=http\\:\\/\\/www\\.jeuxvideo\\.com\\/profil] img").attr("src" ,"data:image/png;base64,R0lGODlhCwAMAMQAAAAAAP///3LEGzpYGj5qD5LkO2m1GWClF3q0PKHnVlKAIVGLE4PHO6boX5XcSkyDEm69Gn/GM4zJS1mLJJrdUj9iGWWtGFaUFJzmTVWAJkNzEJflREJjIQAAAAAAAAAAACH5BAUUAAAALAAAAAALAAwAAAVFoCCOIwAITaqmwpkkQRxIVCJisow44hYPnFiGISpEJopYRRERQQyHGIFwMTghEMtDU4VcIbGFBfu1LMTkExZ6MKRPJFIIADs=");
             }
         },
 
@@ -556,6 +709,163 @@ function JVCMaster(){
             }
         },
 
+
+
+
+
+        /*
+        A voir plus tard */
+        /* friendlist : {
+            id : "friendlist",
+            name : "Liste d'amis",
+            description : "Gerez une liste d'amis",
+            init : function(){
+                var BTN_FRIENDLIST = $("<a/>", {
+                    text : "JVCMaster : Liste d'amis"
+                });
+                BTN_FRIENDLIST.appendTo($("<td>").prependTo($("table#connexion tbody tr")));
+
+                setTimeout(function(){
+                    BTN_FRIENDLIST.appendTo($("<li>").prependTo($("div#log ul")));
+                }, 1001);
+            },
+            destroy : function(){
+                
+            }
+        },*/
+
+
+        shortcuts : {
+            id          : "shortcuts",
+            name        : "Raccourcis",
+            description : "Des raccourcis sont ajoutés",
+            init : function(){
+                if(_.onMp())
+                    return;
+                /*
+                Bouton MP */
+                _.insertCSS(".JVCMaster_BTN_MP span { \
+                                cursor : pointer; \
+                                display: inline-block; \
+                                height: 10px; \
+                                background: url(http://image.jeuxvideo.com/css_img/defaut/mprives/enveloppe.png) no-repeat top right; \
+                                width: 16px; \
+                            }");
+
+                $(".pseudo strong").each(function(){
+                    var pseudo = $(this);
+
+                    var btn = $("<a/>", {
+                        title : "Envoyer un mp à " + pseudo.text(),
+                        href  : "http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=" + pseudo.text(),
+                        css   : {
+                            background: "url(http://image.jeuxvideo.com/css_img/defaut/mprives/enveloppe.png) no-repeat top right"
+                            , width   : "16px"
+                            , display : "inline-block"
+                            , height  : "10px"
+                        }
+                    });
+
+                    btn.appendTo(pseudo.parents(".msg").find(".JVCMaster_BTN_MP"));
+                });
+
+                /*
+                Derniere page lors du clic sur l'"icône" du topic*/
+                $("#liste_topics tr:not(:first)").each(function(){
+                    var t         = $(this)
+                      , icon      = t.find("td:first").find("img")
+                      , href      = t.find("td:eq(1) a").attr("href")
+                      , nbMessage = parseInt(t.find("td:last").prev().text()) + 1
+                    ;
+
+                    icon.wrap($("<a/>", {
+                        href : href.replace(/(http:\/\/www.jeuxvideo.com\/forums\/|http:\/\/.*\.forumjv.com\/)([0-9]+\-)([0-9]+\-)([0-9]+\-)([0-9]+\-)/, "$1$2$3$4" + Math.ceil(nbMessage / 20) + '-'),
+                        /*
+                        Bug sur les forumJV */
+                        css : {
+                            display : "inline-block",
+                            width   : "16px"
+                        }
+                    }));
+                });
+            },
+            destroy : function(){
+                $(".JVCMaster_BTN_MP a").remove();
+            }
+        },
+
+        showcdv : {
+            id : "showcdv",
+            name : "Show CDV",
+            description : "Affiche la CDV dans une lightbox",
+            init : function(){
+                var targetClick = $("a[target=profil], .pseudo > a, .CITATION_pseudo a").click(function(e){
+                    if(!_.isJVC())
+                        return; 
+
+                    $.colorbox({
+                        iframe     : true, 
+                        href       : $(this).attr("href"), 
+                        width      : "830px", 
+                        height     : "81%",
+                        onComplete : function(){
+                            /*
+                            Le temps que l'iframe se charge completement */
+                            setTimeout(function(){
+                                $("#cboxLoadedContent iframe").on("load", function(){  
+                                    var tFrame = $(this)
+                                      , tabs   = tFrame.contents().find("#onglets")
+                                    ;
+
+                                    tabs.find("li").click(function(e){
+                                        var t = $(this);
+
+                                        if(t.find('a').is('*'))
+                                            tFrame.attr("src", t.find('a').attr("href"));
+
+                                        return false;
+                                    });
+                                });
+                            }, 30);
+                        }
+                    });
+
+                    return false;
+                })
+            },
+            destroy : function(){
+                $("a[target=profil]").unbind("click");
+            }
+        },
+
+        hightlightpemt : {
+            id          : "hightlightpemt",
+            name        : "Surlign'PEMT",
+            description : "Les posts \"PEMT\" sont surlignés",
+            init : function(){
+                var formatDate = function(date){ if(!date.is('*')) return; return date.text().match("([0-9]*[a-z]* [a-z]* [0-9]{4} à [0-9]{2}:[0-9]{2}:[0-9]{2})")[1]}
+                  , dates = $(".date");
+
+                dates.each(function(k){
+                    var date     = $(dates[k])
+                      , prevDate = $(dates[k - 1])
+                    ;
+
+                    if(formatDate(date) == formatDate(prevDate)){
+                        date.html(date.html().replace(/([0-9]{2}:[0-9]{2}:[0-9]{2})/g, "<span>$1</span>"));
+                        prevDate.html(prevDate.html().replace(/([0-9]{2}:[0-9]{2}:[0-9]{2})/g, "<span>$1</span>"));
+                    }
+                });  
+            },
+            destroy : function(){
+                var dates = $(".date");
+                dates.each(function(){
+                    var date = $(dates);
+                    date.html(date.html().replace(/(<span>)*<span>([0-9]{2}:[0-9]{2}:[0-9]{2})<\/span>(<\/span>)*/g, "$2"));
+                })
+            }
+        },
+
         hightlightpermapost : {
             id          : "hightlightpermapost",
             name        : "Surlign'perma-post",
@@ -592,191 +902,7 @@ function JVCMaster(){
                 $(".ancre a").unbind("click");
             }
         },
-
-        cdvinformations : {
-            id :        "cdvinformations",
-            name        : "CDV informations",
-            description : "Affiche des informations à côté du pseudo", 
-            init : function(){
-                /*
-                Impossible de faire une requête AJAX depuis les forumJV sur "Jeuxvideo.com" */
-                if(/forumjv\.com$/.test(window.location.hostname))
-                    return;
-
-                _.insertCSS(".JVCMaster_BADGE_RANK img{ cursor : default }")
-                
-                _.insertCSS(".JVCMaster_avatar{ \
-                        display : none; \
-                        height : 100px; \
-                        left: -105px; \
-                        position: absolute; \
-                        text-align : right; \
-                        top: 0; \
-                        z-index: 1; \
-                        width : 100px; \
-                    } \
-                    .JVCMaster_avatar img{ \
-                        background: white; \
-                        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); \
-                        padding: 5px; \
-                    } \
-                    .pseudo strong{ \
-                        cursor : default \
-                    }");
-
-                BADGE_RANK = $("<span>", {
-                    height : "12px"
-                    , width : "14px"
-                    , css : {
-                        backgroundImage : "url(data:image/png;base64,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)"
-                        , marginRight : "3px"
-                        , display : "inline-block"
-                    }
-                });
-                _.setButton("BADGE_RANK", BADGE_RANK);
-
-                $(".pseudo strong").each(function(){
-                    var t             = $(this)
-                      , postContainer = t.parents(".msg")
-                      , pseudo        = t.text().toLowerCase()
-                    ;
-
-                    $.ajax({
-                        url : "http://www.jeuxvideo.com/profil/" + pseudo + ".html",
-                        success : function(data){
-                            var BTN_CDV    = postContainer.find("a[href^=http\\:\\/\\/www\\.jeuxvideo\\.com\\/profil] img")
-                              , BADGE_RANK = postContainer.find("span.JVCMaster_BADGE_RANK span")
-                            ;
-
-
-                            if(data.match("<p class=\"banni\">"))
-                                BTN_CDV.attr("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wICggWDgPWFDkAAAD2SURBVCjPhdEtroNAEMDxP4VtsqYkxXALDAoBohfgCIg9wJpaLoDZA+BxXAgEsmkIigSxJDzR0Pa9NK/jJvnNZD4crfXGlzDGOAAeQBzH/2Kt9WaMcTwAay0ARVH8QlVVcTqdiKIIrfV22PFfCHC9XhmGgXmeATi8dwZIkoTL5fLMu65jmiaeM1trKcuSrusIw5C2bQHIsowgCFjX9YX7vsday/F4pGkaANI0BcB1Xe73O1LKBwYQQiCEQCnF7XZDCMH5fCYIAoQQr87vUdc1AHme4/v+E37ESinGcfx4b2c/+r6EtZZlWQCQUr5G8LwH3gu+vf0HNF5XpCC6I0sAAAAASUVORK5CYII=");
-                            else{
-                                var rank   = data.match("<body.*class=\"(.*)\">")[1]
-                                  , sexe   = data.match("<h1.*class=\"(sexe_[f|m])\">")[1]
-                                  , avatar = data.match('<img id="img_grande"(?: | style="(?:[^"]*)" onClick="(?:[^"]*)" )?src="([^"]*)"')[1]
-                                ;
-
-                                if(!_.onMp()){
-                                    $("<li>", {
-                                        "class" : "JVCMaster_avatar",
-                                        html : "<img src='" + avatar + "'>"
-                                    }).appendTo(postContainer.find("ul"));
-
-                                    postContainer.find(".pseudo strong").hover(function(){
-                                        postContainer.find(".JVCMaster_avatar").fadeIn(200);
-                                    }, function(){
-                                        postContainer.find(".JVCMaster_avatar").fadeOut(200);
-                                    });
-                                }
-
-                                if(sexe == "sexe_f")
-                                    BTN_CDV.attr("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAEmSURBVHjahNG/SwJhHMfx92Ond4slYaF3EmgN0tQQLTm2FQQtZbTV5tYc9Cc49TccLU61NZ4E4eJSJGFDSGFJmoZ3Ss/TIF72g/xsD8/reZ4P30c4lq0Yk0wtKwA0gIW1xX+xc2GrTC0rNADVlQDETpe+oauNc6L6NPOraZyirQID/PELAqycrXNTr/De6QDg42Gy1iYHqR1/XaqXeW694HdWXcnlcoFiq0RaT3FczQOwb24zZ5goV37h2/sKrvIwZZTdp0MAcpE9DIJE+5O8ug2mAmGEY9nKUz3/2aZsc927oynfSGoJksEEhtDRRWjQeTRbjzmOGnliEzPEtVkMoft72k9ciJ9Q7T/8OW8BMFrFVR5N2QYgEgj7N+siNMDDA+O+/XMAnBxmyJCBTqUAAAAASUVORK5CYII=");
-                                else
-                                    BTN_CDV.attr("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAEmSURBVHjahJE9S8NQFIafG29JHKq1FOkHCFUHRwcpoh0cHJ3cdHBRhOAfUBAc/Qnd3QRxEBfBMUUQZ0UIFYeiRrQpVBKbkOsQjPUDe7bDec57Xt4jSqal6FPNWlUASIDFyuS/8DmWataqQgJ43Vj8cDP/DVrav0RP55ifnqBuWkoD8AL1CwQ43ang3N/Q6bwBoPUqA5RmVxhf2Eh6x76i3Xom8ewFipntC9p2HX10isbJHgDF6jpGdgw/UF/wnX2LCn2iVJHHo1UAMnNbgEGg5fCdFpoxjCiZllLhe3I28l26T9dEvoscKZPKlhHSQEg99txbDwfLvJztMpDOI4cKCGkkM/kTLqwdE7w2/sxbAPRaUaFP5LlxVIOZRFlIPYY/F/q9/WMAikdlnhDc6i4AAAAASUVORK5CYII=");
-
-                                switch(rank){
-                                    case "carton":
-                                        BADGE_RANK.css({
-                                            width : "13px",
-                                            height : "13px",
-                                            backgroundPosition : "0 0"
-                                        });
-                                    break;
-
-                                    case "bronze":
-                                        BADGE_RANK.css({
-                                            width : "8px",
-                                            height : "14px",
-                                            backgroundPosition : "-14px 0"
-                                        });
-                                    break;
-
-                                    case "argent":
-                                        BADGE_RANK.css({
-                                            height : "13px",
-                                            backgroundPosition : "-22px 0"
-                                        });
-                                    break;
-
-                                    case "or":
-                                        BADGE_RANK.css({
-                                            width : "13px",
-                                            height : "13px",
-                                            backgroundPosition : "0 -14px"
-                                        });
-                                    break;
-
-                                    case "rubis":
-                                        BADGE_RANK.css({
-                                            width : "11px",
-                                            backgroundPosition : "-14px -15px"
-                                        });
-                                    break;
-
-                                    case "saphir":
-                                        BADGE_RANK.css({
-                                            width : "12px",
-                                            backgroundPosition : "0 -28px"
-                                        });
-                                    break;
-
-                                    case "emeraude":
-                                        BADGE_RANK.css({
-                                            width : "12px",
-                                            backgroundPosition : "-12px -28px"
-                                        });
-                                    break;
-
-                                    case "diamant":
-                                        BADGE_RANK.css({
-                                            width : "11px",
-                                            backgroundPosition : "-25px -27px"
-                                        });
-                                    break;
-                                }
-                            }
-                        }
-                    });
-                })
-            },
-            destroy : function(){
-                $("span.JVCMaster_BADGE_RANK span").remove();
-                $("a[href^=http\\:\\/\\/www\\.jeuxvideo\\.com\\/profil] img").attr("src" ,"data:image/png;base64,R0lGODlhCwAMAMQAAAAAAP///3LEGzpYGj5qD5LkO2m1GWClF3q0PKHnVlKAIVGLE4PHO6boX5XcSkyDEm69Gn/GM4zJS1mLJJrdUj9iGWWtGFaUFJzmTVWAJkNzEJflREJjIQAAAAAAAAAAACH5BAUUAAAALAAAAAALAAwAAAVFoCCOIwAITaqmwpkkQRxIVCJisow44hYPnFiGISpEJopYRRERQQyHGIFwMTghEMtDU4VcIbGFBfu1LMTkExZ6MKRPJFIIADs=");
-            }
-        },
-
-        visionoelshack : {
-            id          : "visionoelshack",
-            name        : "Visionneuse d'image NoelShack",
-            description : "Visionner directement les images NoelShack",
-            init : function(){
-                setTimeout(function(){
-                    $("a[href^=http\\:\\/\\/www\\.noelshack\\.com], a[href^=http\\:\\/\\/image\\.noelshack\\.com]").click(function(e){
-
-                        var t        = $(this)
-                          , pageUrl  = t.attr("href")
-                          , imageUrl = pageUrl
-                        ;
-
-                        imageUrl = pageUrl.replace(/http:\/\/www\.noelshack.com\/([0-9]{4})\-([0-9]*)\-([0-9]*)\-(.*)/, "http://image.noelshack.com/fichiers/$1/$2/$3-$4")
-                        $.colorbox({
-                            photo       : true
-                            , href      : imageUrl
-                            , title     : "<a href='" + imageUrl + "' style='overflow: hidden;text-overflow: ellipsis;white-space: nowrap'>" + imageUrl + "</a>"
-                            , maxHeight : "95%"
-                            , maxWidth  : "95%"
-                        });
-                        
-                        e.preventDefault();
-                    });
-                }, 10);
-            },
-            destroy : function(){
-                $("a[href^=http\\:\\/\\/www\\.noelshack\\.com], a[href^=http\\:\\/\\/image\\.noelshack\\.com]").unbind("click");
-            }
-        },
-
+        
         favoritestopics : {
             id          : "favoritestopics",
             name        : "Topics préférés",
@@ -907,128 +1033,34 @@ function JVCMaster(){
             }
         },
 
-        /*
-        A voir plus tard */
-        /* friendlist : {
-            id : "friendlist",
-            name : "Liste d'amis",
-            description : "Gerez une liste d'amis",
+        visionoelshack : {
+            id          : "visionoelshack",
+            name        : "Visionneuse d'image NoelShack",
+            description : "Visionner directement les images NoelShack",
             init : function(){
-                var BTN_FRIENDLIST = $("<a/>", {
-                    text : "JVCMaster : Liste d'amis"
-                });
-                BTN_FRIENDLIST.appendTo($("<td>").prependTo($("table#connexion tbody tr")));
-
                 setTimeout(function(){
-                    BTN_FRIENDLIST.appendTo($("<li>").prependTo($("div#log ul")));
-                }, 1001);
-            },
-            destroy : function(){
-                
-            }
-        },*/
+                    $("a[href^=http\\:\\/\\/www\\.noelshack\\.com], a[href^=http\\:\\/\\/image\\.noelshack\\.com]").click(function(e){
 
-        shortcuts : {
-            id          : "shortcuts",
-            name        : "Raccourcis",
-            description : "Des raccourcis sont ajoutés",
-            init : function(){
-                if(_.onMp())
-                    return;
-                /*
-                Bouton MP */
-                _.insertCSS(".JVCMaster_BTN_MP span { \
-                                cursor : pointer; \
-                                display: inline-block; \
-                                height: 10px; \
-                                background: url(http://image.jeuxvideo.com/css_img/defaut/mprives/enveloppe.png) no-repeat top right; \
-                                width: 16px; \
-                            }");
+                        var t        = $(this)
+                          , pageUrl  = t.attr("href")
+                          , imageUrl = pageUrl
+                        ;
 
-                $(".pseudo strong").each(function(){
-                    var pseudo = $(this);
-
-                    var btn = $("<a/>", {
-                        title : "Envoyer un mp à " + pseudo.text(),
-                        href  : "http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=" + pseudo.text(),
-                        css   : {
-                            background: "url(http://image.jeuxvideo.com/css_img/defaut/mprives/enveloppe.png) no-repeat top right"
-                            , width   : "16px"
-                            , display : "inline-block"
-                            , height  : "10px"
-                        }
+                        imageUrl = pageUrl.replace(/http:\/\/www\.noelshack.com\/([0-9]{4})\-([0-9]*)\-([0-9]*)\-(.*)/, "http://image.noelshack.com/fichiers/$1/$2/$3-$4")
+                        $.colorbox({
+                            photo       : true
+                            , href      : imageUrl
+                            , title     : "<a href='" + imageUrl + "' style='overflow: hidden;text-overflow: ellipsis;white-space: nowrap'>" + imageUrl + "</a>"
+                            , maxHeight : "95%"
+                            , maxWidth  : "95%"
+                        });
+                        
+                        e.preventDefault();
                     });
-
-                    btn.appendTo(pseudo.parents(".msg").find(".JVCMaster_BTN_MP"));
-                });
-
-                /*
-                Derniere page lors du clic sur l'"icône" du topic*/
-                $("#liste_topics tr:not(:first)").each(function(){
-                    var t         = $(this)
-                      , icon      = t.find("td:first").find("img")
-                      , href      = t.find("td:eq(1) a").attr("href")
-                      , nbMessage = parseInt(t.find("td:last").prev().text()) + 1
-                    ;
-
-                    icon.wrap($("<a/>", {
-                        href : href.replace(/(http:\/\/www.jeuxvideo.com\/forums\/|http:\/\/.*\.forumjv.com\/)([0-9]+\-)([0-9]+\-)([0-9]+\-)([0-9]+\-)/, "$1$2$3$4" + Math.ceil(nbMessage / 20) + '-'),
-                        /*
-                        Bug sur les forumJV */
-                        css : {
-                            display : "inline-block",
-                            width   : "16px"
-                        }
-                    }));
-                });
+                }, 10);
             },
             destroy : function(){
-                $(".JVCMaster_BTN_MP a").remove();
-            }
-        },
-
-        showcdv : {
-            id : "showcdv",
-            name : "Show CDV",
-            description : "Affiche la CDV dans une lightbox",
-            init : function(){
-                var targetClick = $("a[target=profil], .pseudo > a, .CITATION_pseudo a").click(function(e){
-                    if(!_.isJVC())
-                        return; 
-
-                    $.colorbox({
-                        iframe     : true, 
-                        href       : $(this).attr("href"), 
-                        width      : "830px", 
-                        height     : "81%",
-                        onComplete : function(){
-                            /*
-                            Le temps que l'iframe se charge completement */
-                            setTimeout(function(){
-                                $("#cboxLoadedContent iframe").on("load", function(){  
-                                    var tFrame = $(this)
-                                      , iframe = tFrame.contents()
-                                      , tabs   = iframe.find("#onglets")
-                                    ;
-
-                                    tabs.find("li").click(function(e){
-                                        var t = $(this);
-
-                                        if(t.find('a').is('*'))
-                                            tFrame.attr("src", t.find('a').attr("href"));
-
-                                        return false;
-                                    });
-                                });
-                            }, 30);
-                        }
-                    });
-
-                    return false;
-                })
-            },
-            destroy : function(){
-                $("a[target=profil]").unbind("click");
+                $("a[href^=http\\:\\/\\/www\\.noelshack\\.com], a[href^=http\\:\\/\\/image\\.noelshack\\.com]").unbind("click");
             }
         }
     };
