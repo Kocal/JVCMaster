@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.3.1
+// @version     3.3.2
 // ==/UserScript==
 
 function JVCMaster(){
@@ -13,7 +13,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.3.1";
+    _.version = "3.3.2";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -709,10 +709,6 @@ function JVCMaster(){
             }
         },
 
-
-
-
-
         /*
         A voir plus tard */
         /* friendlist : {
@@ -733,7 +729,6 @@ function JVCMaster(){
                 
             }
         },*/
-
 
         shortcuts : {
             id          : "shortcuts",
@@ -843,6 +838,7 @@ function JVCMaster(){
             name        : "Surlign'PEMT",
             description : "Les posts \"PEMT\" sont surlignés",
             init : function(){
+                _.insertCSS(".JVCMaster_PEMT_time{ font-size : 11px}");
                 var formatDate = function(date){ if(!date.is('*')) return; return date.text().match("([0-9]*[a-z]* [a-zûé]* [0-9]{4} à [0-9]{2}:[0-9]{2}:[0-9]{2})")[1]}
                   , dates = $(".date");
 
@@ -852,8 +848,8 @@ function JVCMaster(){
                     ;
 
                     if(formatDate(date) == formatDate(prevDate)){
-                        date.html(date.html().replace(/([0-9]{2}:[0-9]{2}:[0-9]{2})/g, "<span>$1</span>"));
-                        prevDate.html(prevDate.html().replace(/([0-9]{2}:[0-9]{2}:[0-9]{2})/g, "<span>$1</span>"));
+                        date.html(date.html().replace(/([0-9]{2}:[0-9]{2}:[0-9]{2})/g, "<span class='JVCMaster_PEMT_time'>$1</span>"));
+                        prevDate.html(prevDate.html().replace(/([0-9]{2}:[0-9]{2}:[0-9]{2})/g, "<span class='JVCMaster_PEMT_time'>$1</span>"));
                     }
                 });  
             },
@@ -861,7 +857,7 @@ function JVCMaster(){
                 var dates = $(".date");
                 dates.each(function(){
                     var date = $(dates);
-                    date.html(date.html().replace(/(<span>)*<span>([0-9]{2}:[0-9]{2}:[0-9]{2})<\/span>(<\/span>)*/g, "$2"));
+                    date.html(date.html().replace(/(<span class='JVCMaster_PEMT_time'>)*<span class='JVCMaster_PEMT_time'>([0-9]{2}:[0-9]{2}:[0-9]{2})<\/span>(<\/span>)*/g, "$2"));
                 })
             }
         },
