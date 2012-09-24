@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.3.4
+// @version     3.3.5
 // ==/UserScript==
 
 /*******************************
@@ -16,7 +16,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.3.4";
+    _.version = "3.3.5";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -438,21 +438,30 @@ function JVCMaster(){
                             if(isSelectedHTML){
                                 citationPost = _.getSelectionHTML();
 
-                                citationPermalink = /<div class="CITATION_permalink" style="[^"]+"><a href="([^"]*)">/g.exec(SelectedHTML);
-                                citationPermalink = citationPermalink != null ? citationPermalink.pop() : '';
+                                
                                 if(/<li class="ancre"><a href="([^"]*)">Lien permanent<\/a>/g.test(SelectedHTML)){
                                     citationPermalink = /<li class="ancre"><a href="([^"]*)">Lien permanent<\/a>/g.exec(SelectedHTML).pop();
                                 }
+                                else{
+                                    citationPermalink = /<div class="CITATION_permalink" style="[^"]+"><a href="([^"]*)">/g.exec(SelectedHTML);
+                                    citationPermalink = citationPermalink != null ? citationPermalink.pop() : '';
+                                }
 
 
-                                citationDate = /<div class="CITATION_date">(?:le )?([0-9]* [a-zéû]* [0-9]* à [0-9]{2}:[0-9]{2}:[0-9]{2})/g.exec(SelectedHTML).pop();
                                 if(/<li class="date">(Posté le \n[0-9]* [a-zéû]* [0-9]* à [0-9]{2}:[0-9]{2}:[0-9]{2})/g.test(SelectedHTML)){
                                     citationDate = /<li class="date">(Posté le \n[0-9]* [a-zéû]* [0-9]* à [0-9]{2}:[0-9]{2}:[0-9]{2})/g.exec(SelectedHTML).pop();
                                 }
+                                else{
+                                    citationDate = /<div class="CITATION_date">(?:le )?([0-9]* [a-zéû]* [0-9]* à [0-9]{2}:[0-9]{2}:[0-9]{2})/g.exec(SelectedHTML);
+                                    citationDate = citationDate != null ? citationDate.pop() : '';
+                                }
   
-                                citationPseudo = /<div class="CITATION_pseudo"><a.*?href="([^"]*?)".*?>([a-zA-Z0-9\-\]\[_]*)/g.exec(SelectedHTML).pop();
                                 if(/<li class="pseudo">\n<strong>([^<]*)<\/strong>/g.test(SelectedHTML)){
                                     citationPseudo = /<li class="pseudo">\n<strong>([^<]*)<\/strong>/g.exec(SelectedHTML).pop();
+                                }
+                                else{
+                                    citationPseudo = /<div class="CITATION_pseudo"><a.*?href="([^"]*?)".*?>([a-zA-Z0-9\-\]\[_]*)/g.exec(SelectedHTML);
+                                    citationPseudo = citationPseudo != null ? citationPseudo.pop() : '';
                                 }
 
                                 citationPost = _.getSelectionHTML();
