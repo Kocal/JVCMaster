@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.3.5
+// @version     3.3.6
 // ==/UserScript==
 
 /*******************************
@@ -16,7 +16,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.3.5";
+    _.version = "3.3.6";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -426,11 +426,11 @@ function JVCMaster(){
                         title : "Citer ce post",
                         src   : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMEAYAAADkOZvdAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAIcbAACL/wAA/6wAAIMCAACETAAA7XIAADqFAAAdxCRWn50AAAMoSURBVHjadJJvSJx1AMc/v98993h3HnLq6Q41lVKwGiGHmAwZQ4bEBW1sEENMgkSWuGMVDDlijIi4F3XY8EWMKBUnIccacdhYMlbYUasX4zj7I1K3FHGXXDc778/zPPf8elUNap/XXz58XnxFa9e8WvtWKZ6TXRwGcV40yMdBHFGn1IfYKsUlQuSYYYRJFuWbXKeHqHZRzspZO6EGZYR01dI2pJTS2yTCjInbxoQmUrJPRKGu6Nl1A9UJe8wOYjBFnDH2RYIx+tmWAyInblHnOCtSooteR0YWxaSwnC5N1/KO68actVwdK4xKnxwWDe6boiN01Z18XymX7ex1NoM8JbNyFEM0kyBGcf3E6Z5gGB+P4OlXP8gnxom6+/23moPMFTRrRV3mrsZRggwCm4ziAlHmJDPo6ydOB4JT6H8LWj+e6J7eAnGNNjEADt017vkD9JX6bxqTTDtna5719DEt3vF0essgVU5NiWkQWRETKRAf4aHrf9LiO/HfF0HLeIa8P4P7wmMHT8RB/+HQepsEdacmqr8I5h161QZofG8H1EmQy2JHngU2xKBKAJB62Fsqljr/jIEn7Tva9B7o4y3fde6D+ZTjosxC6RerUI1AOWcNWjmQak7GSIOdrAatAMgRe8Q+8t/gao8YNq/BwbY1XlmAB22l48URKCTLb1fuQnHXzFp7gIEHQKqgnbGHwPis3FKOQGXIiBgZSKczmQf5h8wL9iV9EqywmpEFMK8oH2FQtr1kS1CIT4Tx71y0Dsx/unZOKXrNrFEAsUgDcTB27x/fvgL3ayO+l87wSA69EV29Ogry9fpVvxccfe6wdxhEa8v81trnSinN8FQA8iwQA3uitHKwC6b3t1c2G8D0bb28eQ/4Sdn2VyAuuJZq3wVHsv6M/0fQIx3Pd8+BI9fYHjgGmgpZq2ZZNIkb+gs1uvpV+c3LlQSavOkxanfBGe94snsHzfGW7+vGVTR1u/Ja6RywrI6pJRCHa75wh4Abzo2aZVB+VafaQfzz08D8wdqXnEdDQ6p7wD4WISDPHu1Alh38wA57PAPsk0MC22SRQDsBAPoZgL8GAMXsSoEas11IAAAAAElFTkSuQmCC",
                         click : function(){
-                            var postContainer       = $(this).parents(".msg")
-                              , isSelectedHTML      = getSelection().toString() !== "" && (getSelection().focusNode.parentElement.className.match("JVCMaster_POST") || getSelection().focusNode.parentElement.className == "postContainer")
-                              , SelectedHTML_node   = isSelectedHTML ? getSelection().focusNode.parentNode : ''
-                              , SelectedHTML        = isSelectedHTML ? SelectedHTML_node.innerHTML : ''
-                              , SelectedHTML_isJVCMaster_POST  = !!SelectedHTML_node.className.match("JVCMaster_POST")
+                            var postContainer                  = $(this).parents(".msg")
+                              , isSelectedHTML                 = getSelection().toString() !== "" && (getSelection().focusNode.parentElement.className.match("JVCMaster_POST") || getSelection().focusNode.parentElement.className == "postContainer")
+                              , SelectedHTML_node              = isSelectedHTML ? getSelection().focusNode.parentNode : ''
+                              , SelectedHTML                   = isSelectedHTML ? SelectedHTML_node.innerHTML : ''
+                              , SelectedHTML_isJVCMaster_POST  = SelectedHTML_node.className && !!SelectedHTML_node.className.match("JVCMaster_POST")
                             ;
 
                             var citation = citationPermalink = citationDate = citationPseudo = citationPosplace = "";                            
@@ -477,16 +477,15 @@ function JVCMaster(){
                                 citationPermalink = postContainer.find(".ancre a").attr("href");
                                 citationDate      = postContainer.find(".date, .msg_infos").text();
                                 citationPseudo    = postContainer.find(".pseudo strong").text();
-                                citationPost      = postContainer.find(".post:eq(0), .msg_body:eq(0)").html();
-                                
+                                citationPost      = postContainer.find(".post:eq(0), .msg_body:eq(0)").html();                                
                             }
 
                             citation          = "";
                             citationPermalink = $.trim(citationPermalink);
                             citationDate      = $.trim(citationDate.replace("Posté ", "").replace(/le \n/, ""));
                             citationPseudo    = $.trim(citationPseudo);
-                            citationPost      = $.trim(citationPost.replace(/ *<br(?: \/)?>/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| "));
-                            
+                            citationPost      = $.trim(citationPost.replace(/ *<br(?: \/)?>/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ").replace("\n| ", ""));
+
 
                             if(citationPermalink != "") citation += "| " + citationPermalink + "\n";
 
