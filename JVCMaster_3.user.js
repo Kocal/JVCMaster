@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.3.6
+// @version     3.3.7
 // ==/UserScript==
 
 /*******************************
@@ -16,7 +16,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.3.6";
+    _.version = "3.3.7";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -830,6 +830,7 @@ function JVCMaster(){
 
                     icon.wrap($("<a/>", {
                         href : href.replace(/(http:\/\/www.jeuxvideo.com\/forums\/|http:\/\/.*\.forumjv.com\/)([0-9]+\-)([0-9]+\-)([0-9]+\-)([0-9]+\-)/, "$1$2$3$4" + Math.ceil(nbMessage / 20) + '-'),
+                        title : "Acceder à la dernière page de ce topic", 
                         /*
                         Bug sur les forumJV */
                         css : {
@@ -912,7 +913,7 @@ function JVCMaster(){
                 var dates = $(".date");
                 dates.each(function(){
                     var date = $(dates);
-                    date.html(date.html().replace(/(<span class='JVCMaster_PEMT_time'>)*<span class='JVCMaster_PEMT_time'>([0-9]{2}:[0-9]{2}:[0-9]{2})<\/span>(<\/span>)*/g, "$2"));
+                    date.html(date.html().replace(/(<span class="JVCMaster_PEMT_time">)*<span class="JVCMaster_PEMT_time">([0-9]{2}:[0-9]{2}:[0-9]{2})<\/span>(<\/span>)*/g, "$2"));
                 })
             }
         },
