@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.3.7
+// @version     3.3.8
 // ==/UserScript==
 
 /*******************************
@@ -16,7 +16,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.3.7";
+    _.version = "3.3.8";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -482,10 +482,9 @@ function JVCMaster(){
 
                             citation          = "";
                             citationPermalink = $.trim(citationPermalink);
-                            citationDate      = $.trim(citationDate.replace("Posté ", "").replace(/le \n/, ""));
+                            citationDate      = $.trim(citationDate).replace("Posté ", "").replace(/le \n/, "");
                             citationPseudo    = $.trim(citationPseudo);
-                            citationPost      = $.trim(citationPost.replace(/ *<br(?: \/)?>/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ").replace("\n| ", ""));
-
+                            citationPost      = $.trim($.trim(citationPost).replace(/ *<br(?: \/)?>/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ").replace("\n| ", ""));
 
                             if(citationPermalink != "") citation += "| " + citationPermalink + "\n";
 
