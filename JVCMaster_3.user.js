@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.3.8
+// @version     3.3.9
 // ==/UserScript==
 
 /*******************************
@@ -484,7 +484,7 @@ function JVCMaster(){
                             citationPermalink = $.trim(citationPermalink);
                             citationDate      = $.trim(citationDate).replace("Posté ", "").replace(/le \n/, "");
                             citationPseudo    = $.trim(citationPseudo);
-                            citationPost      = $.trim($.trim(citationPost).replace(/ *<br(?: \/)?>/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| ").replace("\n| ", ""));
+                            citationPost      = $.trim($.trim(citationPost).replace(/ *<br(?: \/)?>/g, "").replace(/<img.*?alt="([^"]*?)".*?>|<a.*?href="([^"]*?)".*?>.*?<\/a>|<img.*?class="img_shack".*?>/gi, "$1 $2").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").split("\n").join("\n| "));
 
                             if(citationPermalink != "") citation += "| " + citationPermalink + "\n";
 
