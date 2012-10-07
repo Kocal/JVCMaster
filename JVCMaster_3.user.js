@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.4
+// @version     3.4.1
 // ==/UserScript==
 
 function JVCMaster(){
@@ -13,7 +13,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.4";
+    _.version = "3.4.1";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -241,7 +241,7 @@ function JVCMaster(){
                             t.html("<i>JVCMaster</i> : <b>Flood</b>");
                         }
                     } else if(postContainer.attr("class").match("msg")){
-                        if(/(W{30,}){1,}/.test(html)
+                        if(/(W{30,}){5,}/.test(html)
                             || /( ?<br( \/)?>&nbsp;\n){200}/.test(html)){
                             var BTN_AVERTIR = t.parent().find("a[target=avertir]")
                               , pseudo      = postContainer.find(".pseudo strong").text()
