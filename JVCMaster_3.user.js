@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.6.1
+// @version     3.6.2
 // ==/UserScript==
 
 function JVCMaster(){
@@ -13,7 +13,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.6.1";
+    _.version = "3.6.2";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -874,8 +874,9 @@ function JVCMaster(){
 
 
                 var BTN_FRIENDLIST = $("<a/>", {
+                    id   : "JVCMaster_BTN_FRIENDLIST",
                     text : "JVCMaster : Liste d'amis",
-                    css : { cursor : "pointer"},
+                    css  : { cursor : "pointer"},
                     click : function(){
                         var html = '<div class="JVCMaster_colorboxHTML" style="min-width : 300px;" class="forums hp_forums"><div class="bloc1"><h3 class="titre_bloc" style="min-width:200px"><span>JVCMaster : Liste d\'amis</span></h3><div class="bloc_inner"><ul class="liste_liens">'
                           , friends = JSON.parse(_.LS_get("friends") || "{}")
@@ -924,7 +925,16 @@ function JVCMaster(){
                 });
             },
             destroy : function(){
-                
+                $("#JVCMaster_BTN_FRIENDLIST").remove();
+
+                var pseudos     = $(".pseudo strong")
+                  , pseudosModo = $(".pseudo strong.moderateur")
+                ;
+                pseudos.css("color", "#000");
+                pseudos.attr("data-color", "#000");
+                pseudosModo.css("color", "#C00");
+                pseudosModo.attr("data-color", "#C00");
+            
             }
         },
 
@@ -1005,6 +1015,7 @@ function JVCMaster(){
             },
             destroy : function(){
                 $(".JVCMaster_BTN_MP a").remove();
+                $("#JVCMaster_quickResponse").remove();
             }
         },
 
