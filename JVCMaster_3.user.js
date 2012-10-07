@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.5
+// @version     3.6.1
 // ==/UserScript==
 
 function JVCMaster(){
@@ -13,7 +13,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.5";
+    _.version = "3.6.1";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -486,14 +486,18 @@ function JVCMaster(){
 
                             if(citationPermalink != "") citation += "| " + citationPermalink + "\n";
 
-                            citation += "| Ecrit par « " + citationPseudo + " », " + citationDate + "\n| « " + citationPost + " »\n\n> "
+                            citation += "| Ecrit par « " + citationPseudo + " »," + citationDate + "\n| « " + citationPost + " »\n\n> "
 
+                            textarea = $("#newmessage");
                             if(!textarea.is('*')){
                                 _.LS_set("citation", citation);
                                 window.location.href = $(".bt_repondre").attr("href");
                             } else{
-                                if(textarea.val() !== "")
+                                if(textarea.val() !== "" && textarea.val() !== "Ne postez pas d'insultes, évitez les majuscules, faites une recherche avant de poster pour voir si la question n'a pas déjà été posée...\n\nTout message d'incitation au piratage est strictement interdit et sera puni d'un bannissement.")
                                     textarea.val(textarea.val() + "\n\n" + citation);
+                                else
+                                    textarea.val(citation);
+                                    
                                 /*
                                 Si on est sur un MP ou la page de réponse d'un topic ET que la valeur du textarea est vide */                            
                                 if(($("#reception").is('*') || $(".revenir").is('*')) && textarea.val() === "")
@@ -503,7 +507,7 @@ function JVCMaster(){
                     })
                 ; _.setButton("BTN_CITATION", btn);
 
-                if(textarea.is('*') && $(".revenir").is('*'))
+                if(textarea.is('*') && $(".revenir").is('*') && window.location.href.match("^http:\/\/www\.jeuxvideo\.com\/forums\/3"))
                     textarea.focus();
 
                 if(textarea.is('*') && _.LS_get("citation")){
@@ -808,16 +812,22 @@ function JVCMaster(){
                     var friends = JSON.parse(_.LS_get("friends") || "{}")
                       , pseudos = $(".pseudo strong");
 
-                    pseudos.css("color", "#000000");
-                    pseudos.attr("data-color", "#000000");
                     pseudos.each(function(){
                         var t      = $(this)
                           , pseudo = $.trim(t.text().toLowerCase())
                         ;
-                        
+
                         if(friends[pseudo] !== undefined){
                             t.css("color", friends[pseudo]["color"]);
                             t.attr("data-color", friends[pseudo]["color"]);
+                        } else{
+                            if(t.attr("class") && t.attr("class") == "moderateur"){
+                                t.css("color", "#C00");
+                                t.attr("data-color", "#C00");
+                            } else{
+                                t.css("color", "#000");
+                                t.attr("data-color", "#000");
+                            }
                         }
                     })
                 })();
@@ -974,8 +984,24 @@ function JVCMaster(){
                         window.open(href.replace(/(http:\/\/www.jeuxvideo.com\/forums\/|http:\/\/.*\.forumjv.com\/)([0-9]+\-)([0-9]+\-)([0-9]+\-)([0-9]+\-)/, "$13-$3$4" + Math.ceil(nbMessage / 20) + '-'), "_tab");
                         return false;
                     }));
-
                 });
+
+                /*
+                Réponse rapide */
+                if(window.location.href.match("^http:\/\/www\.jeuxvideo\.com\/forums\/1")){
+                    $(".bloc_forum:last").before($("<div>", {
+                        id : "JVCMaster_quickResponse"
+                    }));
+
+                    $.ajax({
+                        dataType : "html",
+                        url      : $(".bt_repondre:first").attr("href"),
+                        success  : function(data) {
+                            $("#JVCMaster_quickResponse").append($(data.replace(/<div class="login_memo">(?:.*\n)*<textarea/, "<textarea").replace(/<img id="bouton_apercu"[^>]*>/, "").replace(/<p class="lien_base">\n.*\n<\/p>/, "").replace("Répondre sur ce sujet", "JVCMaster : Réponse rapide")).find(".bloc_forum:last"));
+                            $("#JVCMaster_quickResponse").find("#boutons_repondre").css({background : "none", paddingBottom : "0"})
+                        }
+                    });
+                }
             },
             destroy : function(){
                 $(".JVCMaster_BTN_MP a").remove();
