@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.6.2
+// @version     3.6.3
 // ==/UserScript==
 
 function JVCMaster(){
@@ -13,7 +13,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.6.2";
+    _.version = "3.6.3";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -998,7 +998,7 @@ function JVCMaster(){
 
                 /*
                 Réponse rapide */
-                if(window.location.href.match("^http:\/\/www\.jeuxvideo\.com\/forums\/1")){
+                if(window.location.href.match("^http:\/\/www\.jeuxvideo\.com\/forums\/1") && $(".bt_repondre").is('*')){
                     $(".bloc_forum:last").before($("<div>", {
                         id : "JVCMaster_quickResponse"
                     }));
