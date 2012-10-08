@@ -5,7 +5,7 @@
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @run-at      document-end
-// @version     3.6.3
+// @version     3.6.4
 // ==/UserScript==
 
 function JVCMaster(){
@@ -13,7 +13,7 @@ function JVCMaster(){
     Permettra d'acceder à l'objet "JVCMaster" depuis n'importe où*/
     var _ = this;
 
-    _.version = "3.6.3";
+    _.version = "3.6.4";
 
     /*
     Raccourcis pour des fonctions casse-burnes à écrire */
@@ -439,8 +439,7 @@ function JVCMaster(){
                                 
                                 if(/<li class="ancre"><a href="([^"]*)">Lien permanent<\/a>/g.test(SelectedHTML)){
                                     citationPermalink = /<li class="ancre"><a href="([^"]*)">Lien permanent<\/a>/g.exec(SelectedHTML).pop();
-                                }
-                                else{
+                                } else {
                                     citationPermalink = /<div class="CITATION_permalink" style="[^"]+"><a href="([^"]*)">/g.exec(SelectedHTML);
                                     citationPermalink = citationPermalink != null ? citationPermalink.pop() : '';
                                 }
@@ -448,16 +447,14 @@ function JVCMaster(){
 
                                 if(/<li class="date">(Posté le \n[0-9]* [a-zéû]* [0-9]* à [0-9]{2}:[0-9]{2}:[0-9]{2})/g.test(SelectedHTML)){
                                     citationDate = /<li class="date">(Posté le \n[0-9]* [a-zéû]* [0-9]* à [0-9]{2}:[0-9]{2}:[0-9]{2})/g.exec(SelectedHTML).pop();
-                                }
-                                else{
+                                } else {
                                     citationDate = /<div class="CITATION_date">(?:le )?([0-9]* [a-zéû]* [0-9]* à [0-9]{2}:[0-9]{2}:[0-9]{2})/g.exec(SelectedHTML);
                                     citationDate = citationDate != null ? citationDate.pop() : '';
                                 }
   
                                 if(/<li class="pseudo">\n<strong>([^<]*)<\/strong>/g.test(SelectedHTML)){
                                     citationPseudo = /<li class="pseudo">\n<strong>([^<]*)<\/strong>/g.exec(SelectedHTML).pop();
-                                }
-                                else{
+                                } else {
                                     citationPseudo = /<div class="CITATION_pseudo"><a.*?href="([^"]*?)".*?>([a-zA-Z0-9\-\]\[_]*)/g.exec(SelectedHTML);
                                     citationPseudo = citationPseudo != null ? citationPseudo.pop() : '';
                                 }
@@ -470,8 +467,7 @@ function JVCMaster(){
                                     citationDate      = postContainer.find(".date").text();
                                     citationPseudo    = postContainer.find(".pseudo strong").text();
                                 }                             
-                            }
-                            else{
+                            } else {
                                 citationPermalink = postContainer.find(".ancre a").attr("href");
                                 citationDate      = postContainer.find(".date, .msg_infos").text();
                                 citationPseudo    = postContainer.find(".pseudo strong").text();
@@ -995,27 +991,9 @@ function JVCMaster(){
                         return false;
                     }));
                 });
-
-                /*
-                Réponse rapide */
-                if(window.location.href.match("^http:\/\/www\.jeuxvideo\.com\/forums\/1") && $(".bt_repondre").is('*')){
-                    $(".bloc_forum:last").before($("<div>", {
-                        id : "JVCMaster_quickResponse"
-                    }));
-
-                    $.ajax({
-                        dataType : "html",
-                        url      : $(".bt_repondre:first").attr("href"),
-                        success  : function(data) {
-                            $("#JVCMaster_quickResponse").append($(data.replace(/<div class="login_memo">(?:.*\n)*<textarea/, "<textarea").replace(/<img id="bouton_apercu"[^>]*>/, "").replace(/<p class="lien_base">\n.*\n<\/p>/, "").replace("Répondre sur ce sujet", "JVCMaster : Réponse rapide")).find(".bloc_forum:last"));
-                            $("#JVCMaster_quickResponse").find("#boutons_repondre").css({background : "none", paddingBottom : "0"})
-                        }
-                    });
-                }
             },
             destroy : function(){
                 $(".JVCMaster_BTN_MP a").remove();
-                $("#JVCMaster_quickResponse").remove();
             }
         },
 
@@ -1287,6 +1265,31 @@ function JVCMaster(){
             },
             destroy : function(){
                 $("a[href^=http\\:\\/\\/www\\.noelshack\\.com], a[href^=http\\:\\/\\/image\\.noelshack\\.com]").unbind("click");
+            }
+        },
+
+        quickresponse : {
+            id          : "quickresponse",
+            name        : "Quick Response",
+            description : "Répondez plus vite à un topic!",
+            init : function(){
+                 if(window.location.href.match("^http:\/\/www\.jeuxvideo\.com\/forums\/1") && $(".bt_repondre").is('*')){
+                    $(".bloc_forum:last").before($("<div>", {
+                        id : "JVCMaster_quickResponse"
+                    }));
+
+                    $.ajax({
+                        dataType : "html",
+                        url      : $(".bt_repondre:first").attr("href"),
+                        success  : function(data) {
+                            $("#JVCMaster_quickResponse").append($(data.replace(/<div class="login_memo">(?:.*\n)*<textarea/, "<textarea").replace(/<img id="bouton_apercu"[^>]*>/, "").replace(/<p class="lien_base">\n.*\n<\/p>/, "").replace("Répondre sur ce sujet", "JVCMaster : Réponse rapide")).find(".bloc_forum:last"));
+                            $("#JVCMaster_quickResponse").find("#boutons_repondre").css({background : "none", paddingBottom : "0"})
+                        }
+                    });
+                }
+            },
+            destroy : function(){
+                $("#JVCMaster_quickResponse").remove();
             }
         }
     };
