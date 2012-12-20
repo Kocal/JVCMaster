@@ -4,14 +4,15 @@
 // @description Ajoute des fonctionnalités à Jeuxvideo.com
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
+// @exclude     http://www.jeuxvideo.com/jvchat*
 // @run-at      document-end
 // @updateURL   https://github.com/Kocal/JVCMaster/raw/master/JVCMaster.user.js
-// @version     4.5.3
+// @version     4.5.4
 // ==/UserScript==
 
 function JVCMaster(){
     var _ = this;
-    _.version = "4.5.3";
+    _.version = "4.5.4";
     _.log = function(msg){ console.log(msg); }
 
     // localStorage
