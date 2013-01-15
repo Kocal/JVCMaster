@@ -627,10 +627,10 @@ function JVCMaster(){
                                 .replace(/(<div class="postContainer(?: JVCMaster_MSGBODY)?">|<\/div>)(?:Ecrit par « |Citation de (?:")?)([a-zA-Z0-9_\-\[\]]*)(?: »?|(?:")?)? ?, *([^<]*)/gi, 
                                        '$1<div class="CITATION_pseudo"><a href="http://www.jeuxvideo.com/profil/$2.html">$2</a></div><div class="CITATION_date">$3</div>')
                                 
-                                .replace(/ ?(<br(?: \/)?>)?\n? ?(?:\| )+(« |«&nbsp;)?(?:\| ?)?/g, 
+                                .replace(/ ?(<br(?: \/)?>)?\n? ?(?:\| )+(« |«&nbsp;)(?:\| ?)?/g, 
                                         "<br>\n")
 
-                                .replace(/(\n)? *<br(?: \/)?> ?(\n)(\| )*« |/g,
+                                .replace(/ ?(<br(?: \/)?>)?\n? ?(?:\| )+(« (?:\| ?)?|«&nbsp;(?:\| ?)?)?/g,
                                         "")
 
                                 .replace(/(\n)? *<br(?: \/)?> ?(\n)(\| )/,
@@ -1334,35 +1334,36 @@ function JVCMaster(){
                 $(".pagination a").die("click");
             },
             navigatePage : function(pageUrl, callback){
-                $("body").animate({scrollTop : 0}, 200, function(){
-                    $("div[id^=message]").remove();
-                    $("#JVCMaster_loadPost").fadeIn();
+/*                $("body").animate({scrollTop : 0}, 200);*/
 
-                    $.ajax({
-                        dataType : "html",
-                        url      : pageUrl,
-                        success  : function(data){
-                            $("#JVCMaster_loadPost").fadeOut(200, function(){
-                                if (history && history.pushState)
-                                    history.pushState({}, '', pageUrl);
-                                
-                                $(".bt_rafraichir").attr("href", pageUrl);
-                                $(".navig_pages").html($(data).find(".navig_pages:first").html());
-                                $(".discu_boutons:first").after($(data).find("div[id^=message]"));
+                $("div[id^=message]").remove();
+                $("#JVCMaster_loadPost").fadeIn(50);
 
-                                $("#JVCMaster_loadPost").remove();
+                $.ajax({
+                    dataType : "html",
+                    url      : pageUrl,
+                    success  : function(data){
+                        $("#JVCMaster_loadPost").fadeOut(50, function(){
+                            if (history && history.pushState)
+                                history.pushState({}, '', pageUrl);
+                            
+                            $(".bt_rafraichir").attr("href", pageUrl);
+                            $(".navig_pages").html($(data).find(".navig_pages:first").html());
+                            $(".discu_boutons:first").after($(data).find("div[id^=message]"));
 
-                                _.pseudoArea = $(".msg").parent().find("li span:last-child:not(.generic), div[id^=message] ul").parent().find(".pseudo");
-                                _.setButtonsArea();
-                                $.each(_.activatedExtensions, function(k, script){
-                                    _.scripts[script].destroy();
-                                    _.scripts[script].init();
-                                });   
+                            $("#JVCMaster_loadPost").remove();
 
-                                if(callback) callback();
-                            });
-                        }
-                    });
+                            _.pseudoArea = $(".msg").parent().find("li span:last-child:not(.generic), div[id^=message] ul").parent().find(".pseudo");
+                            _.setButtonsArea();
+                            $.each(_.activatedExtensions, function(k, script){
+                                _.scripts[script].destroy();
+                                _.scripts[script].init();
+                            });   
+
+                            if(callback) callback();
+                        });
+                    }
+                    
                 });
             },
             insertLoadingMessage : function(){
