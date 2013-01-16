@@ -7,12 +7,12 @@
 // @exclude     http://www.jeuxvideo.com/jvchat*
 // @run-at      document-end
 // @updateURL   https://github.com/Kocal/JVCMaster/raw/master/JVCMaster.user.js
-// @version     4.5.4
+// @version     4.5.7
 // ==/UserScript==
 
 function JVCMaster(){
     var _ = this;
-    _.version = "4.5.4";
+    _.version = "4.5.7";
     _.log = function(msg){ console.log(msg); }
 
     // localStorage
@@ -1334,7 +1334,7 @@ function JVCMaster(){
                 $(".pagination a").die("click");
             },
             navigatePage : function(pageUrl, callback){
-/*                $("body").animate({scrollTop : 0}, 200);*/
+               $("body").animate({scrollTop : 0}, 100);
 
                 $("div[id^=message]").remove();
                 $("#JVCMaster_loadPost").fadeIn(50);
