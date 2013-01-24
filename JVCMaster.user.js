@@ -7,12 +7,12 @@
 // @exclude     http://www.jeuxvideo.com/jvchat*
 // @run-at      document-end
 // @updateURL   https://github.com/Kocal/JVCMaster/raw/master/JVCMaster.user.js
-// @version     4.5.7
+// @version     4.5.8
 // ==/UserScript==
 
 function JVCMaster(){
     var _ = this;
-    _.version = "4.5.7";
+    _.version = "4.5.8";
     _.log = function(msg){ console.log(msg); }
 
     // localStorage
@@ -627,14 +627,9 @@ function JVCMaster(){
                                 .replace(/(<div class="postContainer(?: JVCMaster_MSGBODY)?">|<\/div>)(?:Ecrit par « |Citation de (?:")?)([a-zA-Z0-9_\-\[\]]*)(?: »?|(?:")?)? ?, *([^<]*)/gi, 
                                        '$1<div class="CITATION_pseudo"><a href="http://www.jeuxvideo.com/profil/$2.html">$2</a></div><div class="CITATION_date">$3</div>')
                                 
-                                .replace(/ ?(<br(?: \/)?>)?\n? ?(?:\| )+(« |«&nbsp;)(?:\| ?)?/g, 
-                                        "<br>\n")
-
                                 .replace(/ ?(<br(?: \/)?>)?\n? ?(?:\| )+(« (?:\| ?)?|«&nbsp;(?:\| ?)?)?/g,
-                                        "")
-
-                                .replace(/(\n)? *<br(?: \/)?> ?(\n)(\| )/,
                                         "<br>")
+
                                 
                                 .replace(/(<\/div>\n) ?<br(?: \/)?> ?/g,
                                         "$1");
