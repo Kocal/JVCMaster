@@ -7,12 +7,12 @@
 // @exclude     http://www.jeuxvideo.com/jvchat*
 // @run-at      document-end
 // @updateURL   https://github.com/Kocal/JVCMaster/raw/master/JVCMaster.user.js
-// @version     4.5.8
+// @version     4.5.9
 // ==/UserScript==
 
 function JVCMaster(){
     var _ = this;
-    _.version = "4.5.8";
+    _.version = "4.5.9";
     _.log = function(msg){ console.log(msg); }
 
     // localStorage
@@ -630,7 +630,6 @@ function JVCMaster(){
                                 .replace(/ ?(<br(?: \/)?>)?\n? ?(?:\| )+(« (?:\| ?)?|«&nbsp;(?:\| ?)?)?/g,
                                         "<br>")
 
-                                
                                 .replace(/(<\/div>\n) ?<br(?: \/)?> ?/g,
                                         "$1");
 
@@ -640,7 +639,7 @@ function JVCMaster(){
                     }));
 
                     $(".JVCMaster_POST .postContainer").hover(function(){
-                        $(this).find(".CITATION_permalink").slideDown(100);
+                        $(this).find("> .CITATION_permalink").slideDown(100);
                     }, function(){
                         $(this).find(".CITATION_permalink").slideUp(100);
                     });
@@ -969,7 +968,7 @@ function JVCMaster(){
                             width   : "16px"
                         }
                     }).bind("contextmenu", function(e){ // Clic droit, alors on va sur la page de réponse
-                        window.open(href.replace(/(http:\/\/www.jeuxvideo.com\/forums\/|http:\/\/.*\.forumjv.com\/)([0-9]+\-)([0-9]+\-)([0-9]+\-)([0-9]+\-)/, "$13-$3$4" + Math.ceil(nbMessage / 20) + '-'), Math.random());
+                        window.open(href.replace(/(http:\/\/www.jeuxvideo.com\/forums\/|http:\/\/.*\.forumjv.com\/)([0-9]+\-)([0-9]+\-)([0-9]+\-)([0-9]+\-)/, "$13-$3$4" + Math.ceil(nbMessage / 20) + '-'));
                         return false;
                     }));
                 });
