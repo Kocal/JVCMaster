@@ -7,12 +7,12 @@
 // @exclude     http://www.jeuxvideo.com/jvchat*
 // @run-at      document-end
 // @updateURL   https://github.com/Kocal/JVCMaster/raw/master/JVCMaster.user.js
-// @version     4.5.10
+// @version     4.5.11
 // ==/UserScript==
 
 function JVCMaster(){
     var _ = this;
-    _.version = "4.5.10";
+    _.version = "4.5.11";
     _.log = function(msg){ console.log(msg); }
 
     // localStorage
@@ -27,10 +27,13 @@ function JVCMaster(){
 
     _.activatedExtensions = JSON.parse(_.LS_get("activatedExtensions") || "[]");
 
+    _.style = null;
+
     _.insertCSS = function(css){
-        $("<style>", {
-            text : css
-        }).appendTo("head");
+        if(_.style)
+            _.style.get(0).innerHTML += css;
+        else
+            _.style = $("<style>", { html : css}).appendTo("head");
     }
 
     _.setButtonsArea = function(){
