@@ -7,12 +7,12 @@
 // @exclude     http://www.jeuxvideo.com/jvchat*
 // @run-at      document-end
 // @updateURL   https://github.com/Kocal/JVCMaster/raw/master/JVCMaster.user.js
-// @version     4.5.9
+// @version     4.5.10
 // ==/UserScript==
 
 function JVCMaster(){
     var _ = this;
-    _.version = "4.5.9";
+    _.version = "4.5.10";
     _.log = function(msg){ console.log(msg); }
 
     // localStorage
@@ -1110,7 +1110,7 @@ function JVCMaster(){
 
                 scrollTo = function(el){el = $(el);if(el.is('*')){ el.addClass("JVCMaster_highlightedPost"); $("body").animate({ scrollTop : el.offset().top - 50 }, 500, function(){ el.stop().animate({ backgroundColor : "#FFF9D0" }, 500) }); }}
 
-                if(hash !== "" && hash !== "#last_msg"){
+                if(hash !== "" && !!hash.match(/^\#message_[0-9]+$/) && hash !== "#last_msg"){
                     setTimeout(function(){
                         scrollTo(hash);
                     }, 100);
