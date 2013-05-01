@@ -1,18 +1,18 @@
 // ==UserScript==
 // @name        JVCMaster
-// @namespace   http://jvcmaster.legtux.org/
+// @namespace   http://jvcmaster.org/
 // @description Ajoute des fonctionnalités à Jeuxvideo.com
 // @include     http://www.jeuxvideo.com/*
 // @include     http://*.forumjv.com/*
 // @exclude     http://www.jeuxvideo.com/jvchat*
 // @run-at      document-end
 // @updateURL   https://github.com/Kocal/JVCMaster/raw/master/JVCMaster.user.js
-// @version     4.5.11
+// @version     4.5.12
 // ==/UserScript==
 
 function JVCMaster(){
     var _ = this;
-    _.version = "4.5.11";
+    _.version = "4.5.12";
     _.log = function(msg){ console.log(msg); }
 
     // localStorage
@@ -132,13 +132,13 @@ function JVCMaster(){
                         if(typeof _.LS_get("Sync_key") == "object" && typeof _.LS_get("Sync_pseudo") == "object"){
                             html += '<form id="JVCMaster_FORM_connection">';
                             html += '<p style="font-size: 15px;font-weight: bold;">Connectez-vous avec votre compte JVCMaster</p><input type="text" name="JVCMaster_pseudo" placeholder="Pseudo"><input type="password" name="JVCMaster_password" placeholder="Mot de passe"><input type="submit" value="Connexion">';
-                            html += '<p>Pas encore de compte JVCMaster? <a href="http://jvcmaster.legtux.org/account">Inscrivez-vous!</a></p>'; 
+                            html += '<p>Pas encore de compte JVCMaster? <a href="http://jvcmaster.org/account">Inscrivez-vous!</a></p>'; 
                             html += '</form>'
                         } else{
                             isConnected = true;
                         }
                         
-                        html += '<form id="JVCMaster_FORM_sync"' + (!isConnected ? ' style="display:none;"' : '') + ' action="http://jvcmaster.legtux.org/action?type=sync"><button id="JVCMaster_BTN_setSync">Envoyer votre configuration</button><button id="JVCMaster_BTN_getSync">Télécharger votre configuration</button>';
+                        html += '<form id="JVCMaster_FORM_sync"' + (!isConnected ? ' style="display:none;"' : '') + ' action="http://jvcmaster.org/action?type=sync"><button id="JVCMaster_BTN_setSync">Envoyer votre configuration</button><button id="JVCMaster_BTN_getSync">Télécharger votre configuration</button>';
                         html += "<br><a href='#' id='JVCMaster_BTN_Sync_logout'>Se déconnecter</a>";
                         html += "</form>";
 
@@ -167,7 +167,7 @@ function JVCMaster(){
 
                 $("#JVCMaster_FORM_connection").on("submit", function(){
                     var t            = $(this)
-                      , action       = "http://jvcmaster.legtux.org/action?type=sync"
+                      , action       = "http://jvcmaster.org/action?type=sync"
                       , pseudo       = t.find("input[name=JVCMaster_pseudo]").val()
                       , password     = t.find("input[name=JVCMaster_password]").val()
                       , submitButton = t.find("[type=submit]")
@@ -207,7 +207,7 @@ function JVCMaster(){
                 });
 
                 $("#JVCMaster_BTN_getSync").live("click", function(){
-                     $.post("http://jvcmaster.legtux.org/action?type=sync&action=get", {
+                     $.post("http://jvcmaster.org/action?type=sync&action=get", {
                             jvcmaster_sync : ""
                           , pseudo         : _.LS_get("Sync_pseudo")
                           , key            : _.LS_get("Sync_key")
@@ -241,7 +241,7 @@ function JVCMaster(){
                         , hiddenpostspseudo   : _.LS_get("hiddenpostspseudo")
                     };
                     
-                    $.post("http://jvcmaster.legtux.org/action?type=sync&action=set", {
+                    $.post("http://jvcmaster.org/action?type=sync&action=set", {
                             jvcmaster_sync : ""
                           , config         : config
                           , pseudo         : _.LS_get("Sync_pseudo")
