@@ -7,12 +7,12 @@
 // @exclude     http://www.jeuxvideo.com/jvchat*
 // @run-at      document-end
 // @updateURL   https://github.com/Kocal/JVCMaster/raw/master/JVCMaster.user.js
-// @version     4.5.12
+// @version     4.5.13
 // ==/UserScript==
 
 function JVCMaster(){
     var _ = this;
-    _.version = "4.5.12";
+    _.version = "4.5.13";
     _.log = function(msg){ console.log(msg); }
 
     // localStorage
@@ -81,7 +81,7 @@ function JVCMaster(){
         $("#connexion").css({
             textAlign    : "right"
           , paddingRight : "5px"
-          , width        : "655px"
+          , width        : "666px" // ok
         });
 
         /*
