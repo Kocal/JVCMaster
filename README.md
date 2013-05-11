@@ -1,1 +1,1 @@
-http://jvcmaster.legtux.org/
+http://jvcmaster.org/
