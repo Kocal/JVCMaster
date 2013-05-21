@@ -7,12 +7,12 @@
 // @exclude     http://www.jeuxvideo.com/jvchat*
 // @run-at      document-end
 // @updateURL   https://github.com/Kocal/JVCMaster/raw/master/JVCMaster.user.js
-// @version     4.5.14
+// @version     4.5.15
 // ==/UserScript==
 
 function JVCMaster(){
     var _ = this;
-    _.version = "4.5.14";
+    _.version = "4.5.15";
     _.log = function(msg){ console.log(msg); }
 
     // localStorage
@@ -400,6 +400,7 @@ function JVCMaster(){
 
                     $.ajax({
                         url : "http://www.jeuxvideo.com/profil/" + pseudo + ".html",
+                        dataType : "text",
                         success : function(data){
                             var BTN_CDV    = postContainer.find("a[href^=http\\:\\/\\/www\\.jeuxvideo\\.com\\/profil] img")
                               , BADGE_RANK = postContainer.find("span.JVCMaster_BADGE_RANK span")
