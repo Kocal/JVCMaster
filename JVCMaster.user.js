@@ -7,12 +7,12 @@
 // @exclude     http://www.jeuxvideo.com/jvchat*
 // @run-at      document-end
 // @updateURL   https://github.com/Kocal/JVCMaster/raw/master/JVCMaster.user.js
-// @version     4.5.15
+// @version     4.5.16
 // ==/UserScript==
 
 function JVCMaster(){
     var _ = this;
-    _.version = "4.5.15";
+    _.version = "4.5.16";
     _.log = function(msg){ console.log(msg); }
 
     // localStorage
@@ -109,9 +109,6 @@ function JVCMaster(){
                     .JVCMaster_POST{background: url(http://image.jeuxvideo.com/css_img/defaut/sep_444.gif) repeat-x top; clear: both; line-height: 1.3em; margin-bottom: 8px; padding-top: 10px} \
                     ");
 
-        jQuery.ajaxSetup({
-            dataType : "json"
-        });
 
         // Bouton "JVCMaster x.x.x" pour ouvrir le panneau de configuration
         var BTN_CONFIGURATION = $("<a/>", {
@@ -141,7 +138,7 @@ function JVCMaster(){
                             isConnected = true;
                         }
                         
-                        html += '<form id="JVCMaster_FORM_sync"' + (!isConnected ? ' style="display:none;"' : '') + ' action="http://www.jvcmaster.org/action?type=sync"><button id="JVCMaster_BTN_setSync">Envoyer votre configuration</button><button id="JVCMaster_BTN_getSync">Télécharger votre configuration</button>';
+                        html += '<form id="JVCMaster_FORM_*"' + (!isConnected ? ' style="display:none;"' : '') + ' action="http://www.jvcmaster.org/action?type=sync"><button id="JVCMaster_BTN_setSync">Envoyer votre configuration</button><button id="JVCMaster_BTN_getSync">Télécharger votre configuration</button>';
                         html += "<br><a href='#' id='JVCMaster_BTN_Sync_logout'>Se déconnecter</a>";
                         html += "</form>";
 
