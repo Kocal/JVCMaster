@@ -7,12 +7,12 @@
 // @exclude     http://www.jeuxvideo.com/jvchat*
 // @run-at      document-end
 // @updateURL   https://github.com/Kocal/JVCMaster/raw/master/JVCMaster.user.js
-// @version     4.5.16
+// @version     4.5.18
 // ==/UserScript==
 
 function JVCMaster(){
     var _ = this;
-    _.version = "4.5.16";
+    _.version = "4.5.18";
     _.log = function(msg){ console.log(msg); }
 
     // localStorage
@@ -138,7 +138,7 @@ function JVCMaster(){
                             isConnected = true;
                         }
                         
-                        html += '<form id="JVCMaster_FORM_*"' + (!isConnected ? ' style="display:none;"' : '') + ' action="http://www.jvcmaster.org/action?type=sync"><button id="JVCMaster_BTN_setSync">Envoyer votre configuration</button><button id="JVCMaster_BTN_getSync">Télécharger votre configuration</button>';
+                        html += '<form id="JVCMaster_FORM_sync"' + (!isConnected ? ' style="display:none;"' : '') + ' action="http://www.jvcmaster.org/action?type=sync"><button id="JVCMaster_BTN_setSync">Envoyer votre configuration</button><button id="JVCMaster_BTN_getSync">Télécharger votre configuration</button>';
                         html += "<br><a href='#' id='JVCMaster_BTN_Sync_logout'>Se déconnecter</a>";
                         html += "</form>";
 
@@ -187,6 +187,8 @@ function JVCMaster(){
                             pseudo         : pseudo,
                             password       : _.sha1("0+@#1$4%*7" + password)
                         }, "json").done(function(data) {
+                            data = JSON.parse(data);
+                            
                             submitButton.attr("disabled", "disabled");
                             
                             if(!data.accountExists) {
