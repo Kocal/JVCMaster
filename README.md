@@ -1,10 +1,10 @@
-Merci de lire ces deux messages avant de continuer.
+Merci de lire ce message avant de continuer.
     
     C'est la fin !
     JVCMaster ne sera plus mis à jour, et que le "jvchat" développé par mes soins ne sortira pas non plus.
     
     Je souhaiterais vour remerciez pour votre confiance, et votre présence qui ont énormément contribué au développement de JVCMaster.
-    Je vous fais de gros bisous les loulous, merci pour tout. C'est la fin ! ♥
+    Je vous fais de gros bisous les loulous, merci pour tout. ♥
     
 JVCMaster
 =========
