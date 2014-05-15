@@ -316,6 +316,8 @@ function JVCMaster(){
 
         delete ColorBox_img_Controls, ColorBox_img_Loading, ColorBox_img_Border, ColorBox_img_Overlay;
     }
+    
+    document.addEventListener('turbojv', _.init);
 
     // Extensions de JVCMaster
     _.scripts = {
