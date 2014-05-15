@@ -1,12 +1,7 @@
-Merci de lire ce message avant de continuer.
+
+* Note : ceci n'est pas la version officielle de JVCMaster, mais un fork destiné à le rendre compatible avec TurboJv.
     
-    C'est la fin !
-    JVCMaster ne sera plus mis à jour, et que le "jvchat" développé par mes soins ne sortira pas non plus.
-    
-    Je souhaiterais vour remerciez pour votre confiance, et votre présence qui ont énormément contribué au développement de JVCMaster.
-    Je vous fais de gros bisous les loulous, merci pour tout. ♥
-    
-JVCMaster
+JVCMaster - Compatible TurboJv
 =========
 
 JVCMaster est une extension navigateur compatible avec les principaux navigateurs actuels (Google Chrome, Chromium, Mozilla Firefox, Opera et Safarie), rajoutant des fonctionnalités utiles et innovantes au site [www.jeuxvideo.com](http://www.jeuxvideo.com).
