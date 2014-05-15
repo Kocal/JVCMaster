@@ -7,7 +7,7 @@
 // @exclude     http://www.jeuxvideo.com/jvchat*
 // @run-at      document-end
 // @updateURL   https://github.com/Kocal/JVCMaster/raw/master/JVCMaster.user.js
-// @version     4.5.18
+// @version     4.6
 // ==/UserScript==
 
 function JVCMaster(){
@@ -316,8 +316,15 @@ function JVCMaster(){
 
         delete ColorBox_img_Controls, ColorBox_img_Loading, ColorBox_img_Border, ColorBox_img_Overlay;
     }
+	
+	_.rechargerScripts = function(){
+		$.each(_.activatedExtensions, function(k, script){
+			_.scripts[script].destroy();
+			_.scripts[script].init();
+		});
+	};
     
-    document.addEventListener('turbojv', _.init);
+    document.addEventListener('turbojv', _.rechargerScripts);
 
     // Extensions de JVCMaster
     _.scripts = {
@@ -986,6 +993,10 @@ function JVCMaster(){
                             .JVCMaster_FORM_navigatePage input[type=text]{ height : 13px; vertical-align : top}");
 
                 _.scripts.quicknavigation.insertLoadingMessage();
+				
+				if($('.JVCMaster_FORM_navigatePage').length > 0) {
+					$('.JVCMaster_FORM_navigatePage').remove();
+				}
 
                 var formNavigatePage = $("<form>", {
                     "class" : "JVCMaster_FORM_navigatePage"
