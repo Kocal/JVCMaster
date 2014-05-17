@@ -114,6 +114,7 @@ function JVCMaster(){
         var BTN_CONFIGURATION = $("<a/>", {
             title : "Panneau de configuration de JVCMaster"
           , text  : "JVCMaster " + _.version
+		  , id : 'jvcmaster_btn_config'
           , click : function(e){
                 // On rafraichit la liste des extensions activées
                 _.activatedExtensions = JSON.parse(_.LS_get("activatedExtensions") || "[]");
@@ -275,13 +276,16 @@ function JVCMaster(){
           , css : {cursor : "pointer"}
         });
 
-        BTN_CONFIGURATION.appendTo($("<div>").prependTo($("#connexion")));
+		if($('#jvcmaster_btn_config').length == 0)
+		{
+			BTN_CONFIGURATION.appendTo($("<div>").prependTo($("#connexion")));
 
-        // La barre #connexion est "appendée" au bout de 1000ms  sur les ForumJV
-        setTimeout(function(){
-            BTN_CONFIGURATION.appendTo($("<li>").prependTo($("div#log ul")));
-        }, 1100);
-
+			// La barre #connexion est "appendée" au bout de 1000ms  sur les ForumJV
+			setTimeout(function(){
+				BTN_CONFIGURATION.appendTo($("<li>").prependTo($("div#log ul")));
+			}, 1100);
+		}
+		
         // On lance les extensions que l'utilisateur a activées
         $.each(_.activatedExtensions, function(k, script){
             _.scripts[script].init();
@@ -317,11 +321,21 @@ function JVCMaster(){
         delete ColorBox_img_Controls, ColorBox_img_Loading, ColorBox_img_Border, ColorBox_img_Overlay;
     }
 	
+	// Compatibilité TurboJv
 	_.rechargerScripts = function(){
+	
 		$.each(_.activatedExtensions, function(k, script){
 			_.scripts[script].destroy();
-			_.scripts[script].init();
 		});
+		
+		$('.JVCMaster_patternButton').remove();
+		
+	    _.patternButton = "_BADGE:RANK__BTN:CITATION__BTN:HIDDENPOST__BTN:HIDDENPOSTSPSEUDO__BTN:MP_";
+		_.pseudoArea = $(".msg").parent().find("li span:last-child:not(.generic), div[id^=message] ul").parent().find(".pseudo");
+		_.activatedExtensions = JSON.parse(_.LS_get("activatedExtensions") || "[]");
+		_.style = null;
+	
+		_.init();
 	};
     
     document.addEventListener('turbojv', _.rechargerScripts);
@@ -369,7 +383,11 @@ function JVCMaster(){
             destroy : function(){
                 $(".JVCMaster_POST_FLOOD").remove();
                 $(".msg").show();
-            }
+            },
+			reload : function() {
+				this.destroy();
+				this.init();
+			}
         },
 
         cdvinformations : {
@@ -504,9 +522,9 @@ function JVCMaster(){
                 });
             },
             destroy : function(){
-                $("span.JVCMaster_BADGE_RANK span").remove();
+                $("span.JVCMaster_BADGE_RANK span").hide();
                 $("a[href^=http\\:\\/\\/www\\.jeuxvideo\\.com\\/profil] img").attr("src" ,"data:image/png;base64,R0lGODlhCwAMAMQAAAAAAP///3LEGzpYGj5qD5LkO2m1GWClF3q0PKHnVlKAIVGLE4PHO6boX5XcSkyDEm69Gn/GM4zJS1mLJJrdUj9iGWWtGFaUFJzmTVWAJkNzEJflREJjIQAAAAAAAAAAACH5BAUUAAAALAAAAAALAAwAAAVFoCCOIwAITaqmwpkkQRxIVCJisow44hYPnFiGISpEJopYRRERQQyHGIFwMTghEMtDU4VcIbGFBfu1LMTkExZ6MKRPJFIIADs=");
-            }
+            },
         },
 
         citation : {
@@ -665,7 +683,11 @@ function JVCMaster(){
                 $(".JVCMaster_BTN_CITATION img").remove();
                 $(".JVCMaster_POST_CITATION").remove();
                 $(".msg").find(".post, .msg_body").show();
-            }
+            },
+			reload : function() {
+				this.destroy();
+				this.init();
+			}
         },
 
         hideposts : {
@@ -786,7 +808,11 @@ function JVCMaster(){
             destroy : function(){
                 $(".JVCMaster_BTN_HIDDENPOST img").remove();
                 $(".JVCMaster_BTN_HIDDENPOSTSPSEUDO img").remove();
-            }
+            },
+			reload : function() {
+				this.destroy();
+				this.init();
+			}
         },
 
         friendlist : {
@@ -907,11 +933,14 @@ function JVCMaster(){
                         });
                     }
                 });
-                BTN_FRIENDLIST.appendTo($("<div>").prependTo($("#connexion")));
+                
+				if($('#JVCMaster_BTN_FRIENDLIST').length == 0) {
+					BTN_FRIENDLIST.appendTo($("<div>").prependTo($("#connexion")));
 
-                setTimeout(function(){
-                    BTN_FRIENDLIST.appendTo($("<li>").prependTo($("div#log ul")));
-                }, 1001);
+					setTimeout(function(){
+						BTN_FRIENDLIST.appendTo($("<li>").prependTo($("div#log ul")));
+					}, 1001);
+				}
 
                 var pseudos = $(".pseudo strong");
                 pseudos.css("cursor", "pointer");
@@ -991,8 +1020,6 @@ function JVCMaster(){
                 // Permet de choisir la page en rentrant un numéro de page dans un input[type=text]
                 _.insertCSS(".JVCMaster_FORM_navigatePage{ text-align : center !important} \
                             .JVCMaster_FORM_navigatePage input[type=text]{ height : 13px; vertical-align : top}");
-
-                _.scripts.quicknavigation.insertLoadingMessage();
 				
 				if($('.JVCMaster_FORM_navigatePage').length > 0) {
 					$('.JVCMaster_FORM_navigatePage').remove();
@@ -1025,7 +1052,6 @@ function JVCMaster(){
                     
                     if(_.isPositiveInteger(pagesNumber) && !!(pageNumber = parseInt(pageNumber, 10)) && pageNumber >= 1 && pageNumber <= pagesNumber){
                         var pageUrl = window.location.href.replace(/(http:\/\/www.jeuxvideo.com\/forums\/|http:\/\/.*\.forumjv.com\/)([0-9]+\-)([0-9]+\-)([0-9]+\-)([0-9]+\-)/, "$11-$3$4" + pageNumber + '-');
-                        _.scripts.quicknavigation.navigatePage(pageUrl);
                     } else {
                         alert("Veuillez entrer un nombre correct");
                     }
@@ -1047,7 +1073,11 @@ function JVCMaster(){
             destroy : function(){
                 $(".JVCMaster_BTN_MP a").remove();
                 $("#JVCMaster_SPAN_forumStatistics").remove();
-            }
+            },
+			reload : function() {
+				this.destroy();
+				this.init();
+			}
         },
 
         showcdv : {
@@ -1089,7 +1119,11 @@ function JVCMaster(){
             },
             destroy : function(){
                 $("a[target=profil], .pseudo > a, .CITATION_pseudo a").unbind("click");
-            }
+            },
+			reload : function() {
+				this.destroy();
+				this.init();
+			}
         },
 
         hightlightpemt : {
@@ -1117,7 +1151,11 @@ function JVCMaster(){
                     var date = $(this);
                     date.html(date.html().replace(/(<span class="JVCMaster_PEMT_time">)*<span class="JVCMaster_PEMT_time">([0-9]{2}:[0-9]{2}:[0-9]{2})<\/span>(<\/span>)*/g, "$2"));
                 })
-            }
+            },
+			reload : function() {
+				this.destroy();
+				this.init();
+			}
         },
 
         hightlightpermapost : {
@@ -1154,7 +1192,11 @@ function JVCMaster(){
                 
                 highlightedPost.css("backgroundColor", "").removeClass("JVCMaster_highlightedPost");
                 $(".ancre a").unbind("click");
-            }
+            },
+			reload : function() {
+				this.destroy();
+				this.init();
+			}
         },
         
         favoritestopics : {
@@ -1233,42 +1275,48 @@ function JVCMaster(){
                 $("div.bloc_forum td.nouveau, div.bloc_forum td.navig_prec").css("textAlign", "left");
                 // On insère le petit bouton à côté des titres du topic
 
-                $("div.bloc_forum h1.sujet, div.bloc_forum h4.sujet").css({
-                    display : "inline-block",
-                    verticalAlign : "middle"
-                }).after(
-                    $("<img>", {
-                        "class" : "JVCMaster_BTN_FAVORITESTOPIC",
-                        title   : "Epingler ce topics à vos topics préférés",
-                        src     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAIAQMAAAARA0f2AAAABlBMVEX///+ZzADAT8hDAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfcCBsMAieAZsMmAAAAGklEQVQI12MoZ2D43wBF9QwMdgwMMgwMHAwAXZcF1pKKg9EAAAAASUVORK5CYII=",
-                        css     : {
-                            cursor : "pointer",
-                            marginLeft : "5px",
-                        },
-                        title : "JVCMaster : ajouter ce topic à vos topics favoris",
-                        click : function(){
-                            var favoritesTopics = JSON.parse(_.LS_get("favoritesTopics") || "{}")
-                              , topicUrl        = location.href.replace(/(http:\/\/www.jeuxvideo.com\/forums\/)(?:[0-9])-((?:[0-9]*)-(?:[0-9]*)-)(?:[0-9]*)-(.*)(#form_post)?/g, "$11-$21-$3")
-                              , topicName       = $(".bloc_forum .sujet:first").text()
-                              , topicName       = $.trim(topicName.substr(10).substr(0, topicName.length - 12))
-                              , forumName       = $.trim($(".bloc_forum h3:first").html().replace(/<span class="txt">Forum : <\/span>([^<]*)(<span id="JVCMaster_SPAN_forumStatistics">.*<\/span>)?/, "$1"))
-                            ;
+				if($('#JVCMaster_BTN_FAVORITESTOPIC').length == 0) {
+					$("div.bloc_forum h1.sujet, div.bloc_forum h4.sujet").css({
+						display : "inline-block",
+						verticalAlign : "middle"
+					}).after(
+						$("<img>", {
+							"class" : "JVCMaster_BTN_FAVORITESTOPIC",
+							title   : "Epingler ce topics à vos topics préférés",
+							src     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAIAQMAAAARA0f2AAAABlBMVEX///+ZzADAT8hDAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfcCBsMAieAZsMmAAAAGklEQVQI12MoZ2D43wBF9QwMdgwMMgwMHAwAXZcF1pKKg9EAAAAASUVORK5CYII=",
+							css     : {
+								cursor : "pointer",
+								marginLeft : "5px",
+							},
+							title : "JVCMaster : ajouter ce topic à vos topics favoris",
+							click : function(){
+								var favoritesTopics = JSON.parse(_.LS_get("favoritesTopics") || "{}")
+								  , topicUrl        = location.href.replace(/(http:\/\/www.jeuxvideo.com\/forums\/)(?:[0-9])-((?:[0-9]*)-(?:[0-9]*)-)(?:[0-9]*)-(.*)(#form_post)?/g, "$11-$21-$3")
+								  , topicName       = $(".bloc_forum .sujet:first").text()
+								  , topicName       = $.trim(topicName.substr(10).substr(0, topicName.length - 12))
+								  , forumName       = $.trim($(".bloc_forum h3:first").html().replace(/<span class="txt">Forum : <\/span>([^<]*)(<span id="JVCMaster_SPAN_forumStatistics">.*<\/span>)?/, "$1"))
+								;
 
-                            favoritesTopics[forumName + "|||" + topicName] = {
-                                topicUrl : topicUrl
-                            }
+								favoritesTopics[forumName + "|||" + topicName] = {
+									topicUrl : topicUrl
+								}
 
-                            _.LS_set("favoritesTopics", JSON.stringify(_.sortObject(favoritesTopics)));
+								_.LS_set("favoritesTopics", JSON.stringify(_.sortObject(favoritesTopics)));
 
-                            listFavoritesTopics();
-                        }
-                    })
-                );
+								listFavoritesTopics();
+							}
+						})
+					);
+				}
             },
             destroy : function(){
                 $("#JVCMaster_FavoritesTopics").remove();
                 $(".JVCMaster_BTN_FAVORITESTOPIC").remove();
-            }
+            },
+			reload : function() {
+				this.destroy();
+				this.init();
+			}
         },
 
         visionoelshack : {
@@ -1314,82 +1362,11 @@ function JVCMaster(){
             },
             destroy : function(){
                 $("div[id^=message]").find("li:eq(2)").find("a[href^=http\\:\\/\\/www\\.noelshack\\.com], a[href^=http\\:\\/\\/image\\.noelshack\\.com]").unbind("click");
-            }
-        },
-
-        quicknavigation : {
-            id          : "quicknavigation",
-            name        : "Quick Navigation",
-            description : "Naviguez d'une façon plus rapide",
-            init : function(){
-                if(window.location.href.match("^http:\/\/www\.jeuxvideo\.com\/forums")){
-                    _.scripts.quicknavigation.insertLoadingMessage();
-                    
-                    $(".pagination a, .bt_rafraichir:first, .bt_rafraichir:last").live("click", function(e){
-                        if(e.handled === true)
-                            return;
-                        
-                        var t = $(this)
-                          , pos = document.body.scrollTop
-                        ;
-
-                        _.scripts.quicknavigation.navigatePage($(this).attr("href"), function(){
-                            if(t.attr("class") == "bt_rafraichir") $("body").animate({scrollTop : pos}, 200);
-                        });
-
-
-                        e.handled = true;
-                        return false;
-                    });
-                }                 
             },
-            destroy : function(){
-                $(".pagination a").die("click");
-            },
-            navigatePage : function(pageUrl, callback){
-               $("body").animate({scrollTop : 0}, 100);
-
-                $("div[id^=message]").remove();
-                $("#JVCMaster_loadPost").fadeIn(50);
-
-                $.ajax({
-                    dataType : "html",
-                    url      : pageUrl,
-                    success  : function(data){
-                        $("#JVCMaster_loadPost").fadeOut(50, function(){
-                            if (history && history.pushState)
-                                history.pushState({}, '', pageUrl);
-                            
-                            $(".bt_rafraichir").attr("href", pageUrl);
-                            $(".navig_pages").html($(data).find(".navig_pages:first").html());
-                            $(".discu_boutons:first").after($(data).find("div[id^=message]"));
-
-                            $("#JVCMaster_loadPost").remove();
-
-                            _.pseudoArea = $(".msg").parent().find("li span:last-child:not(.generic), div[id^=message] ul").parent().find(".pseudo");
-                            _.setButtonsArea();
-                            $.each(_.activatedExtensions, function(k, script){
-                                _.scripts[script].destroy();
-                                _.scripts[script].init();
-                            });   
-
-                            if(callback) callback();
-                        });
-                    }
-                    
-                });
-            },
-            insertLoadingMessage : function(){
-                if($("#JVCMaster_loadPost").is('*'))
-                    return;
-
-                _.insertCSS("#JVCMaster_loadPost{display : none; font-size : 20px;height : 40px;line-height : 1.4em;text-align  : center}");
-
-                $(".discu_boutons:first").after($("<p>", {
-                    id   : "JVCMaster_loadPost" 
-                  , html : "Chargement..."
-                }));
-            }
+			reload : function() {
+				this.destroy();
+				this.init();
+			}
         },
 
         quickresponse : {
@@ -1402,13 +1379,13 @@ function JVCMaster(){
                         id : "JVCMaster_quickResponse"
                     });
 
-                    $(".bloc_forum:last").before(JVCMaster_QuickResponse);
+                    $(".bloc_forum:last").after(JVCMaster_QuickResponse);
 
                     $.ajax({
                         dataType : "html",
                         url      : $(".bt_repondre:first").attr("href"),
                         success  : function(data){
-                            JVCMaster_QuickResponse.append($(data.replace(/<p class="lien_base">\n.*\n<\/p>/, "").replace("Répondre sur ce sujet", "JVCMaster : Réponse rapide")).find(".bloc_forum:last, form[name=post2]"));
+                            JVCMaster_QuickResponse.append($(data.replace("Répondre sur ce sujet", "JVCMaster : Réponse rapide")).find(".bloc_forum:last, form[name=post2]"));
                             JVCMaster_QuickResponse.find("#boutons_repondre").css({background : "none", paddingBottom : "0"});
 
                             $("#boutons_repondre").keydown(function(e){
@@ -1421,7 +1398,11 @@ function JVCMaster(){
             },
             destroy : function(){
                 $("#JVCMaster_quickResponse").remove();
-            }
+            },
+			reload : function() {
+				this.destroy();
+				this.init();
+			}
         }
     };
 }
