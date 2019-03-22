@@ -1,3 +1,9 @@
+Probablement l'une des extensions les plus innovantes pour les forums de JeuxVideo.com à l'époque, mais facilement dépassée par  [Spawnkill](https://github.com/dorian-marchal/spawnkill). :noel:
+
+- Le topic : http://www.jeuxvideo.com/forums/1-1000021-1273221-1-0-1-0-extension-jvcmaster.htm
+- La page sur le Wiki : https://wiki.jvflux.com/JVCMaster
+
+---
 
 * Note : ceci n'est pas la version officielle de JVCMaster, mais un fork destiné à le rendre compatible avec TurboJv.
     
